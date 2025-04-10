@@ -11,7 +11,7 @@ export type User = {
   email?: string | null;
   phone?: string | null;
   userID?: string | null;
-};
+}
 
 export type Bank = {
   bankName: string | null;
@@ -20,7 +20,7 @@ export type Bank = {
   balanceU1?: number | null;
   balanceU2?: number | null;
   transactionAmmount?: number | null;
-};
+}
 
 // Cy-RWA Official User Interface
 // export interface User {
