@@ -13,8 +13,6 @@ export class Base {
         this.testContext = testContext
     }
 
-
-
   /**
    * Retrieves the appropriate environment configuration file based on the `NODE_ENV` variable.
    *
@@ -87,8 +85,7 @@ export class Base {
         await selector.clear()
         await selector.fill(value)
         await selector.blur()
-        const innerValue = await selector.inputValue()
-        expect(innerValue).toBe(value)
+        await this.assertInputValue(selector, value)
       }
     
       /**
@@ -155,5 +152,19 @@ export class Base {
         return Number(number)
       }
     
+        /**
+   * Assert title and url
+   * @param title - title of the page
+   * @param url - optional param, url of the page
+   */
+  async assertTitleAndUrl(title: string, url?: string) {
+    console.log(`assertTitleAndUrl() - Asserting page title: ${title} and url ${url}`)
+    await expect(this.page).toHaveTitle(title)
+
+    if (url) {
+      const urlPattern = new RegExp(`.*${url}.*`)
+      await expect(this.page).toHaveURL(urlPattern)
+    }
+  }
 
 }
