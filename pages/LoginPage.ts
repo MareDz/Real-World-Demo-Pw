@@ -1,21 +1,21 @@
-import { expect, Locator, Page } from "@playwright/test";
-import { BasePage } from "./BasePage";
-import { TestContext } from "../state/TestContext";
-import { Global } from "../state/Global";
+import { expect, Locator, Page } from '@playwright/test'
+import { BasePage } from './BasePage'
+import { TestContext } from '../state/TestContext'
+import { Global } from '../state/Global'
 
 export class LoginPage extends BasePage {
-  readonly page: Page;
-  readonly btn_signIn: Locator;
-  readonly lbl_loginError: Locator;
-  readonly link_signUp: Locator;
+  readonly page: Page
+  readonly btn_signIn: Locator
+  readonly lbl_loginError: Locator
+  readonly link_signUp: Locator
 
   constructor(page: Page, testContext: TestContext) {
-    super(page, testContext);
-    this.page = page;
-    this.testContext = testContext;
-    this.btn_signIn = page.locator("[data-test='signin-submit']");
-    this.lbl_loginError = page.locator("[data-test='signin-error']");
-    this.link_signUp = page.locator("[data-test='signup']");
+    super(page, testContext)
+    this.page = page
+    this.testContext = testContext
+    this.btn_signIn = page.locator("[data-test='signin-submit']")
+    this.lbl_loginError = page.locator("[data-test='signin-error']")
+    this.link_signUp = page.locator("[data-test='signup']")
   }
 
   /*
@@ -27,9 +27,9 @@ export class LoginPage extends BasePage {
    * This method serves as a starting point for test scenarios requiring access to the application.
    */
   async launchRWA() {
-    console.log("launchRWA()");
-    await this.page.goto(Global.url);
-    await this.assertTitleAndUrl("Cypress Real World App", "signin");
+    console.log('launchRWA()')
+    await this.page.goto(Global.url)
+    await this.assertTitleAndUrl('Cypress Real World App', 'signin')
   }
 
   /**
@@ -54,37 +54,30 @@ export class LoginPage extends BasePage {
    * @param expectSuccess - A boolean indicating whether the login is expected to succeed (true) or fail (false).
    */
   async login(username: string, password: string, expectSuccess: boolean) {
-    console.log(
-      `LoginPage - login() - username: ${username}, expectSuccess: ${expectSuccess}`,
-    );
+    console.log(`LoginPage - login() - username: ${username}, expectSuccess: ${expectSuccess}`)
 
     // Wait for the login response to be captured
-    const loginRequest = this.page.waitForResponse(
-      `${Global.server_url}/login`,
-    );
+    const loginRequest = this.page.waitForResponse(`${Global.server_url}/login`)
 
-    await this.assertTitleAndUrl("Cypress Real World App", "signin");
+    await this.assertTitleAndUrl('Cypress Real World App', 'signin')
 
-    await this.fillAndAssert(this.inp_username, username);
-    await this.fillAndAssert(this.inp_password, password);
-    await this.btn_signIn.click();
+    await this.fillAndAssert(this.inp_username, username)
+    await this.fillAndAssert(this.inp_password, password)
+    await this.btn_signIn.click()
 
     // Wait for the login response and validate based on the expected outcome
-    const loginResponse = await loginRequest;
+    const loginResponse = await loginRequest
     if (expectSuccess == true) {
-      this.testContext.userdata.user.username = username;
-      this.testContext.userdata.user.password = password;
+      this.testContext.userdata.user.username = username
+      this.testContext.userdata.user.password = password
       // If login is expected to succeed, assert that the response status is 200 and the page title and URL are correct
-      await this.assertTitleAndUrl("Cypress Real World App");
-      expect(loginResponse.status()).toBe(200);
+      await this.assertTitleAndUrl('Cypress Real World App')
+      expect(loginResponse.status()).toBe(200)
     } else {
       // If login is expected to fail, assert the error message and that the page remains on the login page
-      await this.assertInnerText(
-        this.lbl_loginError,
-        "Username or password is invalid",
-      );
-      await this.assertTitleAndUrl("Cypress Real World App", "signin");
-      expect(loginResponse.status()).toBe(401);
+      await this.assertInnerText(this.lbl_loginError, 'Username or password is invalid')
+      await this.assertTitleAndUrl('Cypress Real World App', 'signin')
+      expect(loginResponse.status()).toBe(401)
     }
   }
 
@@ -96,9 +89,9 @@ export class LoginPage extends BasePage {
    * The login is expected to succeed (i.e., `expectSuccess` is set to `true`).
    */
   async loginUserFromTestContext() {
-    console.log("LoginPage - loginUserFromTestContext()");
-    const { username, password } = this.testContext.userdata.user;
-    await this.login(String(username), String(password), true);
+    console.log('LoginPage - loginUserFromTestContext()')
+    const { username, password } = this.testContext.userdata.user
+    await this.login(String(username), String(password), true)
   }
 
   /**
@@ -109,10 +102,10 @@ export class LoginPage extends BasePage {
    * It also verifies that the "Sign In" button is disabled when the field is empty.
    */
   async verifyLoginEmptyFieldsErrorHandling() {
-    console.log("LoginPage - verifyLoginEmptyFieldsErrorHandling()");
-    await this.clearAndBlur(this.inp_username);
-    await this.assertInnerText(this.lbl_errorUsername, "Username is required");
-    await this.btn_signIn.isDisabled();
+    console.log('LoginPage - verifyLoginEmptyFieldsErrorHandling()')
+    await this.clearAndBlur(this.inp_username)
+    await this.assertInnerText(this.lbl_errorUsername, 'Username is required')
+    await this.btn_signIn.isDisabled()
   }
 
   /**
@@ -123,19 +116,16 @@ export class LoginPage extends BasePage {
    * It also verifies that the button is enabled when a valid password is entered.
    */
   async verifyLoginPasswordErrorHandling() {
-    console.log("LoginPage - verifyLoginPasswordErrorHandling()");
+    console.log('LoginPage - verifyLoginPasswordErrorHandling()')
 
-    await this.fillAndAssert(this.inp_username, "Random123un");
-    await this.fillAndAssert(this.inp_password, "123");
-    await this.inp_password.blur();
-    await this.assertInnerText(
-      this.lbl_errorPassowrd,
-      "Password must contain at least 4 characters",
-    );
-    await this.btn_signIn.isDisabled();
-    await this.fillAndAssert(this.inp_password, "1234");
-    await expect(this.lbl_errorPassowrd).toHaveCount(0);
-    await this.btn_signIn.isEnabled();
+    await this.fillAndAssert(this.inp_username, 'Random123un')
+    await this.fillAndAssert(this.inp_password, '123')
+    await this.inp_password.blur()
+    await this.assertInnerText(this.lbl_errorPassowrd, 'Password must contain at least 4 characters')
+    await this.btn_signIn.isDisabled()
+    await this.fillAndAssert(this.inp_password, '1234')
+    await expect(this.lbl_errorPassowrd).toHaveCount(0)
+    await this.btn_signIn.isEnabled()
   }
 
   /**
@@ -146,9 +136,9 @@ export class LoginPage extends BasePage {
    * then verifies that the page title and URL match expected values for the Registration page.
    */
   async goToRegistrationPage() {
-    console.log("LoginPage - goToRegistrationPage()");
-    await this.link_signUp.click();
-    await this.link_signUp.click(); // Bug
-    await this.assertTitleAndUrl("Cypress Real World App", "signup");
+    console.log('LoginPage - goToRegistrationPage()')
+    await this.link_signUp.click()
+    await this.link_signUp.click() // Bug
+    await this.assertTitleAndUrl('Cypress Real World App', 'signup')
   }
 }

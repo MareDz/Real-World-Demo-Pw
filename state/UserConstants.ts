@@ -1,4 +1,4 @@
-import { UserData } from "./UserModel";
+import { UserData } from './UserModel'
 
 export const userDataConst: UserData = {
   user: {
@@ -18,4 +18,4 @@ export const userDataConst: UserData = {
     balanceU2: null,
     transactionAmmount: null,
   },
-};
+}
