@@ -10,6 +10,7 @@ export class RegistrationPage extends BasePage {
   readonly lbl_errorFirstName: Locator
   readonly lbl_errorLastName: Locator
   readonly lbl_errorConfirmPassword: Locator
+  readonly lbl_signInHeader: Locator
   readonly link_signIn: Locator
 
   constructor(page: Page, testContext: TestContext) {
@@ -21,6 +22,7 @@ export class RegistrationPage extends BasePage {
     this.lbl_errorFirstName = page.locator('#firstName-helper-text')
     this.lbl_errorLastName = page.locator('#lastName-helper-text')
     this.lbl_errorConfirmPassword = page.locator('#confirmPassword-helper-text')
+    this.lbl_signInHeader = page.locator("//h1[text()='Sign in']") // TODO: ID Requested
     this.link_signIn = page.locator("//a[@href='/signin']")
   }
 
@@ -76,8 +78,8 @@ export class RegistrationPage extends BasePage {
    * Verifies that appropriate error messages are displayed, and that the Sign Up button is disabled for invalid inputs.
    * Once all fields are correctly filled, the Sign Up button should be enabled.
    */
-  async verifyPasswordFieldsErrorHandling() {
-    console.log('RegistrationPage - verifyPasswordFieldsErrorHandling()')
+  async verifyRegistrationFormPasswordFieldsErrorHandling() {
+    console.log('RegistrationPage - verifyRegistrationFormPasswordFieldsErrorHandling()')
     await this.fillAndAssert(this.inp_firstName, 'Rndfirstname')
     await this.fillAndAssert(this.inp_lastName, 'Rndlastname')
     await this.fillAndAssert(this.inp_username, 'Rndusername')
@@ -106,48 +108,59 @@ export class RegistrationPage extends BasePage {
   }
 
   /*
-   * Verify that each field has appropriate error message when field is empty
-   * Verify that Sign Up button is displayed when fields are empty
-   * Verify that Sign Up button is enabled when all input fields has valid data
+   * For each field: 
+      - Verify that error message is correct when field is left out empty
+      - Verify that Sigun Up button is disabled when minimum one field is not filled
+   * Verify that when all fields are filled properlly, Sign Up button is enabled
    */
-  async verifyRegistrationEmptyFieldErrorHandling() {
-    console.log('RegistrationPage - verifyRegistrationEmptyFieldErrorHandling()')
+  async verifyRegistrationFormEmptyFieldErrorHandling() {
+    console.log('RegistrationPage - verifyRegistrationFormEmptyFieldErrorHandling()')
     await this.clearAndBlur(this.inp_firstName)
     await this.assertInnerText(this.lbl_errorFirstName, 'First Name is required')
     await this.btn_signUp.isDisabled()
+
     await this.clearAndBlur(this.inp_lastName)
     await this.assertInnerText(this.lbl_errorLastName, 'Last Name is required')
     await this.btn_signUp.isDisabled()
+
     await this.clearAndBlur(this.inp_username)
     await this.assertInnerText(this.lbl_errorUsername, 'Username is required')
     await this.btn_signUp.isDisabled()
+
     await this.clearAndBlur(this.inp_password)
     await this.assertInnerText(this.lbl_errorPassowrd, 'Enter your password')
     await this.btn_signUp.isDisabled()
+
     await this.clearAndBlur(this.inp_confirmPassword)
     await this.assertInnerText(this.lbl_errorConfirmPassword, 'Confirm your password')
     await this.btn_signUp.isDisabled()
 
     await this.fillAndAssert(this.inp_firstName, 'Randomfirstname')
     await this.btn_signUp.isDisabled()
+
     await this.fillAndAssert(this.inp_lastName, 'Randomlastname')
     await this.btn_signUp.isDisabled()
+
     await this.fillAndAssert(this.inp_username, 'Randomusername')
     await this.btn_signUp.isDisabled()
+
     await this.fillAndAssert(this.inp_password, 'Randompassword123#!@j')
     await this.btn_signUp.isDisabled()
+
     await this.fillAndAssert(this.inp_confirmPassword, 'Randompassword123#!@j')
     await this.btn_signUp.isEnabled()
   }
 
   /*
-   * Click on link to go on Login page
-   * Verify that registration page is displayed
+   * Navigate to the Login page by clicking on the Sign In link.
+   * Verifies that page title and url are displayed correctly after navigation.
+   * Verifies that the Sign In page label is displayed correctly after navigation.
    */
   async goToLoginPage() {
     console.log('RegistrationPage - goToLoginPage()')
     await this.link_signIn.click()
     await this.link_signIn.click() // Bug
     await this.assertTitleAndUrl('Cypress Real World App', 'signin')
+    await expect(this.lbl_signInHeader).toBeVisible()
   }
 }

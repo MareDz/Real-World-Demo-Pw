@@ -48,7 +48,7 @@ export class Base {
   static initializeEnvironmentCRWA() {
     console.log('initializeEnvironmentCRWA()')
     const envFile = this.getEnvFile()
-    config({ path: resolve(__dirname, '../env', envFile) })
+    config({ path: resolve(__dirname, '..', envFile) })
 
     switch (process.env.environment) {
       case 'test':
@@ -81,7 +81,9 @@ export class Base {
    * @param value is value that we're filling and asserting
    */
   async fillAndAssert(selector: Locator, value: string) {
-    console.log(`fillAndAssert() - Filling selector: ${selector} with value: ${value}`)
+    console.log('Base - fillAndAssert()')
+    console.log(`LogInfo: Fillig Locator: ${selector} - Value: "${value}"`)
+
     await selector.clear()
     await selector.fill(value)
     await selector.blur()
@@ -94,7 +96,9 @@ export class Base {
    * @param value is value that we're asserting
    */
   async assertInputValue(selector: Locator, value: string) {
-    console.log(`assertInputValue() - Asserting value of selector: ${selector} with value: ${value}`)
+    console.log('Base - assertInputValue()')
+    console.log(`LogInfo: Asserting value of selector: ${selector} with value: ${value}`)
+
     const innerValue = await selector.inputValue()
     expect(innerValue).toBe(value)
   }
@@ -105,7 +109,9 @@ export class Base {
    * @param value is value that we're asserting
    */
   async assertInnerText(selector: Locator, value: string) {
-    console.log(`assertInnerText() - Asserting text of selector: ${selector} with value: ${value}`)
+    console.log('Base - assertInnerText()')
+    console.log(`LogInfo: Asserting text of selector: ${selector} with value: ${value}`)
+
     const elementInnerText = await selector.innerText()
     expect(elementInnerText).toBe(value)
   }
@@ -116,7 +122,9 @@ export class Base {
    * @param value is value that we're asserting
    */
   async assertInnerTextContain(selector: Locator, value: string) {
-    console.log(`assertInnerText() - Asserting text of selector: ${selector} with value: ${value}`)
+    console.log('Base - assertInnerTextContain()')
+    console.log(`LogInfo: Asserting text of selector: ${selector} with value: ${value}`)
+    
     const elementInnerText = await selector.innerText()
     expect(elementInnerText).toContain(value)
   }
@@ -126,7 +134,9 @@ export class Base {
    * @param selector is selector
    */
   async clearAndBlur(selector: Locator) {
-    console.log(`clearAndBlur() - Bluring selector: ${selector}`)
+    console.log('Base - clearAndBlur()')
+    console.log(`LogInfo: Clearing and Bluring locator ${selector}`)
+
     await selector.clear()
     await selector.blur()
   }
@@ -158,7 +168,9 @@ export class Base {
    * @param url - optional param, url of the page
    */
   async assertTitleAndUrl(title: string, url?: string) {
-    console.log(`assertTitleAndUrl() - Asserting page title: ${title} and url ${url}`)
+    console.log('Base - assertTitleAndUrl()')
+    console.log(`LogInfo: Title ${title} - URL ${url}` )
+
     await expect(this.page).toHaveTitle(title)
 
     if (url) {

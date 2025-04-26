@@ -7,6 +7,7 @@ export class LoginPage extends BasePage {
   readonly page: Page
   readonly btn_signIn: Locator
   readonly lbl_loginError: Locator
+  readonly lbl_signUpHeader: Locator
   readonly link_signUp: Locator
 
   constructor(page: Page, testContext: TestContext) {
@@ -15,6 +16,7 @@ export class LoginPage extends BasePage {
     this.testContext = testContext
     this.btn_signIn = page.locator("[data-test='signin-submit']")
     this.lbl_loginError = page.locator("[data-test='signin-error']")
+    this.lbl_signUpHeader = page.locator("[data-test='signup-title']")
     this.link_signUp = page.locator("[data-test='signup']")
   }
 
@@ -82,6 +84,7 @@ export class LoginPage extends BasePage {
   }
 
   /**
+   * TODO: Put this in main login() and delete this code 
    * Logs in a previously created user from the test context.
    *
    * This method retrieves the username and password from the test context's user data
@@ -130,15 +133,14 @@ export class LoginPage extends BasePage {
 
   /**
    * Navigate to the Registration page by clicking on the Sign Up link.
-   * Verifies that the Registration page is displayed correctly after navigation.
-   *
-   * This method clicks on the sign-up link twice (to address a potential bug),
-   * then verifies that the page title and URL match expected values for the Registration page.
+   * Verifies that page title and url are displayed correctly after navigation.
+   * Verifies that the Registration page label is displayed correctly after navigation.
    */
   async goToRegistrationPage() {
     console.log('LoginPage - goToRegistrationPage()')
     await this.link_signUp.click()
     await this.link_signUp.click() // Bug
     await this.assertTitleAndUrl('Cypress Real World App', 'signup')
+    await expect(this.lbl_signUpHeader).toBeVisible()
   }
 }
