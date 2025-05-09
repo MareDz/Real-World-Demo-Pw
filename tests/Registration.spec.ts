@@ -6,7 +6,7 @@ import { RegistrationPage } from '../pages/RegistrationPage'
 
 let context: BrowserContext
 let page: Page
-let testContext: TestContext
+let ctx: TestContext
 let loginPage: LoginPage
 let registrationPage: RegistrationPage 
 
@@ -19,9 +19,9 @@ test.beforeAll(async () => {
 test.beforeEach(async ({browser}) => {
     context = await browser.newContext()
     page = await context.newPage()
-    testContext = new TestContext()
-    loginPage = new LoginPage(page, testContext)
-    registrationPage = new RegistrationPage(page, testContext)
+    ctx = new TestContext()
+    loginPage = new LoginPage(page, ctx)
+    registrationPage = new RegistrationPage(page, ctx)
 })
 
 test.afterEach(async () => {

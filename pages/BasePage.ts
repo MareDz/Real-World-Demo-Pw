@@ -20,10 +20,10 @@ export class BasePage extends Base {
   readonly lbl_currentUser: Locator
   readonly lbl_currentUserUsername: Locator
 
-  constructor(page: Page, testContext: TestContext) {
-    super(page, testContext)
+  constructor(page: Page, ctx: TestContext) {
+    super(page, ctx)
     this.page = page
-    this.testContext = testContext
+    this.ctx = ctx
     this.btn_saveBankAccount = page.locator("[data-test='bankaccount-submit']")
     this.lbl_erroBankName = page.locator('#bankaccount-bankName-input-helper-text')
     this.inp_bankName = page.locator('#bankaccount-bankName-input')

@@ -6,11 +6,11 @@ import { Global } from '../state/Global'
 
 export class Base {
   readonly page: Page
-  protected testContext: TestContext
+  protected ctx: TestContext
 
-  constructor(page: Page, testContext: TestContext) {
+  constructor(page: Page, ctx: TestContext) {
     this.page = page
-    this.testContext = testContext
+    this.ctx = ctx
   }
 
   /**

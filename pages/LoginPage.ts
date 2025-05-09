@@ -10,10 +10,10 @@ export class LoginPage extends BasePage {
   readonly lbl_signUpHeader: Locator
   readonly link_signUp: Locator
 
-  constructor(page: Page, testContext: TestContext) {
-    super(page, testContext)
+  constructor(page: Page, ctx: TestContext) {
+    super(page, ctx)
     this.page = page
-    this.testContext = testContext
+    this.ctx = ctx
     this.btn_signIn = page.locator("[data-test='signin-submit']")
     this.lbl_loginError = page.locator("[data-test='signin-error']")
     this.lbl_signUpHeader = page.locator("[data-test='signup-title']")
@@ -70,8 +70,8 @@ export class LoginPage extends BasePage {
     // Wait for the login response and validate based on the expected outcome
     const loginResponse = await loginRequest
     if (expectSuccess == true) {
-      this.testContext.userdata.user.username = username
-      this.testContext.userdata.user.password = password
+      this.ctx.userdata.user.username = username
+      this.ctx.userdata.user.password = password
       // If login is expected to succeed, assert that the response status is 200 and the page title and URL are correct
       await this.assertTitleAndUrl('Cypress Real World App')
       expect(loginResponse.status()).toBe(200)
@@ -93,7 +93,7 @@ export class LoginPage extends BasePage {
    */
   async loginUserFromTestContext() {
     console.log('LoginPage - loginUserFromTestContext()')
-    const { username, password } = this.testContext.userdata.user
+    const { username, password } = this.ctx.userdata.user
     await this.login(String(username), String(password), true)
   }
 
