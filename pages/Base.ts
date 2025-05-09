@@ -1,14 +1,14 @@
 import { Locator, Page, expect } from '@playwright/test'
-import { TestContext } from '../state/TestContext'
 import { config } from 'dotenv'
 import { resolve } from 'path'
 import { Global } from '../state/Global'
+import { UserData } from '../state/UserModel'
 
 export class Base {
   readonly page: Page
-  protected ctx: TestContext
+  protected ctx: UserData
 
-  constructor(page: Page, ctx: TestContext) {
+  constructor(page: Page, ctx: UserData) {
     this.page = page
     this.ctx = ctx
   }

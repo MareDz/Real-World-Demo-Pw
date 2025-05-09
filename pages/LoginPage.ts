@@ -2,6 +2,7 @@ import { expect, Locator, Page } from '@playwright/test'
 import { BasePage } from './BasePage'
 import { TestContext } from '../state/TestContext'
 import { Global } from '../state/Global'
+import { UserData } from '../state/UserModel'
 
 export class LoginPage extends BasePage {
   readonly page: Page
@@ -10,7 +11,7 @@ export class LoginPage extends BasePage {
   readonly lbl_signUpHeader: Locator
   readonly link_signUp: Locator
 
-  constructor(page: Page, ctx: TestContext) {
+  constructor(page: Page, ctx: UserData) {
     super(page, ctx)
     this.page = page
     this.ctx = ctx
@@ -70,8 +71,8 @@ export class LoginPage extends BasePage {
     // Wait for the login response and validate based on the expected outcome
     const loginResponse = await loginRequest
     if (expectSuccess == true) {
-      this.ctx.userdata.user.username = username
-      this.ctx.userdata.user.password = password
+      this.ctx.user.username = username
+      this.ctx.user.password = password
       // If login is expected to succeed, assert that the response status is 200 and the page title and URL are correct
       await this.assertTitleAndUrl('Cypress Real World App')
       expect(loginResponse.status()).toBe(200)
@@ -93,7 +94,7 @@ export class LoginPage extends BasePage {
    */
   async loginUserFromTestContext() {
     console.log('LoginPage - loginUserFromTestContext()')
-    const { username, password } = this.ctx.userdata.user
+    const { username, password } = this.ctx.user
     await this.login(String(username), String(password), true)
   }
 

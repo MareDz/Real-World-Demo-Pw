@@ -1,6 +1,6 @@
 import { APIRequestContext, Locator, Page, expect } from '@playwright/test'
 import { BasePage } from './BasePage'
-import { TestContext } from '../state/TestContext'
+import { UserData } from '../state/UserModel'
 // import { GET_getNewUserData } from '../utils/apiHelpers'
 
 export class RegistrationPage extends BasePage {
@@ -13,7 +13,7 @@ export class RegistrationPage extends BasePage {
   readonly lbl_signInHeader: Locator
   readonly link_signIn: Locator
 
-  constructor(page: Page, ctx: TestContext) {
+  constructor(page: Page, ctx: UserData) {
     super(page, ctx)
     this.page = page
     this.ctx = ctx
@@ -40,10 +40,10 @@ export class RegistrationPage extends BasePage {
   async completeRegistrationForm(firstName: string, lastName: string, username: string, password: string) {
     console.log('RegistrationPage - completeRegistrationForm()')
 
-    this.ctx.userdata.user.firstName = firstName
-    this.ctx.userdata.user.lastName = lastName
-    this.ctx.userdata.user.username = username
-    this.ctx.userdata.user.password = password
+    this.ctx.user.firstName = firstName
+    this.ctx.user.lastName = lastName
+    this.ctx.user.username = username
+    this.ctx.user.password = password
 
     await this.fillAndAssert(this.inp_firstName, firstName)
     await this.fillAndAssert(this.inp_lastName, lastName)
@@ -66,7 +66,7 @@ export class RegistrationPage extends BasePage {
     console.log('RegisterPage - generateAndRegisterNewUser()')
 
     // await GET_getNewUserData(request, this.testContext)
-    const { firstName, lastName, username, password } = this.ctx.userdata.user
+    const { firstName, lastName, username, password } = this.ctx.user
 
     await this.completeRegistrationForm(String(firstName), String(lastName), String(username), String(password))
   }

@@ -1,6 +1,6 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { Base } from './Base'
-import { TestContext } from '../state/TestContext'
+import { UserData } from '../state/UserModel'
 
 export class BasePage extends Base {
   readonly page: Page
@@ -20,7 +20,7 @@ export class BasePage extends Base {
   readonly lbl_currentUser: Locator
   readonly lbl_currentUserUsername: Locator
 
-  constructor(page: Page, ctx: TestContext) {
+  constructor(page: Page, ctx: UserData) {
     super(page, ctx)
     this.page = page
     this.ctx = ctx
