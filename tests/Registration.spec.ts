@@ -1,9 +1,6 @@
-import { BrowserContext, Page } from '@playwright/test'
 import { test } from './fixturesModel'
 import { Base } from '../pages/Base'
-
-let context: BrowserContext
-let page: Page
+import { getNewUserData } from '../utils/apiHelpers'
 
 test.describe.configure({ mode: 'parallel' })
 
@@ -11,24 +8,30 @@ test.beforeAll(async () => {
   Base.initializeEnvironmentCRWA()
 })
 
-test.beforeEach(async ({ browser }) => {
-  context = await browser.newContext()
-  page = await context.newPage()
+test.beforeEach(async ({loginPage}) => {
+    await loginPage.launchRWA()
 })
 
-test.afterEach(async () => {
+test.afterEach(async ({page}) => {
   await page.close()
-  await context.close()
 })
 
 test('Register New User - Empty Required Fields Validation', async ({ loginPage, registrationPage }) => {
-  await loginPage.launchRWA()
   await loginPage.goToRegistrationPage()
   await registrationPage.verifyRegistrationFormEmptyFieldErrorHandling()
 })
 
 test('Register New User - Password Fields Validations', async ({ loginPage, registrationPage }) => {
-  await loginPage.launchRWA()
   await loginPage.goToRegistrationPage()
   await registrationPage.verifyRegistrationFormPasswordFieldsErrorHandling()
 })
+
+test.only('Register New User - Positive', async ({ ctx, loginPage, registrationPage }) => {
+    // GET user data
+    await getNewUserData(ctx)
+    await loginPage.goToRegistrationPage()
+    console.log(ctx)
+  })
+
+
+  
