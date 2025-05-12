@@ -24,8 +24,8 @@ export type Bank = {
 
 export function createUserData(): UserData {
   return {
-    user: {}, 
-    bank: {}
+    user: {},
+    bank: {},
   }
 }
 

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "registration:test": "NODE_ENV=test npx playwright test tests/Registration.spec.ts --config=playwright.config.ts --project=Chromium",  
+    "registration:test": "NODE_ENV=test npx playwright test tests/Registration.spec.ts --config=playwright.config.ts --project=Chromium",
     "ctxTest": "NODE_ENV=test npx playwright test tests/ctxTest.spec.ts --config=playwright.config.ts --project=Chromium"
   },
   "author": "",

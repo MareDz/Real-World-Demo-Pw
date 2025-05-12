@@ -1,6 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test'
 import { BasePage } from './BasePage'
-import { TestContext } from '../state/TestContext'
 import { Global } from '../state/Global'
 import { UserData } from '../state/UserModel'
 
@@ -85,7 +84,7 @@ export class LoginPage extends BasePage {
   }
 
   /**
-   * TODO: Put this in main login() and delete this code 
+   * TODO: Put this in main login() and delete this code
    * Logs in a previously created user from the test context.
    *
    * This method retrieves the username and password from the test context's user data

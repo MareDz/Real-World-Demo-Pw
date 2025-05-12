@@ -124,7 +124,7 @@ export class Base {
   async assertInnerTextContain(selector: Locator, value: string) {
     console.log('Base - assertInnerTextContain()')
     console.log(`LogInfo: Asserting text of selector: ${selector} with value: ${value}`)
-    
+
     const elementInnerText = await selector.innerText()
     expect(elementInnerText).toContain(value)
   }
@@ -169,7 +169,7 @@ export class Base {
    */
   async assertTitleAndUrl(title: string, url?: string) {
     console.log('Base - assertTitleAndUrl()')
-    console.log(`LogInfo: Title ${title} - URL ${url}` )
+    console.log(`LogInfo: Title ${title} - URL ${url}`)
 
     await expect(this.page).toHaveTitle(title)
 
