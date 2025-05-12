@@ -26,9 +26,10 @@ test('Register New User - Password Fields Validations', async ({ loginPage, regi
   await registrationPage.verifyRegistrationFormPasswordFieldsErrorHandling()
 })
 
-test('Register New User - Positive', async ({ ctx, loginPage, registrationPage }) => {
+test('Register New User - Positive', async ({ ctx, loginPage, registrationPage, onboardingPage }) => {
   await getNewUserData(ctx)
   await loginPage.goToRegistrationPage()
   await registrationPage.completeRegistrationForm()
   await loginPage.login()
+  await onboardingPage.verifyGetStartedIsDisplayed()
 })
