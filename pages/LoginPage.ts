@@ -53,7 +53,7 @@ export class LoginPage extends BasePage {
  * @param password (optional) Password to log in with; falls back to `this.ctx.user.password` if not provided.
  */
   async login(expectSuccess?: boolean, username?: string, password?: string) {
-    console.log(`LoginPage - login() - username: ${username}, expectSuccess: ${expectSuccess}`)
+    console.log('LoginPage - login()')
 
     const user_username = username ?? this.ctx.user.username
     const user_password = password ?? this.ctx.user.password
