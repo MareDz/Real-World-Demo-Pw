@@ -8,11 +8,11 @@ test.beforeAll(async () => {
   Base.initializeEnvironmentCRWA()
 })
 
-test.beforeEach(async ({loginPage}) => {
-    await loginPage.launchRWA()
+test.beforeEach(async ({ loginPage }) => {
+  await loginPage.launchRWA()
 })
 
-test.afterEach(async ({page}) => {
+test.afterEach(async ({ page }) => {
   await page.close()
 })
 
@@ -26,12 +26,9 @@ test('Register New User - Password Fields Validations', async ({ loginPage, regi
   await registrationPage.verifyRegistrationFormPasswordFieldsErrorHandling()
 })
 
-test.only('Register New User - Positive', async ({ ctx, loginPage, registrationPage }) => {
-    // GET user data
-    await getNewUserData(ctx)
-    await loginPage.goToRegistrationPage()
-    console.log(ctx)
-  })
-
-
-  
+test('Register New User - Positive', async ({ ctx, loginPage, registrationPage }) => {
+  await getNewUserData(ctx)
+  await loginPage.goToRegistrationPage()
+  await registrationPage.completeRegistrationForm()
+  await loginPage.login()
+})

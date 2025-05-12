@@ -26,30 +26,31 @@ export class RegistrationPage extends BasePage {
     this.link_signIn = page.locator("//a[@href='/signin']")
   }
 
-  /**
-   * Fills out the user registration form and submits it by clicking the 'Sign Up' button.
-   *
-   * - If called in conjunction with `generateAndRegisterNewUser()`, the necessary user data is already set in the context.
-   * - If called independently, ensures that all required user data (first name, last name, username, password) is provided as input parameters.
-   *
-   * @param firstName - The user's first name to be filled in the registration form.
-   * @param lastName - The user's last name to be filled in the registration form.
-   * @param username - The user's username to be filled in the registration form.
-   * @param password - The user's password to be filled in the registration form (also used to confirm password).
-   */
-  async completeRegistrationForm(firstName: string, lastName: string, username: string, password: string) {
+/**
+ * Fills out the user registration form with the provided values or falls back to the default values in the test context.
+ *
+ * If any of the optional parameters (`firstName`, `lastName`, `username`, `password`) are not provided,
+ * the method uses the corresponding values from the test context (`this.ctx.user`) instead.
+ * All fields are filled and asserted using `fillAndAssert`, and the form is submitted by clicking the sign-up button.
+ *
+ * @param firstName - Optional first name to fill in the form. Defaults to `this.ctx.user.firstName` if not provided.
+ * @param lastName - Optional last name to fill in the form. Defaults to `this.ctx.user.lastName` if not provided.
+ * @param username - Optional username to fill in the form. Defaults to `this.ctx.user.username` if not provided.
+ * @param password - Optional password to fill in the form. Defaults to `this.ctx.user.password` if not provided.
+ */
+  async completeRegistrationForm(firstName?: string, lastName?: string, username?: string, password?: string) {
     console.log('RegistrationPage - completeRegistrationForm()')
 
-    this.ctx.user.firstName = firstName
-    this.ctx.user.lastName = lastName
-    this.ctx.user.username = username
-    this.ctx.user.password = password
+    const user_firstName = firstName ?? this.ctx.user.firstName
+    const user_lastName = lastName ?? this.ctx.user.lastName
+    const user_username = username ?? this.ctx.user.username
+    const user_password = password ?? this.ctx.user.password
 
-    await this.fillAndAssert(this.inp_firstName, firstName)
-    await this.fillAndAssert(this.inp_lastName, lastName)
-    await this.fillAndAssert(this.inp_username, username)
-    await this.fillAndAssert(this.inp_password, password)
-    await this.fillAndAssert(this.inp_confirmPassword, password)
+    await this.fillAndAssert(this.inp_firstName, String(user_firstName))
+    await this.fillAndAssert(this.inp_lastName, String(user_lastName))
+    await this.fillAndAssert(this.inp_username, String(user_username))
+    await this.fillAndAssert(this.inp_password, String(user_password))
+    await this.fillAndAssert(this.inp_confirmPassword, String(user_password))
     await this.btn_signUp.click()
   }
 

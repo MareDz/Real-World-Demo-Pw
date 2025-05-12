@@ -34,67 +34,51 @@ export class LoginPage extends BasePage {
     await this.assertTitleAndUrl('Cypress Real World App', 'signin')
   }
 
-  /**
-   * Logs in a user with the provided username and password.
-   *
-   * This method performs the following actions:
-   * - Verifies the page title and URL to ensure it is on the correct login page.
-   * - Fills in the login form with the provided username and password.
-   * - Clicks the sign-in button and waits for the login request response.
-   * - Depending on the expected result (success or failure), it performs different assertions:
-   *     - ** If login is expected to succeed**:
-   *       - Set user crecentials to test context
-   *       - Verifies the response status is 200 (OK).
-   *       - Verifies that the page title and URL are correct after login.
-   *     - ** If login is expected to fail**:
-   *       - Verifies the error message ("Username or password is invalid").
-   *       - Verifies that the page title and URL remain on the login page.
-   *       - Verifies that the response status is 401 (Unauthorized).
-   *
-   * @param username - The username to use for login.
-   * @param password - The password to use for login.
-   * @param expectSuccess - A boolean indicating whether the login is expected to succeed (true) or fail (false).
-   */
-  async login(username: string, password: string, expectSuccess: boolean) {
+/**
+ * Logs in a user with the provided or fallback credentials and verifies the result based on the expected outcome.
+ *
+ * - If `username` or `password` is not passed, defaults to values from the test context (`this.ctx.user`).
+ * - Waits for the `/login` request triggered by clicking the Sign In button.
+ * - Always asserts that the login page is initially displayed before submitting credentials.
+ * - After login, the response is evaluated:
+ *    - If `expectSuccess` is not explicitly `false`, it assumes login should succeed and:
+ *        - Asserts HTTP status 200.
+ *        - Verifies navigation away from the login page by checking title and URL.
+ *    - If `expectSuccess` is `false`, it assumes login should fail and:
+ *        - Asserts HTTP status 401.
+ *        - Verifies the login error message is shown and the page has not navigated away.
+ *
+ * @param expectSuccess (optional) If `false`, expects login to fail; otherwise, assumes success.
+ * @param username (optional) Username to log in with; falls back to `this.ctx.user.username` if not provided.
+ * @param password (optional) Password to log in with; falls back to `this.ctx.user.password` if not provided.
+ */
+  async login(expectSuccess?: boolean, username?: string, password?: string) {
     console.log(`LoginPage - login() - username: ${username}, expectSuccess: ${expectSuccess}`)
+
+    const user_username = username ?? this.ctx.user.username
+    const user_password = password ?? this.ctx.user.password
 
     // Wait for the login response to be captured
     const loginRequest = this.page.waitForResponse(`${Global.server_url}/login`)
 
     await this.assertTitleAndUrl('Cypress Real World App', 'signin')
 
-    await this.fillAndAssert(this.inp_username, username)
-    await this.fillAndAssert(this.inp_password, password)
+    await this.fillAndAssert(this.inp_username, String(user_username))
+    await this.fillAndAssert(this.inp_password, String(user_password))
     await this.btn_signIn.click()
 
     // Wait for the login response and validate based on the expected outcome
     const loginResponse = await loginRequest
-    if (expectSuccess == true) {
-      this.ctx.user.username = username
-      this.ctx.user.password = password
+    if (expectSuccess !== false) {
       // If login is expected to succeed, assert that the response status is 200 and the page title and URL are correct
       await this.assertTitleAndUrl('Cypress Real World App')
       expect(loginResponse.status()).toBe(200)
     } else {
       // If login is expected to fail, assert the error message and that the page remains on the login page
+      expect(loginResponse.status()).toBe(401)
       await this.assertInnerText(this.lbl_loginError, 'Username or password is invalid')
       await this.assertTitleAndUrl('Cypress Real World App', 'signin')
-      expect(loginResponse.status()).toBe(401)
     }
-  }
-
-  /**
-   * TODO: Put this in main login() and delete this code
-   * Logs in a previously created user from the test context.
-   *
-   * This method retrieves the username and password from the test context's user data
-   * and uses the `login` method to perform the login with these credentials.
-   * The login is expected to succeed (i.e., `expectSuccess` is set to `true`).
-   */
-  async loginUserFromTestContext() {
-    console.log('LoginPage - loginUserFromTestContext()')
-    const { username, password } = this.ctx.user
-    await this.login(String(username), String(password), true)
   }
 
   /**
