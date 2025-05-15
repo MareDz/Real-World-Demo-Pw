@@ -25,18 +25,18 @@ export class RegistrationPage extends BasePage {
     this.link_signIn = page.locator("//a[@href='/signin']")
   }
 
-/**
- * Fills out the user registration form with the provided values or falls back to the default values in the test context.
- *
- * If any of the optional parameters (`firstName`, `lastName`, `username`, `password`) are not provided,
- * the method uses the corresponding values from the test context (`this.ctx.user`) instead.
- * All fields are filled and asserted using `fillAndAssert`, and the form is submitted by clicking the sign-up button.
- *
- * @param firstName - Optional first name to fill in the form. Defaults to `this.ctx.user.firstName` if not provided.
- * @param lastName - Optional last name to fill in the form. Defaults to `this.ctx.user.lastName` if not provided.
- * @param username - Optional username to fill in the form. Defaults to `this.ctx.user.username` if not provided.
- * @param password - Optional password to fill in the form. Defaults to `this.ctx.user.password` if not provided.
- */
+  /**
+   * Fills out the user registration form with the provided values or falls back to the default values in the test context.
+   *
+   * If any of the optional parameters (`firstName`, `lastName`, `username`, `password`) are not provided,
+   * the method uses the corresponding values from the test context (`this.ctx.user`) instead.
+   * All fields are filled and asserted using `fillAndAssert`, and the form is submitted by clicking the sign-up button.
+   *
+   * @param firstName - Optional first name to fill in the form. Defaults to `this.ctx.user.firstName` if not provided.
+   * @param lastName - Optional last name to fill in the form. Defaults to `this.ctx.user.lastName` if not provided.
+   * @param username - Optional username to fill in the form. Defaults to `this.ctx.user.username` if not provided.
+   * @param password - Optional password to fill in the form. Defaults to `this.ctx.user.password` if not provided.
+   */
   async completeRegistrationForm(firstName?: string, lastName?: string, username?: string, password?: string) {
     console.log('RegistrationPage - completeRegistrationForm()')
 

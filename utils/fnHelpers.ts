@@ -15,28 +15,27 @@
  *    getRandomString(8, 'upper'); // e.g., "WERTYUOP"
  */
 export function getRandomString(length: number = 10, caseType: 'lower' | 'upper' | 'mixed' = 'mixed'): string {
-    const lowerChars = 'abcdefghijklmnopqrstuvwxyz'
-    const upperChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  
-    let chars = ''
-    switch (caseType) {
-      case 'lower':
-        chars = lowerChars
-        break;
-      case 'upper':
-        chars = upperChars
-        break;
-      case 'mixed':
-        chars = lowerChars + upperChars
-        break
-    }
-  
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * chars.length)
-      result += chars[randomIndex]
-    }
-  
-    return result
+  const lowerChars = 'abcdefghijklmnopqrstuvwxyz'
+  const upperChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+  let chars = ''
+  switch (caseType) {
+    case 'lower':
+      chars = lowerChars
+      break
+    case 'upper':
+      chars = upperChars
+      break
+    case 'mixed':
+      chars = lowerChars + upperChars
+      break
   }
-  
+
+  let result = ''
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * chars.length)
+    result += chars[randomIndex]
+  }
+
+  return result
+}

@@ -27,5 +27,5 @@ export const test = base.extend<Fixtures>({
 
   onboardingPage: async ({ page, ctx }, use) => {
     await use(new OnboardingPage(page, ctx))
-  }
+  },
 })

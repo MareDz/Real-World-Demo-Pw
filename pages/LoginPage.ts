@@ -34,24 +34,24 @@ export class LoginPage extends BasePage {
     await this.assertTitleAndUrl('Cypress Real World App', 'signin')
   }
 
-/**
- * Logs in a user with the provided or fallback credentials and verifies the result based on the expected outcome.
- *
- * - If `username` or `password` is not passed, defaults to values from the test context (`this.ctx.user`).
- * - Waits for the `/login` request triggered by clicking the Sign In button.
- * - Always asserts that the login page is initially displayed before submitting credentials.
- * - After login, the response is evaluated:
- *    - If `expectSuccess` is not explicitly `false`, it assumes login should succeed and:
- *        - Asserts HTTP status 200.
- *        - Verifies navigation away from the login page by checking title and URL.
- *    - If `expectSuccess` is `false`, it assumes login should fail and:
- *        - Asserts HTTP status 401.
- *        - Verifies the login error message is shown and the page has not navigated away.
- *
- * @param expectSuccess (optional) If `false`, expects login to fail; otherwise, assumes success.
- * @param username (optional) Username to log in with; falls back to `this.ctx.user.username` if not provided.
- * @param password (optional) Password to log in with; falls back to `this.ctx.user.password` if not provided.
- */
+  /**
+   * Logs in a user with the provided or fallback credentials and verifies the result based on the expected outcome.
+   *
+   * - If `username` or `password` is not passed, defaults to values from the test context (`this.ctx.user`).
+   * - Waits for the `/login` request triggered by clicking the Sign In button.
+   * - Always asserts that the login page is initially displayed before submitting credentials.
+   * - After login, the response is evaluated:
+   *    - If `expectSuccess` is not explicitly `false`, it assumes login should succeed and:
+   *        - Asserts HTTP status 200.
+   *        - Verifies navigation away from the login page by checking title and URL.
+   *    - If `expectSuccess` is `false`, it assumes login should fail and:
+   *        - Asserts HTTP status 401.
+   *        - Verifies the login error message is shown and the page has not navigated away.
+   *
+   * @param expectSuccess (optional) If `false`, expects login to fail; otherwise, assumes success.
+   * @param username (optional) Username to log in with; falls back to `this.ctx.user.username` if not provided.
+   * @param password (optional) Password to log in with; falls back to `this.ctx.user.password` if not provided.
+   */
   async login(expectSuccess?: boolean, username?: string, password?: string) {
     console.log('LoginPage - login()')
 

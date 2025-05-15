@@ -18,12 +18,11 @@ export class OnboardingPage extends BasePage {
   }
 
   async verifyGetStartedIsDisplayed() {
-    console.log("OnboardingPage - verifyGetStartedIsDisplayed()")
+    console.log('OnboardingPage - verifyGetStartedIsDisplayed()')
     await this.assertInnerText(this.lbl_onboardingTitle, 'Get Started with Real World App')
 
     const elementInnerText = await this.lbl_onboardingTextContent.innerText()
     const cleanedInnerText = elementInnerText.replace(/\s+/g, ' ')
     expect(cleanedInnerText).toContain('Real World App requires a Bank Account to perform transactions. Click Next to begin setup of your Bank Account.')
   }
-
 }

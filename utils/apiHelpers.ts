@@ -6,7 +6,7 @@ import { UserData } from '../state/UserModel'
  *
  * @param ctx - The UserData object to populate with user data.
  * @throws {Error} If valid user data is not retrieved within the retry limit.
- * 
+ *
  * NOTE: If this free to use api endpoint goes down, use some custom method to create custom user
  * e.g. Name + getCurrentDateAndTime() in format YYYYMMDDHHmmssSSS
  */
@@ -26,14 +26,13 @@ export async function getNewUserData(ctx: UserData): Promise<void> {
       const user = data?.results?.[0]
       if (!user) throw new Error('No user data in response')
 
-        const first = user.name?.first
-        const last = user.name?.last
-        const username = user.login?.username
-        const password = user.login?.password
-        const email = user.email
-        
+      const first = user.name?.first
+      const last = user.name?.last
+      const username = user.login?.username
+      const password = user.login?.password
+      const email = user.email
+
       if (first && last && username && email && password) {
-        
         ctx.user.firstName = first
         ctx.user.lastName = last
         ctx.user.username = username
