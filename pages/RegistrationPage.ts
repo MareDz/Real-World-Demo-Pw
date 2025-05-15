@@ -1,7 +1,6 @@
-import { APIRequestContext, Locator, Page, expect } from '@playwright/test'
+import { Locator, Page, expect } from '@playwright/test'
 import { BasePage } from './BasePage'
 import { UserData } from '../state/UserModel'
-// import { GET_getNewUserData } from '../utils/apiHelpers'
 
 export class RegistrationPage extends BasePage {
   readonly page: Page
@@ -52,24 +51,6 @@ export class RegistrationPage extends BasePage {
     await this.fillAndAssert(this.inp_password, String(user_password))
     await this.fillAndAssert(this.inp_confirmPassword, String(user_password))
     await this.btn_signUp.click()
-  }
-
-  /*
-   * Generates random user data via an API call and completes the registration process.
-   *
-   * - Calls the `GET_getNewUserData()` function to fetch random user data and update the test context.
-   * - Destructures the received data (firstName, lastName, username, and password) from the context.
-   * - Uses the destructured data to complete and submit the registration form.
-   *
-   * @param request - The API request context used for making API calls.
-   */
-  async generateAndRegisterNewUser(request: APIRequestContext) {
-    console.log('RegisterPage - generateAndRegisterNewUser()')
-
-    // await GET_getNewUserData(request, this.testContext)
-    const { firstName, lastName, username, password } = this.ctx.user
-
-    await this.completeRegistrationForm(String(firstName), String(lastName), String(username), String(password))
   }
 
   /**

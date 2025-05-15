@@ -1,5 +1,5 @@
-import { test } from './fixturesModel'
 import { Base } from '../pages/Base'
+import { test } from '../utils/fixturesModel'
 
 test.describe.configure({ mode: 'parallel' })
 
