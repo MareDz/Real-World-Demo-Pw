@@ -82,7 +82,7 @@ export class Base {
    */
   async fillAndAssert(selector: Locator, value: string) {
     console.log('Base - fillAndAssert()')
-    // console.log(`LogInfo: Fillig Locator: ${selector} - Value: "${value}"`)
+    console.log(`LogInfo: Fillig Locator: ${selector} - Value: "${value}"`)
 
     await selector.clear()
     await selector.fill(value)

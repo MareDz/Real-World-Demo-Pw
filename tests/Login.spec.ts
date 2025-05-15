@@ -27,13 +27,13 @@ test('Login User - Password Field Validation', async ({ loginPage }) => {
     await loginPage.verifyLoginPasswordErrorHandling()
 })
 
-test.only('Login User - Case Sensitivity for Mixed Case Username Validation', async ({ registrationPage, loginPage }) => {
+test.only('Login User - Case Sensitivity for Mixed Case Username Validation', async ({ page, registrationPage, loginPage }) => {
     await loginPage.goToRegistrationPage()
 
     await registrationPage.completeRegistrationForm('RndFn', 'RndLn', 'RndUn', 'Pass12woRd')
-    await loginPage.login(false, 'rndun')
-    await loginPage.login(false, 'RNDUN')
-
+    await loginPage.login(false, 'rndun', 'Pass12woRd')
+    await loginPage.login(false, 'RNDUN', 'Pass12woRd')
+    await loginPage.login(true, 'RndUn', 'Pass12woRd')
 })
 
 

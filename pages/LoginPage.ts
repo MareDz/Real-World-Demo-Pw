@@ -58,7 +58,7 @@ export class LoginPage extends BasePage {
     const user_username = username ?? this.ctx.user.username
     const user_password = password ?? this.ctx.user.password
 
-    // Wait for the login response to be captured
+    // Login response to be captured
     const loginRequest = this.page.waitForResponse(`${Global.server_url}/login`)
 
     await this.assertTitleAndUrl('Cypress Real World App', 'signin')
