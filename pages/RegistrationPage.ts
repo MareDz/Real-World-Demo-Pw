@@ -21,35 +21,39 @@ export class RegistrationPage extends BasePage {
     this.lbl_errorFirstName = page.locator('#firstName-helper-text')
     this.lbl_errorLastName = page.locator('#lastName-helper-text')
     this.lbl_errorConfirmPassword = page.locator('#confirmPassword-helper-text')
-    this.lbl_signInHeader = page.locator("//h1[text()='Sign in']") // TODO: ID Requested
+    this.lbl_signInHeader = page.locator("//h1[text()='Sign in']")
     this.link_signIn = page.locator("//a[@href='/signin']")
   }
 
   /**
-   * Fills out the user registration form with the provided values or falls back to the default values in the test context.
+   * Fills out and submits the user registration form.
    *
-   * If any of the optional parameters (`firstName`, `lastName`, `username`, `password`) are not provided,
-   * the method uses the corresponding values from the test context (`this.ctx.user`) instead.
-   * All fields are filled and asserted using `fillAndAssert`, and the form is submitted by clicking the sign-up button.
+   * @param firstName - Optional. The first name to register with.
+   * @param lastName - Optional. The last name to register with.
+   * @param username - Optional. The username to register with.
+   * @param password - Optional. The password to register with (used for both password and confirm password fields).
    *
-   * @param firstName - Optional first name to fill in the form. Defaults to `this.ctx.user.firstName` if not provided.
-   * @param lastName - Optional last name to fill in the form. Defaults to `this.ctx.user.lastName` if not provided.
-   * @param username - Optional username to fill in the form. Defaults to `this.ctx.user.username` if not provided.
-   * @param password - Optional password to fill in the form. Defaults to `this.ctx.user.password` if not provided.
+   * If a parameter is provided, it will override the corresponding value in the shared context object `this.ctx.user`.
+   * The method fills all relevant input fields, verifies their values using `fillAndAssert`, and then submits the form
+   * by clicking the sign-up button.
+   *
+   * Usage:
+   *   await registrationPage.completeRegistrationForm('John', 'Doe', 'johndoe123', 'SecurePass1');
+   *   // You can also omit parameters if values are already set in the context.
    */
   async completeRegistrationForm(firstName?: string, lastName?: string, username?: string, password?: string) {
     console.log('RegistrationPage - completeRegistrationForm()')
 
-    const user_firstName = firstName ?? this.ctx.user.firstName
-    const user_lastName = lastName ?? this.ctx.user.lastName
-    const user_username = username ?? this.ctx.user.username
-    const user_password = password ?? this.ctx.user.password
+    if(firstName) this.ctx.user.firstName = firstName
+    if(lastName) this.ctx.user.lastName = lastName
+    if(username) this.ctx.user.username = username
+    if(password) this.ctx.user.password = password
 
-    await this.fillAndAssert(this.inp_firstName, String(user_firstName))
-    await this.fillAndAssert(this.inp_lastName, String(user_lastName))
-    await this.fillAndAssert(this.inp_username, String(user_username))
-    await this.fillAndAssert(this.inp_password, String(user_password))
-    await this.fillAndAssert(this.inp_confirmPassword, String(user_password))
+    await this.fillAndAssert(this.inp_firstName, String(this.ctx.user.firstName))
+    await this.fillAndAssert(this.inp_lastName, String(this.ctx.user.lastName))
+    await this.fillAndAssert(this.inp_username, String(this.ctx.user.username))
+    await this.fillAndAssert(this.inp_password, String(this.ctx.user.password))
+    await this.fillAndAssert(this.inp_confirmPassword, String(this.ctx.user.password))
     await this.btn_signUp.click()
   }
 
