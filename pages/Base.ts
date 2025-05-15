@@ -39,7 +39,7 @@ export class Base {
    * Initializes the environment configuration for the Cypress Real World App (RWA).
    *
    * - Loads environment-specific configuration from the `.env` file determined by `getEnvFile()`.
-   * - Sets global variables such as application URL, server URL, admin credentials, and API key
+   * - Sets global variables such as application URL, server URL, admin-user credentials, API key, ...
    *   based on the `process.env.environment` variable.
    * - Supports both "test" and "dev" environments; throws an error for unrecognized environments.
    *
@@ -53,20 +53,14 @@ export class Base {
     switch (process.env.environment) {
       case 'test':
         Global.url = process.env.RWA_TEST_URL || ''
-        Global.server_url = process.env.RWA_TEST_SERVER_URL || ''
-        Global.username = process.env.RWA_TEST_ADMIN_USERNAME || ''
-        Global.password = process.env.RWA_TEST_ADMIN_PASSWORD || ''
-        Global.firstName = process.env.RWA_TEST_ADMIN_FIRST_NAME || ''
-        Global.lastName = process.env.RWA_TEST_ADMIN_LAST_NAME || ''
+        Global.adminUsername = process.env.RWA_TEST_ADMIN_USERNAME || ''
+        Global.adminPassword = process.env.RWA_TEST_ADMIN_PASSWORD || ''
         Global.api_key = process.env.RWA_API_KEY || ''
         break
       case 'dev':
         Global.url = process.env.RWA_DEV_URL || ''
-        Global.server_url = process.env.RWA_DEV_SERVER_URL || ''
-        Global.username = process.env.RWA_DEV_ADMIN_USERNAME || ''
-        Global.password = process.env.RWA_DEV_ADMIN_PASSWORD || ''
-        Global.firstName = process.env.RWA_DEV_ADMIN_FIRST_NAME || ''
-        Global.lastName = process.env.RWA_DEV_ADMIN_LAST_NAME || ''
+        Global.adminUsername = process.env.RWA_DEV_ADMIN_USERNAME || ''
+        Global.adminPassword = process.env.RWA_DEV_ADMIN_PASSWORD || ''
         Global.api_key = process.env.RWA_API_KEY || ''
         break
       default:
