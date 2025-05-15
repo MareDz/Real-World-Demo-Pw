@@ -53,12 +53,14 @@ export class Base {
     switch (process.env.environment) {
       case 'test':
         Global.url = process.env.RWA_TEST_URL || ''
+        Global.server_url = process.env.RWA_TEST_SERVER_URL || ''
         Global.adminUsername = process.env.RWA_TEST_ADMIN_USERNAME || ''
         Global.adminPassword = process.env.RWA_TEST_ADMIN_PASSWORD || ''
         Global.api_key = process.env.RWA_API_KEY || ''
         break
       case 'dev':
         Global.url = process.env.RWA_DEV_URL || ''
+        Global.server_url = process.env.RWA_DEV_SERVER_URL || ''
         Global.adminUsername = process.env.RWA_DEV_ADMIN_USERNAME || ''
         Global.adminPassword = process.env.RWA_DEV_ADMIN_PASSWORD || ''
         Global.api_key = process.env.RWA_API_KEY || ''

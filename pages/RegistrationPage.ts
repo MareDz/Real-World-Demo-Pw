@@ -44,10 +44,10 @@ export class RegistrationPage extends BasePage {
   async completeRegistrationForm(firstName?: string, lastName?: string, username?: string, password?: string) {
     console.log('RegistrationPage - completeRegistrationForm()')
 
-    if(firstName) this.ctx.user.firstName = firstName
-    if(lastName) this.ctx.user.lastName = lastName
-    if(username) this.ctx.user.username = username
-    if(password) this.ctx.user.password = password
+    if (firstName) this.ctx.user.firstName = firstName
+    if (lastName) this.ctx.user.lastName = lastName
+    if (username) this.ctx.user.username = username
+    if (password) this.ctx.user.password = password
 
     await this.fillAndAssert(this.inp_firstName, String(this.ctx.user.firstName))
     await this.fillAndAssert(this.inp_lastName, String(this.ctx.user.lastName))
