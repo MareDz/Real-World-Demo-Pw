@@ -260,10 +260,10 @@ export async function POST_createBankAccountWithFetch( ctx: UserData, param_bank
  * @param param_phone - Optional phone number to override test context.
  * @param param_userID - Optional user ID to override test context.
  */
-export async function PATCH_completeAccountDetailsWithFetch( ctx: UserData, param_email?: string, param_firstName?: string, param_lastName?: string, param_phone?: string, param_userID?: string ) {
-  console.log('API Helper - PATCH_completeAccountDetailsWithFetch()')
+export async function PATCH_completeAccountDetails( ctx: UserData, param_email?: string, param_firstName?: string, param_lastName?: string, param_phone?: string, param_userID?: string ) {
+  console.log('API Helper - PATCH_completeAccountDetails()')
 
-  // Override test context values if provided
+  // Update the testContext with provided params
   if (param_firstName) ctx.user.firstName = param_firstName
   if (param_lastName) ctx.user.lastName = param_lastName
   if (param_email) ctx.user.email = param_email
@@ -272,13 +272,17 @@ export async function PATCH_completeAccountDetailsWithFetch( ctx: UserData, para
 
   const { firstName, lastName, email, phone, userID } = ctx.user
 
-  const payload = {
-    email: email ?? '',
-    firstName: firstName ?? '',
-    id: userID ?? '',
-    lastName: lastName ?? '',
-    phoneNumber: phone ?? '',
-  }
+  // Only include defined values in payload
+      // Record<string, any> means:
+      // The object will have keys of type string.
+      // Each key can have a value of any type
+  const payload: Record<string, any> = {}
+
+  if (email !== undefined) payload.email = email
+  if (firstName !== undefined) payload.firstName = firstName
+  if (lastName !== undefined) payload.lastName = lastName
+  if (phone !== undefined) payload.phoneNumber = phone
+  if (userID !== undefined) payload.id = userID
 
   try {
     const response = await fetch(`${Global.server_url}/users/${userID}`, {
@@ -290,9 +294,10 @@ export async function PATCH_completeAccountDetailsWithFetch( ctx: UserData, para
     })
 
     if (response.status !== 204) {
-      const responseBody = await response.text()
-      throw new Error(`Expected status 204 but got ${response.status}.\nResponse body: ${responseBody}`)
+      throw new Error(`Expected status 204 but got ${response.status}`)
     }
+
+    console.log('PATCH request successful for userID:', userID)
   } catch (error: any) {
     console.error('API request failed:', error.message)
     throw error
