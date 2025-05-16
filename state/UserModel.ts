@@ -17,8 +17,7 @@ export type Bank = {
   bankName?: string
   routingNumber?: string
   accountNumber?: string
-  balanceU1?: number
-  balanceU2?: number
+  balance?: number
   transactionAmmount?: number
 }
 
