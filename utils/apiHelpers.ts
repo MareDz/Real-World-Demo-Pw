@@ -1,3 +1,4 @@
+import { APIRequestContext, expect } from '@playwright/test'
 import { Global } from '../state/Global'
 import { UserData } from '../state/UserModel'
 
@@ -11,8 +12,8 @@ import { UserData } from '../state/UserModel'
  * NOTE: If this free to use api endpoint goes down, use some custom method to create custom user
  * e.g. Name + getCurrentDateAndTime() in format YYYYMMDDHHmmssSSS
  */
-export async function getNewUserData(ctx: UserData): Promise<void> {
-  console.log('API Helper - getNewUserData()')
+export async function GET_getNewUserData(ctx: UserData): Promise<void> {
+  console.log('API Helper - GET_getNewUserData()')
 
   const maxRetries = 10
 
@@ -53,25 +54,25 @@ export async function getNewUserData(ctx: UserData): Promise<void> {
 }
 
 /**
- * Registers a new user using classic fetch instead of Playwright's APIRequestContext.
+ * Registers a new user by sending a POST request to the /users endpoint.
+ * It uses the provided parameters or the values from the test context to create the new user.
+ * The function also updates the test context with the user ID received from the server.
  *
- * Updates the ctx with any provided overrides, sends a POST request to the registration endpoint,
- * asserts the response, and stores the user ID in the context.
+ * @param request The Playwright APIRequestContext used to send the POST request.
+ * @param testContext The context that stores user and bank data, which will be updated during the registration.
+ * @param param_firstName Optional parameter for the user's first name. If not provided, the value from the test context is used.
+ * @param param_lastName Optional parameter for the user's last name. If not provided, the value from the test context is used.
+ * @param param_username Optional parameter for the user's username. If not provided, the value from the test context is used.
+ * @param param_password Optional parameter for the user's password. If not provided, the value from the test context is used.
+ * @param param_bankName Optional parameter for the user's bank name. If not provided, the value from the test context is used.
+ * @param param_accountNumber Optional parameter for the user's bank account number. If not provided, the value from the test context is used.
+ * @param param_routingNumber Optional parameter for the user's bank routing number. If not provided, the value from the test context is used.
  *
- * @param ctx - Shared test context holding user and bank data.
- * @param param_firstName - Optional override for the user's first name.
- * @param param_lastName - Optional override for the user's last name.
- * @param param_username - Optional override for the user's username.
- * @param param_password - Optional override for the user's password.
- * @param param_bankName - Optional override for the user's bank name.
- * @param param_accountNumber - Optional override for the user's account number.
- * @param param_routingNumber - Optional override for the user's routing number.
- * @param param_accountBalance - Optional override for the user's account balance.
+ * @throws Will throw an error if the API request fails or returns a status other than 201.
  */
-export async function POST_registerUser(ctx: UserData, param_firstName?: string, param_lastName?: string, param_username?: string, param_password?: string, param_bankName?: string, param_accountNumber?: string, param_routingNumber?: string, param_accountBalance?: number) {
+export async function POST_registerUser(request: APIRequestContext, ctx: UserData, param_firstName?: string, param_lastName?: string, param_username?: string, param_password?: string, param_bankName?: string, param_accountNumber?: string, param_routingNumber?: string, param_accountBalance?: string) {
   console.log('API Helper - POST_registerUser()')
 
-  // Override ctx values if params are provided
   if (param_firstName) ctx.user.firstName = param_firstName
   if (param_lastName) ctx.user.lastName = param_lastName
   if (param_username) ctx.user.username = param_username
@@ -79,44 +80,33 @@ export async function POST_registerUser(ctx: UserData, param_firstName?: string,
   if (param_bankName) ctx.bank.bankName = param_bankName
   if (param_accountNumber) ctx.bank.accountNumber = param_accountNumber
   if (param_routingNumber) ctx.bank.routingNumber = param_routingNumber
-  if (param_accountBalance) ctx.bank.balance = param_accountBalance
 
+  // Use the updated values
   const { firstName, lastName, username, password } = ctx.user
-  const { bankName, accountNumber, routingNumber, balance } = ctx.bank
-
-  const payload = {
-    firstName,
-    lastName,
-    username,
-    password,
-    bankName,
-    accountNumber,
-    routingNumber,
-    balance
-  }
+  const { bankName, accountNumber, routingNumber } = ctx.bank
 
   try {
-    const response = await fetch(`${Global.server_url}/users`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const responseRegister = await request.post(`${Global.server_url}/users`, {
+      data: {
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+        password: password,
+        bankName: bankName,
+        accountNumber: accountNumber,
+        routingNumber: routingNumber,
+        balance: '500000', // Note: hardcoded just to have some balance != 0
       },
-      body: JSON.stringify(payload),
     })
 
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status} - ${response.statusText}`)
-    }
+    expect(responseRegister.status()).toBe(201)
+    const responseBodyRegister = await responseRegister.json()
+    console.log(responseBodyRegister)
 
-    const responseBody = await response.json()
-    console.log(responseBody)
-
-    // Basic validation
-    if (responseBody?.user?.firstName !== firstName || responseBody?.user?.lastName !== lastName || responseBody?.user?.username !== username) {
-      throw new Error('Mismatch in returned user data')
-    }
-
-    ctx.user.userID = responseBody.user.id
+    expect(firstName).toBe(responseBodyRegister.user.firstName)
+    expect(lastName).toBe(responseBodyRegister.user.lastName)
+    expect(username).toBe(responseBodyRegister.user.username)
+    ctx.user.userID = responseBodyRegister.user.id
   } catch (error: any) {
     console.error('API request failed:', error.message)
     throw error
@@ -124,49 +114,43 @@ export async function POST_registerUser(ctx: UserData, param_firstName?: string,
 }
 
 /**
- * Logs in a user using the Fetch API instead of Playwright's APIRequestContext.
+ * Logs in a user by sending a POST request to the /login endpoint.
+ * It uses the provided parameters (if any) or the values from the test context to perform the login.
+ * The function validates the response by ensuring the user ID in the response matches the stored user ID in the test context.
  *
- * @param ctx - Shared test context holding user data.
- * @param param_username - Optional override for the user's username.
- * @param param_password - Optional override for the user's password.
- * @param param_userID - Optional override for the user's ID (used for response validation).
+ * @param request The Playwright APIRequestContext used to send the POST request.
+ * @param testContext The context that stores user data, which will be used to login the user.
+ * @param param_username Optional parameter for the user's username. If not provided, the value from the test context is used.
+ * @param param_password Optional parameter for the user's password. If not provided, the value from the test context is used.
+ * @param param_userID Optional parameter for the user's ID. If not provided, the value from the test context is used.
+ *
+ * @throws Will throw an error if the API request fails or if the user ID in the response does not match the expected user ID.
  */
-export async function POST_loginUserWithFetch( ctx: UserData, param_username?: string, param_password?: string, param_userID?: string ) {
-  console.log('API Helper - POST_loginUserWithFetch()')
+export async function POST_loginUser(request: APIRequestContext, ctx: UserData, param_username?: string, param_password?: string, param_userID?: string) {
+  console.log('API Helper - POST_loginUser()')
 
-  // Override context values if params are provided
   if (param_username) ctx.user.username = param_username
   if (param_password) ctx.user.password = param_password
   if (param_userID) ctx.user.userID = param_userID
 
   const { username, password, userID } = ctx.user
 
-  const payload = {
-    username: `${username}`,
-    password: `${password}`,
-    type: 'LOGIN',
-  }
-
   try {
-    const response = await fetch(`${Global.server_url}/login`, {
-      method: 'POST',
+    const responseLogin = await request.post(`${Global.server_url}/login`, {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(payload),
+      data: {
+        password: `${password}`,
+        type: 'LOGIN',
+        username: `${username}`,
+      },
     })
+    expect(responseLogin.status()).toBe(200)
+    const responseBodyLogin = await responseLogin.json()
+    console.log(responseBodyLogin)
 
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status} - ${response.statusText}`)
-    }
-
-    const responseBody = await response.json()
-    console.log(responseBody)
-
-    // Validate user ID if provided
-    if (userID && responseBody?.user?.id !== userID) {
-      throw new Error(`Expected user ID '${userID}' but got '${responseBody?.user?.id}'`)
-    }
+    expect(responseBodyLogin.user.id).toBe(userID)
   } catch (error: any) {
     console.error('API request failed:', error.message)
     throw error
@@ -174,18 +158,22 @@ export async function POST_loginUserWithFetch( ctx: UserData, param_username?: s
 }
 
 /**
- * Creates a bank account for a user via a GraphQL mutation using the Fetch API.
+ * Creates a bank account for a user by sending a POST request to the GraphQL endpoint.
+ * It uses the provided parameters (if any) or the values from the test context to create the bank account.
+ * After receiving the response, the function validates the created bank account data to ensure it matches the expected values.
  *
- * @param ctx - Shared test context holding bank and user data.
- * @param param_bankName - Optional override for the bank name.
- * @param param_accountNumber - Optional override for the account number.
- * @param param_routingNumber - Optional override for the routing number.
- * @param param_userID - Optional override for the user ID (used for response validation).
+ * @param request The Playwright APIRequestContext used to send the POST request.
+ * @param testContext The context that stores user and bank data to be used for creating the bank account.
+ * @param param_bankName Optional parameter for the bank's name. If not provided, the value from the test context is used.
+ * @param param_accountNumber Optional parameter for the bank account number. If not provided, the value from the test context is used.
+ * @param param_routingNumber Optional parameter for the bank routing number. If not provided, the value from the test context is used.
+ * @param param_userID Optional parameter for the user's ID. If not provided, the value from the test context is used.
+ *
+ * @throws Will throw an error if the API request fails or if the created bank account data does not match the expected values.
  */
-export async function POST_createBankAccountWithFetch( ctx: UserData, param_bankName?: string, param_accountNumber?: string, param_routingNumber?: string, param_userID?: string ) {
-  console.log('API Helper - POST_createBankAccountWithFetch()')
+export async function POST_createBankAccount(request: APIRequestContext, ctx: UserData, param_bankName?: string, param_accountNumber?: string, param_routingNumber?: string, param_userID?: string) {
+  console.log('API Helper - POST_createBankAccount()')
 
-  // Override values in test context if provided
   if (param_bankName) ctx.bank.bankName = param_bankName
   if (param_accountNumber) ctx.bank.accountNumber = param_accountNumber
   if (param_routingNumber) ctx.bank.routingNumber = param_routingNumber
@@ -194,56 +182,41 @@ export async function POST_createBankAccountWithFetch( ctx: UserData, param_bank
   const { bankName, accountNumber, routingNumber } = ctx.bank
   const { userID } = ctx.user
 
-  const graphqlPayload = {
-    operationName: 'CreateBankAccount',
-    query: `
-      mutation CreateBankAccount {
-        createBankAccount(
-          bankName: "${bankName}"
-          accountNumber: "${accountNumber}"
-          routingNumber: "${routingNumber}"
-        ) {
-          id
-          uuid
-          userId
-          bankName
-          accountNumber
-          routingNumber
-          isDeleted
-          createdAt
-        }
-      }
-    `,
-  }
-
   try {
-    const response = await fetch(`${Global.server_url}/graphql`, {
-      method: 'POST',
+    const responseBank = await request.post(`${Global.server_url}/graphql`, {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(graphqlPayload),
+      data: {
+        operationName: 'CreateBankAccount',
+        query: `
+                  mutation CreateBankAccount {
+                    createBankAccount(
+                      bankName: "${bankName}"
+                      accountNumber: "${accountNumber}"
+                      routingNumber: "${routingNumber}"
+                    ) {
+                      id
+                      uuid
+                      userId
+                      bankName
+                      accountNumber
+                      routingNumber
+                      isDeleted
+                      createdAt
+                    }
+                  }
+                `,
+      },
     })
+    expect(responseBank.status()).toBe(200)
+    const responseBodyBank = await responseBank.json()
+    console.log(responseBodyBank)
 
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status} - ${response.statusText}`)
-    }
-
-    const responseBody = await response.json()
-    console.log(responseBody)
-
-    const result = responseBody?.data?.createBankAccount
-    if (!result) throw new Error('No createBankAccount data returned.')
-
-    // Validate against expected context
-    if (userID && result.userId !== userID)
-      throw new Error(`Expected userId '${userID}' but got '${result.userId}'`)
-    if (result.bankName !== bankName)
-      throw new Error(`Expected bankName '${bankName}' but got '${result.bankName}'`)
-    if (result.accountNumber !== accountNumber)
-      throw new Error(`Expected accountNumber '${accountNumber}' but got '${result.accountNumber}'`)
-    if (result.routingNumber !== routingNumber)
-      throw new Error(`Expected routingNumber '${routingNumber}' but got '${result.routingNumber}'`)
+    expect(responseBodyBank.data.createBankAccount.userId).toBe(userID)
+    expect(responseBodyBank.data.createBankAccount.bankName).toBe(bankName)
+    expect(responseBodyBank.data.createBankAccount.accountNumber).toBe(accountNumber)
+    expect(responseBodyBank.data.createBankAccount.routingNumber).toBe(routingNumber)
   } catch (error: any) {
     console.error('API request failed:', error.message)
     throw error
@@ -251,19 +224,23 @@ export async function POST_createBankAccountWithFetch( ctx: UserData, param_bank
 }
 
 /**
- * PATCH request to update user account details using Fetch API.
+ * Updates the user's account details by sending a PATCH request to the API endpoint.
+ * It allows updating optional user information such as email, first name, last name, and phone number.
+ * The function checks for any provided parameters and updates the corresponding fields in the user's data.
  *
- * @param ctx - Shared test context holding user data.
- * @param param_email - Optional email to override test context.
- * @param param_firstName - Optional first name to override test context.
- * @param param_lastName - Optional last name to override test context.
- * @param param_phone - Optional phone number to override test context.
- * @param param_userID - Optional user ID to override test context.
+ * @param request The Playwright APIRequestContext used to send the PATCH request.
+ * @param testContext The context that holds the user's current data.
+ * @param param_email Optional parameter for the user's email. If not provided, the value from the test context is used.
+ * @param param_firstName Optional parameter for the user's first name. If not provided, the value from the test context is used.
+ * @param param_lastName Optional parameter for the user's last name. If not provided, the value from the test context is used.
+ * @param param_phone Optional parameter for the user's phone number. If not provided, the value from the test context is used.
+ * @param param_userID Optional parameter for the user's ID. If not provided, the value from the test context is used.
+ *
+ * @throws Will throw an error if the API request fails or if the update request doesn't return the expected status.
  */
-export async function PATCH_completeAccountDetails( ctx: UserData, param_email?: string, param_firstName?: string, param_lastName?: string, param_phone?: string, param_userID?: string ) {
+export async function PATCH_completeAccountDetails(request: APIRequestContext, ctx: UserData, param_email?: string, param_firstName?: string, param_lastName?: string, param_phone?: string, param_userID?: string) {
   console.log('API Helper - PATCH_completeAccountDetails()')
 
-  // Update the testContext with provided params
   if (param_firstName) ctx.user.firstName = param_firstName
   if (param_lastName) ctx.user.lastName = param_lastName
   if (param_email) ctx.user.email = param_email
@@ -272,32 +249,20 @@ export async function PATCH_completeAccountDetails( ctx: UserData, param_email?:
 
   const { firstName, lastName, email, phone, userID } = ctx.user
 
-  // Only include defined values in payload
-      // Record<string, any> means:
-      // The object will have keys of type string.
-      // Each key can have a value of any type
-  const payload: Record<string, any> = {}
-
-  if (email !== undefined) payload.email = email
-  if (firstName !== undefined) payload.firstName = firstName
-  if (lastName !== undefined) payload.lastName = lastName
-  if (phone !== undefined) payload.phoneNumber = phone
-  if (userID !== undefined) payload.id = userID
-
   try {
-    const response = await fetch(`${Global.server_url}/users/${userID}`, {
-      method: 'PATCH',
+    const response = await request.patch(`${Global.server_url}/users/${ctx.user.userID}`, {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(payload),
+      data: {
+        email: `${email}`,
+        firstName: `${firstName}`,
+        id: `${userID}`,
+        lastName: `${lastName}`,
+        phoneNumber: `${phone}`,
+      },
     })
-
-    if (response.status !== 204) {
-      throw new Error(`Expected status 204 but got ${response.status}`)
-    }
-
-    console.log('PATCH request successful for userID:', userID)
+    expect(response.status()).toBe(204)
   } catch (error: any) {
     console.error('API request failed:', error.message)
     throw error
