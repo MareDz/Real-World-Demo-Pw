@@ -27,5 +27,4 @@ test('Onboarding Positive', async ({ ctx, request, loginPage, onboardingPage, pa
   await onboardingPage.completeBankAccountForm(getBankName(), getRoutingNumber(), getAccountNumber())
   await onboardingPage.verifyFinishedScreenDisplayed()
   await onboardingPage.clickDoneAndVerifyUserCredentials()
-
 })

@@ -17,7 +17,7 @@ export class OnboardingPage extends BasePage {
     this.btn_onboardingNext = page.locator("[data-test='user-onboarding-next']")
     this.lbl_onboardingTitle = page.locator("[data-test='user-onboarding-dialog-title']")
     this.lbl_onboardingTextContent = page.locator("[data-test='user-onboarding-dialog-content'] p")
-        this.lbl_currentUser = page.locator("[data-test='sidenav-user-full-name']")
+    this.lbl_currentUser = page.locator("[data-test='sidenav-user-full-name']")
     this.lbl_currentUserUsername = page.locator("[data-test='sidenav-username']")
   }
 
@@ -67,11 +67,10 @@ export class OnboardingPage extends BasePage {
 
     await this.btn_onboardingNext.click()
 
-        const userFullName = await this.lbl_currentUser.innerText()
+    const userFullName = await this.lbl_currentUser.innerText()
     const userUsername = (await this.lbl_currentUserUsername.innerText()).slice(1)
 
-        expect(userFullName).toBe(this.ctx.user.firstName + ' ' + this.ctx.user.lastName?.charAt(0))
+    expect(userFullName).toBe(this.ctx.user.firstName + ' ' + this.ctx.user.lastName?.charAt(0))
     expect(userUsername).toBe(this.ctx.user.username)
   }
-
 }
