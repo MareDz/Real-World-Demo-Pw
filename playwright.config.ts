@@ -17,7 +17,7 @@ export default defineConfig({
   timeout: 50000,
   reportSlowTests: null,
   use: {
-    headless: process.env.CI ? true : true,
+    headless: process.env.CI ? true : false,
     actionTimeout: 20000,
     video: 'off',
     screenshot: process.env.CI ? 'only-on-failure' : 'only-on-failure',
