@@ -56,7 +56,7 @@ export class OnboardingPage extends BasePage {
    * Saves the bank account data (bank name, routing number, and account number) into the test context for later use or verification.
    * Uses `fillAndAssert()` to enter values into the form fields and verify that the inputs were set correctly.
    * Clicks the "Save" button to submit the bank account form.
-   */ 
+   */
   async completeBankAccountForm(bankName: string, routingNumber: string, accountNumber: string) {
     console.log('OnboardingPage - completeBankAccountForm()')
 
@@ -70,14 +70,14 @@ export class OnboardingPage extends BasePage {
     await this.btn_saveBankAccount.click()
   }
 
-/**
- * Waits explicitly for the "Finished" heading to appear using an XPath selector:
- *   - This ensures the final screen has fully loaded before assertions run.
- *   - Using `waitFor()` on a specific, unique element is a reliable way to detect screen transitions,
- *   - especially useful when navigating from one view to another or when similar locators exist on multiple screens.
- * Asserts that the onboarding title matches the expected text: "Finished".
- * Retrieves and normalizes the content text by removing extra whitespace, then verifies that it includes the expected welcome message.
- */
+  /**
+   * Waits explicitly for the "Finished" heading to appear using an XPath selector:
+   *   - This ensures the final screen has fully loaded before assertions run.
+   *   - Using `waitFor()` on a specific, unique element is a reliable way to detect screen transitions,
+   *   - especially useful when navigating from one view to another or when similar locators exist on multiple screens.
+   * Asserts that the onboarding title matches the expected text: "Finished".
+   * Retrieves and normalizes the content text by removing extra whitespace, then verifies that it includes the expected welcome message.
+   */
   async verifyFinishedScreenDisplayed() {
     console.log('OnboardingPage - verifyFinishedScreenDisplayed()')
 
@@ -90,13 +90,13 @@ export class OnboardingPage extends BasePage {
   }
 
   /**
- * Clicks the "Next" button to finish onboarding and transition to the main app view.
- * Retrieves the full name and username shown in the UI.
- * Removes the leading "@" character from the username label for comparison.
- * Asserts that:
- *   - The full name matches the expected format: first name + first initial of last name.
- *   - The username matches the one stored in the test context (`ctx.user.username`).
- */
+   * Clicks the "Next" button to finish onboarding and transition to the main app view.
+   * Retrieves the full name and username shown in the UI.
+   * Removes the leading "@" character from the username label for comparison.
+   * Asserts that:
+   *   - The full name matches the expected format: first name + first initial of last name.
+   *   - The username matches the one stored in the test context (`ctx.user.username`).
+   */
   async clickDoneAndVerifyUserCredentials() {
     console.log('OnboardingPage - clickDoneAndVerifyUserCredentials()')
 

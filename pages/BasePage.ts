@@ -55,7 +55,7 @@ export class BasePage extends Base {
     await this.clearAndBlur(this.inp_routingNumber)
     await this.assertInnerText(this.lbl_errorRoutingNumber, 'Enter a valid bank routing number')
     await this.btn_saveBankAccount.isDisabled()
-    
+
     await this.clearAndBlur(this.inp_accountNumber)
     await this.assertInnerText(this.lbl_errorAccountNumber, 'Enter a valid bank account number')
     await this.btn_saveBankAccount.isDisabled()
