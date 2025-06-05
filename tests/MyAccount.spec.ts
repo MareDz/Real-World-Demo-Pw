@@ -22,6 +22,4 @@ test('My Account - Verify Data for Partially-Configured/New User ', async ({ ctx
   await POST_registerUser(request, ctx)
   await loginPage.launchRWA()
   await loginPage.login()
-
 })
-
