@@ -38,3 +38,13 @@ test('Onboarding - Empty Required Fields Validation', async ({ ctx, request, log
   await onboardingPage.clickNextGetStartedAndVerifyCreateBankAccountDisplayed()
   await onboardingPage.verifyBankAccountEmptyFieldErrorHandling()
 })
+
+test('Onboarding - Invalid Data Fields Validation', async ({ ctx, request, loginPage, onboardingPage, page }) => {
+  await GET_getNewUserData(ctx)
+  await POST_registerUser(request, ctx)
+  await loginPage.launchRWA()
+  await loginPage.login()
+  await onboardingPage.verifyGetStartedIsDisplayed()
+  await onboardingPage.clickNextGetStartedAndVerifyCreateBankAccountDisplayed()
+  await onboardingPage.verifyBankAccountInvalidInputErrors()
+})

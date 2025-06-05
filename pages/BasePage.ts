@@ -62,9 +62,15 @@ export class BasePage extends Base {
 
     await this.fillAndAssert(this.inp_bankName, 'ABCDEF')
     await this.btn_saveBankAccount.isDisabled()
+    await expect(this.lbl_erroBankName).toHaveCount(0)
+
     await this.fillAndAssert(this.inp_routingNumber, '123456789')
     await this.btn_saveBankAccount.isDisabled()
+    await expect(this.lbl_errorRoutingNumber).toHaveCount(0)
+
     await this.fillAndAssert(this.inp_accountNumber, '12345678901')
+    await expect(this.lbl_errorAccountNumber).toHaveCount(0)
+
     await this.btn_saveBankAccount.isEnabled()
   }
 

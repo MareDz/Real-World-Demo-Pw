@@ -47,7 +47,7 @@ export class OnboardingPage extends BasePage {
     console.log('OnboardingPage - clickNextGetStartedAndVerifyCreateBankAccountDisplayed()')
 
     await this.btn_onboardingNext.click()
-    await this.page.locator("//h2[text()='Create Bank Account']").waitFor() // TODO: Explain why use this line and why is it reasonable concept
+    await this.page.locator("//h2[text()='Create Bank Account']").waitFor()
     await this.assertInnerText(this.lbl_onboardingTitle, 'Create Bank Account')
   }
 
@@ -81,7 +81,7 @@ export class OnboardingPage extends BasePage {
   async verifyFinishedScreenDisplayed() {
     console.log('OnboardingPage - verifyFinishedScreenDisplayed()')
 
-    await this.page.locator("//h2[text()='Finished']").waitFor() // TODO: Explain why use this line and why is it reasonable concept
+    await this.page.locator("//h2[text()='Finished']").waitFor()
     await this.assertInnerText(this.lbl_onboardingTitle, 'Finished')
 
     const elementInnerText = await this.lbl_onboardingTextContent.innerText()
