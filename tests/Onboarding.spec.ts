@@ -29,7 +29,7 @@ test('Onboarding Positive', async ({ ctx, request, loginPage, onboardingPage }) 
   await onboardingPage.clickDoneAndVerifyUserCredentials()
 })
 
-test.only('Onboarding - Empty Required Fields Validation', async ({ ctx, request, loginPage, onboardingPage, page }) => {
+test('Onboarding - Empty Required Fields Validation', async ({ ctx, request, loginPage, onboardingPage, page }) => {
   await GET_getNewUserData(ctx)
   await POST_registerUser(request, ctx)
   await loginPage.launchRWA()
