@@ -17,9 +17,12 @@ test.afterEach(async ({ page }) => {
   await page.close()
 })
 
-test('My Account - Verify Data for Partially-Configured/New User ', async ({ ctx, request, loginPage, onboardingPage }) => {
+test('My Account - Verify Data for Partially-Configured/New User', async ({ ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
   await GET_getNewUserData(ctx)
   await POST_registerUser(request, ctx)
   await loginPage.launchRWA()
   await loginPage.login()
+  await onboardingPage.completeOnboardingProcessWithRandomBankData()
+  await sideNavPage.goToMyAccount()
+  await myAccountPage.verifyDisplayedAccountDetails('', '')   
 })

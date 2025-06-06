@@ -7,6 +7,7 @@
     "registration:test": "NODE_ENV=test npx playwright test tests/Registration.spec.ts --config=playwright.config.ts --project=Chromium",
     "login:test": "NODE_ENV=test npx playwright test tests/Login.spec.ts --config=playwright.config.ts --project=Chromium",
     "onboarding:test": "NODE_ENV=test npx playwright test tests/Onboarding.spec.ts --config=playwright.config.ts --project=Chromium",
+    "myAccount:test": "NODE_ENV=test npx playwright test tests/MyAccount.spec.ts --config=playwright.config.ts --project=Chromium",
     "demo": "NODE_ENV=test npx playwright test tests/demo.spec.ts --config=playwright.config.ts --project=Chromium"
   },
   "author": "",

@@ -1,6 +1,7 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { BasePage } from './BasePage'
 import { UserData } from '../state/UserModel'
+import { getAccountNumber, getBankName, getRoutingNumber } from '../utils/fnHelpers'
 
 export class OnboardingPage extends BasePage {
   readonly page: Page
@@ -107,5 +108,17 @@ export class OnboardingPage extends BasePage {
 
     expect(userFullName).toBe(this.ctx.user.firstName + ' ' + this.ctx.user.lastName?.charAt(0))
     expect(userUsername).toBe(this.ctx.user.username)
+  }
+  
+  /**
+   * This method is usefull for a tests where we're onboarding is not in focus but we need to complete this flow in order to access the home page
+   */
+  async completeOnboardingProcessWithRandomBankData() {
+    console.log('OnboardingPage - completeOnboardingProcessWithRandomBankData()')
+    await this.verifyGetStartedIsDisplayed()
+    await this.clickNextGetStartedAndVerifyCreateBankAccountDisplayed()
+    await this.completeBankAccountForm(getBankName(), getRoutingNumber(), getAccountNumber())
+    await this.verifyFinishedScreenDisplayed()
+    await this.clickDoneAndVerifyUserCredentials()
   }
 }

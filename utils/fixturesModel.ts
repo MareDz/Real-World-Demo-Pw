@@ -3,11 +3,15 @@ import { RegistrationPage } from '../pages/RegistrationPage'
 import { test as base } from '@playwright/test'
 import { createUserData, UserData } from '../state/UserModel'
 import { OnboardingPage } from '../pages/OnboardingPage'
+import { SideNavPage } from '../pages/SideNavPage'
+import { MyAccountPage } from '../pages/MyAccountPage'
 
 type Fixtures = {
   loginPage: LoginPage
   registrationPage: RegistrationPage
   onboardingPage: OnboardingPage
+  sideNavPage: SideNavPage
+  myAccountPage: MyAccountPage
   ctx: UserData
 }
 
@@ -28,4 +32,12 @@ export const test = base.extend<Fixtures>({
   onboardingPage: async ({ page, ctx }, use) => {
     await use(new OnboardingPage(page, ctx))
   },
+
+  sideNavPage: async ({page, ctx}, use) => {
+    await use(new SideNavPage(page, ctx))
+  },
+
+  myAccountPage: async ({page, ctx}, use) => {
+    await use(new MyAccountPage(page, ctx))
+  }
 })
