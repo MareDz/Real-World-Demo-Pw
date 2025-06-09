@@ -9,42 +9,29 @@ test.beforeAll(async () => {
   Base.initializeEnvironmentCRWA()
 })
 
-test.beforeEach(async ({ loginPage }) => {
+test.beforeEach(async ({ ctx, request, onboardingPage, loginPage }) => {
+  await GET_getNewUserData(ctx)
+  await POST_registerUser(request, ctx)
   await loginPage.launchRWA()
+  await loginPage.login()
+  await onboardingPage.verifyGetStartedIsDisplayed()
+  await onboardingPage.clickNextGetStartedAndVerifyCreateBankAccountDisplayed()
 })
 
 test.afterEach(async ({ page }) => {
   await page.close()
 })
 
-test('Onboarding Positive', async ({ ctx, request, loginPage, onboardingPage }) => {
-  await GET_getNewUserData(ctx)
-  await POST_registerUser(request, ctx)
-  await loginPage.launchRWA()
-  await loginPage.login()
-  await onboardingPage.verifyGetStartedIsDisplayed()
-  await onboardingPage.clickNextGetStartedAndVerifyCreateBankAccountDisplayed()
+test('Onboarding Positive', async ({ onboardingPage }) => {
   await onboardingPage.completeBankAccountForm(getBankName(), getRoutingNumber(), getAccountNumber())
   await onboardingPage.verifyFinishedScreenDisplayed()
   await onboardingPage.clickDoneAndVerifyUserCredentials()
 })
 
-test('Onboarding - Empty Required Fields Validation', async ({ ctx, request, loginPage, onboardingPage }) => {
-  await GET_getNewUserData(ctx)
-  await POST_registerUser(request, ctx)
-  await loginPage.launchRWA()
-  await loginPage.login()
-  await onboardingPage.verifyGetStartedIsDisplayed()
-  await onboardingPage.clickNextGetStartedAndVerifyCreateBankAccountDisplayed()
+test('Onboarding - Empty Required Fields Validation', async ({ onboardingPage }) => {
   await onboardingPage.verifyBankAccountEmptyFieldErrorHandling()
 })
 
-test('Onboarding - Invalid Data Fields Validation', async ({ ctx, request, loginPage, onboardingPage }) => {
-  await GET_getNewUserData(ctx)
-  await POST_registerUser(request, ctx)
-  await loginPage.launchRWA()
-  await loginPage.login()
-  await onboardingPage.verifyGetStartedIsDisplayed()
-  await onboardingPage.clickNextGetStartedAndVerifyCreateBankAccountDisplayed()
+test('Onboarding - Invalid Data Fields Validation', async ({ onboardingPage }) => {
   await onboardingPage.verifyBankAccountInvalidInputErrors()
 })
