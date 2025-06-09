@@ -9,7 +9,7 @@ export class SideNavPage extends BasePage {
   readonly btn_myAccount: Locator
   readonly btn_bankAccount: Locator
   readonly btn_notifications: Locator
-    readonly btn_logout: Locator
+  readonly btn_logout: Locator
   readonly lbl_moduleName: Locator
   readonly dom_sideNavVisibility: Locator
 
@@ -22,7 +22,7 @@ export class SideNavPage extends BasePage {
     this.btn_myAccount = page.locator("[data-test='sidenav-user-settings']")
     this.btn_bankAccount = page.locator("[data-test='sidenav-bankaccounts']")
     this.btn_notifications = page.locator("[data-test='sidenav-notifications']")
-        this.btn_logout = page.locator("[data-test='sidenav-signout']")
+    this.btn_logout = page.locator("[data-test='sidenav-signout']")
     this.lbl_moduleName = page.locator('//div/h2').first()
     this.dom_sideNavVisibility = page.locator("//div[@data-test='sidenav']//div[1]")
   }
@@ -84,8 +84,8 @@ export class SideNavPage extends BasePage {
     // Note: Home doesn't have any name in URL
   }
 
-  async logout(){
-        console.log('SideNavPage - logout()')
+  async logout() {
+    console.log('SideNavPage - logout()')
     await this.btn_logout.click()
     await this.assertTitleAndUrl('Cypress Real World App', 'signin')
   }

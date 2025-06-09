@@ -62,8 +62,7 @@ test('My Account - Edit User Details', async ({ page, ctx, request, loginPage, o
   await page.reload()
   await myAccountPage.verifyDisplayedAccountDetails()
   await sideNavPage.logout()
-    await loginPage.login()
-      await sideNavPage.goToMyAccount()
+  await loginPage.login()
+  await sideNavPage.goToMyAccount()
   await myAccountPage.verifyDisplayedAccountDetails()
-
 })

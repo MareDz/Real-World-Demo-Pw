@@ -122,27 +122,27 @@ export class RegistrationPage extends BasePage {
     await this.btn_signUp.isDisabled()
 
     await this.fillAndAssert(this.inp_firstName, 'Randomfirstname')
-        await expect(this.lbl_errorFirstName).toHaveCount(0)
+    await expect(this.lbl_errorFirstName).toHaveCount(0)
 
     await this.btn_signUp.isDisabled()
 
     await this.fillAndAssert(this.inp_lastName, 'Randomlastname')
-        await expect(this.lbl_errorLastName).toHaveCount(0)
+    await expect(this.lbl_errorLastName).toHaveCount(0)
 
     await this.btn_signUp.isDisabled()
 
     await this.fillAndAssert(this.inp_username, 'Randomusername')
-        await expect(this.lbl_errorUsername).toHaveCount(0)
+    await expect(this.lbl_errorUsername).toHaveCount(0)
 
     await this.btn_signUp.isDisabled()
 
     await this.fillAndAssert(this.inp_password, 'Randompassword123#!@j')
-        await expect(this.lbl_errorPassowrd).toHaveCount(0)
+    await expect(this.lbl_errorPassowrd).toHaveCount(0)
 
     await this.btn_signUp.isDisabled()
 
     await this.fillAndAssert(this.inp_confirmPassword, 'Randompassword123#!@j')
-        await expect(this.lbl_errorPassowrd).toHaveCount(0)
+    await expect(this.lbl_errorPassowrd).toHaveCount(0)
 
     await this.btn_signUp.isEnabled()
   }
