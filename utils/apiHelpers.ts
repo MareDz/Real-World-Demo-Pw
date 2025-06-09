@@ -1,6 +1,7 @@
 import { APIRequestContext, expect } from '@playwright/test'
 import { Global } from '../state/Global'
 import { UserData } from '../state/UserModel'
+import { generateRandomPhoneNumber } from './fnHelpers'
 
 /**
  * Fetches random user data from the 'randomuser.me' API and updates the provided test context.
@@ -40,8 +41,9 @@ export async function GET_getNewUserData(ctx: UserData): Promise<void> {
         ctx.user.username = username
         ctx.user.email = email
         ctx.user.password = password
+        ctx.user.phone = generateRandomPhoneNumber() // API That's getting user data doens't have phone. This doesn't look that nice but it's only for demo for data preparation.
 
-        console.log(`[${attempt}] Fetched user: ${first} ${last} | ${email} | ${username}`)
+        console.log(`[${attempt}] Fetched user: ${first} ${last} | ${email} | ${username} | ${ctx.user.phone}`)
         return
       }
 
@@ -238,7 +240,7 @@ export async function POST_createBankAccount(request: APIRequestContext, ctx: Us
  *
  * @throws Will throw an error if the API request fails or if the update request doesn't return the expected status.
  */
-export async function PATCH_completeAccountDetails(request: APIRequestContext, ctx: UserData, param_email?: string, param_firstName?: string, param_lastName?: string, param_phone?: string, param_userID?: string) {
+export async function PATCH_completeAccountDetails(request: APIRequestContext, ctx: UserData, param_email?: string, param_phone?: string, param_firstName?: string, param_lastName?: string, param_userID?: string) {
   console.log('API Helper - PATCH_completeAccountDetails()')
 
   if (param_firstName) ctx.user.firstName = param_firstName
@@ -246,7 +248,7 @@ export async function PATCH_completeAccountDetails(request: APIRequestContext, c
   if (param_email) ctx.user.email = param_email
   if (param_phone) ctx.user.phone = param_phone
   if (param_userID) ctx.user.userID = param_userID
-
+  
   const { firstName, lastName, email, phone, userID } = ctx.user
 
   try {

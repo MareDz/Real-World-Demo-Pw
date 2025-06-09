@@ -1,3 +1,5 @@
+import { UserData } from "../state/UserModel"
+
 /**
  * Generates a random string of alphabetic characters.
  *
@@ -104,4 +106,21 @@ export const getAccountNumber = (minLength: number = 9, maxLength: number = 12):
     result += getRandomChar()
   }
   return result
+}
+
+
+/**
+ * Generates a random 10-digit phone number using only numeric characters (0–9).
+ *
+ * - Useful for testing forms or APIs that require a valid-looking phone number.
+ * - Returns a string of exactly 10 digits with no formatting (e.g., no dashes or spaces).
+ * - Digits are randomly generated and joined into a single string.
+ *
+ * Example output: "6283417720"
+ */
+export function generateRandomPhoneNumber(): string {
+  console.log('generateRandomPhoneNumber()')
+
+  const digits = Array.from({ length: 10 }, () => Math.floor(Math.random() * 10))
+  return digits.join('')
 }
