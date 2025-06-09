@@ -103,7 +103,7 @@ export class RegistrationPage extends BasePage {
    */
   async verifyRegistrationFormEmptyFieldErrorHandling() {
     console.log('RegistrationPage - verifyRegistrationFormEmptyFieldErrorHandling()')
-    
+
     await this.btn_signUp.isDisabled()
     await this.clearAndBlur(this.inp_firstName)
     await this.assertInnerText(this.lbl_errorFirstName, 'First Name is required')

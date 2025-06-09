@@ -111,7 +111,13 @@ export class OnboardingPage extends BasePage {
   }
 
   /**
-   * This method is usefull for a tests where we're onboarding is not in focus but we need to complete this flow in order to access the home page
+   * Completes the onboarding process using randomly generated bank data.
+   *
+   * This method is useful in tests where the onboarding flow itself is NOT the focus,
+   * but must be completed in order to access the home page or other parts of the app.
+   *
+   * It abstracts away the step-by-step details of onboarding to keep test cases clean and focused.
+   * The full onboarding flow is thoroughly tested separately.
    */
   async completeOnboardingProcessWithRandomBankData() {
     console.log('OnboardingPage - completeOnboardingProcessWithRandomBankData()')

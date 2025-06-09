@@ -18,7 +18,18 @@ test.afterEach(async ({ page }) => {
   await page.close()
 })
 
-test('My Account - Verify Data for Partially-Configured/New User', async ({ ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
+/***  NOTES  ***/
+/*
+1. To speed up user setup, we create users via API to bypass unnecessary UI flows.
+   - Creating users with all variations is already thoroughly covered in the appropriate spec file.
+
+2. Abstracted vs. Step-by-Step actions in `completeOnboardingProcessWithRandomBankData()`
+   - The onboarding process is not the focus of these test cases, which is why we abstract it here to keep the test concise and readable.
+   - A detailed, step-by-step version of the onboarding process (without abstraction) is covered in its dedicated spec file.
+   - Pros of this abstraction: Cleaner, more maintainable test code when onboarding is not the subject under test.
+   - Cons of this abstraction: Slightly harder to debug issues within the onboarding flow, but that risk is mitigated by having separate tests focused on it.
+*/
+test('My Account - Verify Data for Partially-Configured/New User', async ({ loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
   await loginPage.login()
   await onboardingPage.completeOnboardingProcessWithRandomBankData()
   await sideNavPage.goToMyAccount()
