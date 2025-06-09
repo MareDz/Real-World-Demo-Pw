@@ -90,4 +90,42 @@ export class MyAccountPage extends BasePage {
 
     await this.btn_save.isEnabled()
   }
+
+  /**
+   * Verifies error handling for invalid account details input.
+   *
+   * This method performs the following steps:
+   * - Tests invalid email formats and checks if the correct error message is displayed for each case.
+   * - Tests invalid phone number formats and ensures the correct error message is displayed for each case.
+   * - Verifies that the 'Save' button is disabled when invalid data is entered and enabled once valid data is provided for all fields only.
+   *
+   * - Invalid email address formats (e.g., missing '@' symbol, invalid characters).
+   * - Invalid phone number formats (e.g., non-numeric characters, incorrect length).
+   * - Ensuring the 'Save' button is appropriately enabled or disabled based on input validity.
+   */
+  async verifyAccountDetailsFieldsErrorHandling() {
+    console.log('MyAccount - verifyAccountDetailsFieldsErrorHandling()')
+
+    await this.fillAndAssert(this.inp_email, '123')
+    await this.assertInnerText(this.lbl_errorEmail, 'Must contain a valid email address')
+    await this.btn_save.isDisabled()
+    await this.fillAndAssert(this.inp_email, 'a12s @mail.com')
+    await this.assertInnerText(this.lbl_errorEmail, 'Must contain a valid email address')
+    await this.btn_save.isDisabled()
+
+    await this.fillAndAssert(this.inp_phoneNumber, 'abc')
+    await this.assertInnerText(this.lbl_errorPhoneNumber, 'Phone number is not valid')
+    await this.btn_save.isDisabled()
+    await this.fillAndAssert(this.inp_phoneNumber, 'abcd123')
+    await this.assertInnerText(this.lbl_errorPhoneNumber, 'Phone number is not valid')
+    await this.btn_save.isDisabled()
+
+    await this.fillAndAssert(this.inp_email, 'test@mail.com')
+    await expect(this.lbl_errorEmail).toHaveCount(0)
+    await this.btn_save.isDisabled()
+
+    await this.fillAndAssert(this.inp_phoneNumber, '1234567')
+    await expect(this.lbl_errorPhoneNumber).toHaveCount(0)
+    await this.btn_save.isEnabled()
+  }
 }
