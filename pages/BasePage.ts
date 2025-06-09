@@ -1,6 +1,6 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { Base } from './Base'
-import { TestContext } from '../state/TestContext'
+import { UserData } from '../state/UserModel'
 
 export class BasePage extends Base {
   readonly page: Page
@@ -20,10 +20,10 @@ export class BasePage extends Base {
   readonly lbl_currentUser: Locator
   readonly lbl_currentUserUsername: Locator
 
-  constructor(page: Page, testContext: TestContext) {
-    super(page, testContext)
+  constructor(page: Page, ctx: UserData) {
+    super(page, ctx)
     this.page = page
-    this.testContext = testContext
+    this.ctx = ctx
     this.btn_saveBankAccount = page.locator("[data-test='bankaccount-submit']")
     this.lbl_erroBankName = page.locator('#bankaccount-bankName-input-helper-text')
     this.inp_bankName = page.locator('#bankaccount-bankName-input')
@@ -51,18 +51,26 @@ export class BasePage extends Base {
     await this.clearAndBlur(this.inp_bankName)
     await this.assertInnerText(this.lbl_erroBankName, 'Enter a bank name')
     await this.btn_saveBankAccount.isDisabled()
+
     await this.clearAndBlur(this.inp_routingNumber)
     await this.assertInnerText(this.lbl_errorRoutingNumber, 'Enter a valid bank routing number')
     await this.btn_saveBankAccount.isDisabled()
+
     await this.clearAndBlur(this.inp_accountNumber)
     await this.assertInnerText(this.lbl_errorAccountNumber, 'Enter a valid bank account number')
     await this.btn_saveBankAccount.isDisabled()
 
     await this.fillAndAssert(this.inp_bankName, 'ABCDEF')
     await this.btn_saveBankAccount.isDisabled()
+    await expect(this.lbl_erroBankName).toHaveCount(0)
+
     await this.fillAndAssert(this.inp_routingNumber, '123456789')
     await this.btn_saveBankAccount.isDisabled()
+    await expect(this.lbl_errorRoutingNumber).toHaveCount(0)
+
     await this.fillAndAssert(this.inp_accountNumber, '12345678901')
+    await expect(this.lbl_errorAccountNumber).toHaveCount(0)
+
     await this.btn_saveBankAccount.isEnabled()
   }
 

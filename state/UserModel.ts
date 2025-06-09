@@ -4,22 +4,29 @@ export interface UserData {
 }
 
 export type User = {
-  firstName: string | null
-  lastName: string | null
-  password: string | null
-  username: string | null
-  email?: string | null
-  phone?: string | null
-  userID?: string | null
+  firstName?: string
+  lastName?: string
+  password?: string
+  username?: string
+  email?: string
+  phone?: string
+  userID?: string
+  cookie?: string
 }
 
 export type Bank = {
-  bankName: string | null
-  routingNumber: string | null
-  accountNumber: string | null
-  balanceU1?: number | null
-  balanceU2?: number | null
-  transactionAmmount?: number | null
+  bankName?: string
+  routingNumber?: string
+  accountNumber?: string
+  balance?: number
+  transactionAmmount?: number
+}
+
+export function createUserData(): UserData {
+  return {
+    user: {},
+    bank: {},
+  }
 }
 
 // Cy-RWA Official User Interface

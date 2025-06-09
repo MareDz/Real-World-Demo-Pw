@@ -1,7 +1,6 @@
-import { APIRequestContext, Locator, Page, expect } from '@playwright/test'
+import { Locator, Page, expect } from '@playwright/test'
 import { BasePage } from './BasePage'
-import { TestContext } from '../state/TestContext'
-// import { GET_getNewUserData } from '../utils/apiHelpers'
+import { UserData } from '../state/UserModel'
 
 export class RegistrationPage extends BasePage {
   readonly page: Page
@@ -13,62 +12,49 @@ export class RegistrationPage extends BasePage {
   readonly lbl_signInHeader: Locator
   readonly link_signIn: Locator
 
-  constructor(page: Page, testContext: TestContext) {
-    super(page, testContext)
+  constructor(page: Page, ctx: UserData) {
+    super(page, ctx)
     this.page = page
-    this.testContext = testContext
+    this.ctx = ctx
     this.btn_signUp = page.locator("[data-test='signup-submit']")
     this.inp_confirmPassword = page.locator('#confirmPassword')
     this.lbl_errorFirstName = page.locator('#firstName-helper-text')
     this.lbl_errorLastName = page.locator('#lastName-helper-text')
     this.lbl_errorConfirmPassword = page.locator('#confirmPassword-helper-text')
-    this.lbl_signInHeader = page.locator("//h1[text()='Sign in']") // TODO: ID Requested
+    this.lbl_signInHeader = page.locator("//h1[text()='Sign in']")
     this.link_signIn = page.locator("//a[@href='/signin']")
   }
 
   /**
-   * Fills out the user registration form and submits it by clicking the 'Sign Up' button.
+   * Fills out and submits the user registration form.
    *
-   * - If called in conjunction with `generateAndRegisterNewUser()`, the necessary user data is already set in the context.
-   * - If called independently, ensures that all required user data (first name, last name, username, password) is provided as input parameters.
+   * @param firstName - Optional. The first name to register with.
+   * @param lastName - Optional. The last name to register with.
+   * @param username - Optional. The username to register with.
+   * @param password - Optional. The password to register with (used for both password and confirm password fields).
    *
-   * @param firstName - The user's first name to be filled in the registration form.
-   * @param lastName - The user's last name to be filled in the registration form.
-   * @param username - The user's username to be filled in the registration form.
-   * @param password - The user's password to be filled in the registration form (also used to confirm password).
+   * If a parameter is provided, it will override the corresponding value in the shared context object `this.ctx.user`.
+   * The method fills all relevant input fields, verifies their values using `fillAndAssert`, and then submits the form
+   * by clicking the sign-up button.
+   *
+   * Usage:
+   *   await registrationPage.completeRegistrationForm('John', 'Doe', 'johndoe123', 'SecurePass1');
+   *   // You can also omit parameters if values are already set in the context.
    */
-  async completeRegistrationForm(firstName: string, lastName: string, username: string, password: string) {
+  async completeRegistrationForm(firstName?: string, lastName?: string, username?: string, password?: string) {
     console.log('RegistrationPage - completeRegistrationForm()')
 
-    this.testContext.userdata.user.firstName = firstName
-    this.testContext.userdata.user.lastName = lastName
-    this.testContext.userdata.user.username = username
-    this.testContext.userdata.user.password = password
+    if (firstName) this.ctx.user.firstName = firstName
+    if (lastName) this.ctx.user.lastName = lastName
+    if (username) this.ctx.user.username = username
+    if (password) this.ctx.user.password = password
 
-    await this.fillAndAssert(this.inp_firstName, firstName)
-    await this.fillAndAssert(this.inp_lastName, lastName)
-    await this.fillAndAssert(this.inp_username, username)
-    await this.fillAndAssert(this.inp_password, password)
-    await this.fillAndAssert(this.inp_confirmPassword, password)
+    await this.fillAndAssert(this.inp_firstName, String(this.ctx.user.firstName))
+    await this.fillAndAssert(this.inp_lastName, String(this.ctx.user.lastName))
+    await this.fillAndAssert(this.inp_username, String(this.ctx.user.username))
+    await this.fillAndAssert(this.inp_password, String(this.ctx.user.password))
+    await this.fillAndAssert(this.inp_confirmPassword, String(this.ctx.user.password))
     await this.btn_signUp.click()
-  }
-
-  /*
-   * Generates random user data via an API call and completes the registration process.
-   *
-   * - Calls the `GET_getNewUserData()` function to fetch random user data and update the test context.
-   * - Destructures the received data (firstName, lastName, username, and password) from the context.
-   * - Uses the destructured data to complete and submit the registration form.
-   *
-   * @param request - The API request context used for making API calls.
-   */
-  async generateAndRegisterNewUser(request: APIRequestContext) {
-    console.log('RegisterPage - generateAndRegisterNewUser()')
-
-    // await GET_getNewUserData(request, this.testContext)
-    const { firstName, lastName, username, password } = this.testContext.userdata.user
-
-    await this.completeRegistrationForm(String(firstName), String(lastName), String(username), String(password))
   }
 
   /**
@@ -80,6 +66,8 @@ export class RegistrationPage extends BasePage {
    */
   async verifyRegistrationFormPasswordFieldsErrorHandling() {
     console.log('RegistrationPage - verifyRegistrationFormPasswordFieldsErrorHandling()')
+    await this.btn_signUp.isDisabled()
+
     await this.fillAndAssert(this.inp_firstName, 'Rndfirstname')
     await this.fillAndAssert(this.inp_lastName, 'Rndlastname')
     await this.fillAndAssert(this.inp_username, 'Rndusername')
@@ -115,6 +103,8 @@ export class RegistrationPage extends BasePage {
    */
   async verifyRegistrationFormEmptyFieldErrorHandling() {
     console.log('RegistrationPage - verifyRegistrationFormEmptyFieldErrorHandling()')
+
+    await this.btn_signUp.isDisabled()
     await this.clearAndBlur(this.inp_firstName)
     await this.assertInnerText(this.lbl_errorFirstName, 'First Name is required')
     await this.btn_signUp.isDisabled()
@@ -136,18 +126,28 @@ export class RegistrationPage extends BasePage {
     await this.btn_signUp.isDisabled()
 
     await this.fillAndAssert(this.inp_firstName, 'Randomfirstname')
+    await expect(this.lbl_errorFirstName).toHaveCount(0)
+
     await this.btn_signUp.isDisabled()
 
     await this.fillAndAssert(this.inp_lastName, 'Randomlastname')
+    await expect(this.lbl_errorLastName).toHaveCount(0)
+
     await this.btn_signUp.isDisabled()
 
     await this.fillAndAssert(this.inp_username, 'Randomusername')
+    await expect(this.lbl_errorUsername).toHaveCount(0)
+
     await this.btn_signUp.isDisabled()
 
     await this.fillAndAssert(this.inp_password, 'Randompassword123#!@j')
+    await expect(this.lbl_errorPassowrd).toHaveCount(0)
+
     await this.btn_signUp.isDisabled()
 
     await this.fillAndAssert(this.inp_confirmPassword, 'Randompassword123#!@j')
+    await expect(this.lbl_errorPassowrd).toHaveCount(0)
+
     await this.btn_signUp.isEnabled()
   }
 

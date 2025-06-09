@@ -1,16 +1,16 @@
 import { Locator, Page, expect } from '@playwright/test'
-import { TestContext } from '../state/TestContext'
 import { config } from 'dotenv'
 import { resolve } from 'path'
 import { Global } from '../state/Global'
+import { UserData } from '../state/UserModel'
 
 export class Base {
   readonly page: Page
-  protected testContext: TestContext
+  protected ctx: UserData
 
-  constructor(page: Page, testContext: TestContext) {
+  constructor(page: Page, ctx: UserData) {
     this.page = page
-    this.testContext = testContext
+    this.ctx = ctx
   }
 
   /**
@@ -39,7 +39,7 @@ export class Base {
    * Initializes the environment configuration for the Cypress Real World App (RWA).
    *
    * - Loads environment-specific configuration from the `.env` file determined by `getEnvFile()`.
-   * - Sets global variables such as application URL, server URL, admin credentials, and API key
+   * - Sets global variables such as application URL, server URL, admin-user credentials, API key, ...
    *   based on the `process.env.environment` variable.
    * - Supports both "test" and "dev" environments; throws an error for unrecognized environments.
    *
@@ -54,19 +54,15 @@ export class Base {
       case 'test':
         Global.url = process.env.RWA_TEST_URL || ''
         Global.server_url = process.env.RWA_TEST_SERVER_URL || ''
-        Global.username = process.env.RWA_TEST_ADMIN_USERNAME || ''
-        Global.password = process.env.RWA_TEST_ADMIN_PASSWORD || ''
-        Global.firstName = process.env.RWA_TEST_ADMIN_FIRST_NAME || ''
-        Global.lastName = process.env.RWA_TEST_ADMIN_LAST_NAME || ''
+        Global.adminUsername = process.env.RWA_TEST_ADMIN_USERNAME || ''
+        Global.adminPassword = process.env.RWA_TEST_ADMIN_PASSWORD || ''
         Global.api_key = process.env.RWA_API_KEY || ''
         break
       case 'dev':
         Global.url = process.env.RWA_DEV_URL || ''
         Global.server_url = process.env.RWA_DEV_SERVER_URL || ''
-        Global.username = process.env.RWA_DEV_ADMIN_USERNAME || ''
-        Global.password = process.env.RWA_DEV_ADMIN_PASSWORD || ''
-        Global.firstName = process.env.RWA_DEV_ADMIN_FIRST_NAME || ''
-        Global.lastName = process.env.RWA_DEV_ADMIN_LAST_NAME || ''
+        Global.adminUsername = process.env.RWA_DEV_ADMIN_USERNAME || ''
+        Global.adminPassword = process.env.RWA_DEV_ADMIN_PASSWORD || ''
         Global.api_key = process.env.RWA_API_KEY || ''
         break
       default:
@@ -81,7 +77,7 @@ export class Base {
    * @param value is value that we're filling and asserting
    */
   async fillAndAssert(selector: Locator, value: string) {
-    console.log('Base - fillAndAssert()')
+    // console.log('Base - fillAndAssert()')
     console.log(`LogInfo: Fillig Locator: ${selector} - Value: "${value}"`)
 
     await selector.clear()
@@ -96,7 +92,7 @@ export class Base {
    * @param value is value that we're asserting
    */
   async assertInputValue(selector: Locator, value: string) {
-    console.log('Base - assertInputValue()')
+    // console.log('Base - assertInputValue()')
     console.log(`LogInfo: Asserting value of selector: ${selector} with value: ${value}`)
 
     const innerValue = await selector.inputValue()
@@ -109,7 +105,7 @@ export class Base {
    * @param value is value that we're asserting
    */
   async assertInnerText(selector: Locator, value: string) {
-    console.log('Base - assertInnerText()')
+    // console.log('Base - assertInnerText()')
     console.log(`LogInfo: Asserting text of selector: ${selector} with value: ${value}`)
 
     const elementInnerText = await selector.innerText()
@@ -122,9 +118,9 @@ export class Base {
    * @param value is value that we're asserting
    */
   async assertInnerTextContain(selector: Locator, value: string) {
-    console.log('Base - assertInnerTextContain()')
+    // console.log('Base - assertInnerTextContain()')
     console.log(`LogInfo: Asserting text of selector: ${selector} with value: ${value}`)
-    
+
     const elementInnerText = await selector.innerText()
     expect(elementInnerText).toContain(value)
   }
@@ -134,7 +130,7 @@ export class Base {
    * @param selector is selector
    */
   async clearAndBlur(selector: Locator) {
-    console.log('Base - clearAndBlur()')
+    // console.log('Base - clearAndBlur()')
     console.log(`LogInfo: Clearing and Bluring locator ${selector}`)
 
     await selector.clear()
@@ -169,7 +165,7 @@ export class Base {
    */
   async assertTitleAndUrl(title: string, url?: string) {
     console.log('Base - assertTitleAndUrl()')
-    console.log(`LogInfo: Title ${title} - URL ${url}` )
+    console.log(`LogInfo: Title ${title} - URL ${url}`)
 
     await expect(this.page).toHaveTitle(title)
 

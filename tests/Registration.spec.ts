@@ -1,42 +1,35 @@
-import { BrowserContext, Page, test } from '@playwright/test'
 import { Base } from '../pages/Base'
-import { TestContext } from '../state/TestContext'
-import { LoginPage } from '../pages/LoginPage'
-import { RegistrationPage } from '../pages/RegistrationPage'
-
-let context: BrowserContext
-let page: Page
-let testContext: TestContext
-let loginPage: LoginPage
-let registrationPage: RegistrationPage 
+import { GET_getNewUserData } from '../utils/apiHelpers'
+import { test } from '../utils/fixturesModel'
 
 test.describe.configure({ mode: 'parallel' })
 
 test.beforeAll(async () => {
-    Base.initializeEnvironmentCRWA()
-})
- 
-test.beforeEach(async ({browser}) => {
-    context = await browser.newContext()
-    page = await context.newPage()
-    testContext = new TestContext()
-    loginPage = new LoginPage(page, testContext)
-    registrationPage = new RegistrationPage(page, testContext)
+  Base.initializeEnvironmentCRWA()
 })
 
-test.afterEach(async () => {
-    await context.close()
-    await page.close()
+test.beforeEach(async ({ loginPage }) => {
+  await loginPage.launchRWA()
 })
 
-test("Register New User - Empty Required Fields Validation", async () => {
-    await loginPage.launchRWA()
-    await loginPage.goToRegistrationPage()
-    await registrationPage.verifyRegistrationFormEmptyFieldErrorHandling()
+test.afterEach(async ({ page }) => {
+  await page.close()
 })
 
-test("Register New User - Password Fields Validations", async () => {
-    await loginPage.launchRWA()
-    await loginPage.goToRegistrationPage()
-    await registrationPage.verifyRegistrationFormPasswordFieldsErrorHandling()
+test('Register New User - Empty Required Fields Validation', async ({ loginPage, registrationPage }) => {
+  await loginPage.goToRegistrationPage()
+  await registrationPage.verifyRegistrationFormEmptyFieldErrorHandling()
+})
+
+test('Register New User - Password Fields Validations', async ({ loginPage, registrationPage }) => {
+  await loginPage.goToRegistrationPage()
+  await registrationPage.verifyRegistrationFormPasswordFieldsErrorHandling()
+})
+
+test('Register New User - Positive', async ({ ctx, loginPage, registrationPage, onboardingPage }) => {
+  await GET_getNewUserData(ctx)
+  await loginPage.goToRegistrationPage()
+  await registrationPage.completeRegistrationForm()
+  await loginPage.login()
+  await onboardingPage.verifyGetStartedIsDisplayed()
 })
