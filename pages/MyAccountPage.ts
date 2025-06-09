@@ -129,6 +129,14 @@ export class MyAccountPage extends BasePage {
     await this.btn_save.isEnabled()
   }
 
+    /**
+   * Edits the account details in the UI and updates the test context (`ctx`) with the new values.
+   *
+   * @param param_firstName - New first name to be entered
+   * @param param_lastName - New last name to be entered
+   * @param param_email - New email address to be entered
+   * @param param_phone - New phone number to be entered
+   */
   async editAccountDetails(param_firstName: string, param_lastName: string, param_email: string, param_phone: string) {
     console.log('MyAccount - editAccountDetails()')
 
