@@ -129,7 +129,7 @@ export class MyAccountPage extends BasePage {
     await this.btn_save.isEnabled()
   }
 
-    /**
+  /**
    * Edits the account details in the UI and updates the test context (`ctx`) with the new values.
    *
    * @param param_firstName - New first name to be entered
