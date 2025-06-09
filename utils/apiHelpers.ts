@@ -29,10 +29,10 @@ export async function GET_getNewUserData(ctx: UserData): Promise<void> {
       const user = data?.results?.[0]
       if (!user) throw new Error('No user data in response')
 
-      const first = user.name?.first
-      const last = user.name?.last
-      const username = user.login?.username
-      const password = user.login?.password
+      const first = user.name.first
+      const last = user.name.last
+      const username = user.login.username
+      const password = user.login.password
       const email = user.email
 
       if (first && last && username && email && password) {

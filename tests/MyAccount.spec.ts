@@ -27,7 +27,7 @@ test('My Account - Verify Data for Partially-Configured/New User', async ({ ctx,
   await myAccountPage.verifyDisplayedAccountDetails('', '')   
 })
 
-test.only('My Account - Verify Data for Fully Configured User', async ({ ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
+test('My Account - Verify Data for Fully Configured User', async ({ ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
   await GET_getNewUserData(ctx)
   await POST_registerUser(request, ctx)
   await POST_loginUser(request,ctx)
