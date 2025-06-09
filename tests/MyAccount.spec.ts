@@ -52,11 +52,18 @@ test('My Account -  Invalid Data Fields Validation', async ({ ctx, request, logi
   await myAccountPage.verifyAccountDetailsFieldsErrorHandling()
 })
 
-test('My Account - Edit User Details', async ({ ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
+test('My Account - Edit User Details', async ({ page, ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
   await POST_loginUser(request, ctx)
   await PATCH_completeAccountDetails(request, ctx)
   await loginPage.login()
   await onboardingPage.completeOnboardingProcessWithRandomBankData()
   await sideNavPage.goToMyAccount()
-  await myAccountPage.verifyAccountDetailsFieldsErrorHandling()
+  await myAccountPage.editAccountDetails(`Edited${ctx.user.firstName}`, `Edited${ctx.user.lastName}`, `Edited${ctx.user.email}`, `123${ctx.user.phone}`)
+  await page.reload()
+  await myAccountPage.verifyDisplayedAccountDetails()
+  await sideNavPage.logout()
+    await loginPage.login()
+      await sideNavPage.goToMyAccount()
+  await myAccountPage.verifyDisplayedAccountDetails()
+
 })

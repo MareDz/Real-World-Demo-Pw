@@ -9,6 +9,7 @@ export class SideNavPage extends BasePage {
   readonly btn_myAccount: Locator
   readonly btn_bankAccount: Locator
   readonly btn_notifications: Locator
+    readonly btn_logout: Locator
   readonly lbl_moduleName: Locator
   readonly dom_sideNavVisibility: Locator
 
@@ -21,6 +22,7 @@ export class SideNavPage extends BasePage {
     this.btn_myAccount = page.locator("[data-test='sidenav-user-settings']")
     this.btn_bankAccount = page.locator("[data-test='sidenav-bankaccounts']")
     this.btn_notifications = page.locator("[data-test='sidenav-notifications']")
+        this.btn_logout = page.locator("[data-test='sidenav-signout']")
     this.lbl_moduleName = page.locator('//div/h2').first()
     this.dom_sideNavVisibility = page.locator("//div[@data-test='sidenav']//div[1]")
   }
@@ -32,7 +34,7 @@ export class SideNavPage extends BasePage {
    *   This ensures the menu has expanded successfully and is rendered on the screen.
    */
   async expandSideNav() {
-    console.log('OnboardingPage - expandLeftMenu()')
+    console.log('SideNavPage - expandLeftMenu()')
     await this.btn_sideNav.click()
     await expect(this.dom_sideNavVisibility).not.toHaveCSS('visibility', 'hidden')
   }
@@ -44,7 +46,7 @@ export class SideNavPage extends BasePage {
    *   This confirms the menu has collapsed and is no longer visible on the screen.
    */
   async collapseSideNav() {
-    console.log('OnboardingPage - collapseSideNav()')
+    console.log('SideNavPage - collapseSideNav()')
     await this.btn_sideNav.click()
     await expect(this.dom_sideNavVisibility).toHaveCSS('visibility', 'hidden')
   }
@@ -55,30 +57,36 @@ export class SideNavPage extends BasePage {
    * Asserts that the module name label displays the expected text: "User Settings".
    */
   async goToMyAccount() {
-    console.log('NavigationPage - openMyAccount()')
+    console.log('SideNavPage - openMyAccount()')
     await this.btn_myAccount.click()
     await this.assertTitleAndUrl('Cypress Real World App', 'settings')
     await this.assertInnerText(this.lbl_moduleName, 'User Settings')
   }
 
   async goToBankAccounts() {
-    console.log('NavigationPage - openBankAccounts()')
+    console.log('SideNavPage - openBankAccounts()')
     await this.btn_bankAccount.click()
     await this.assertTitleAndUrl('Cypress Real World App', 'bankaccounts')
     await this.assertInnerText(this.lbl_moduleName, 'Bank Accounts')
   }
 
   async goToNotifications() {
-    console.log('NavigationPage - openNotifications()')
+    console.log('SideNavPage - openNotifications()')
     await this.btn_notifications.click()
     await this.assertTitleAndUrl('Cypress Real World App', 'notifications')
     await this.assertInnerText(this.lbl_moduleName.first(), 'Notifications')
   }
 
   async goToHome() {
-    console.log('NavigationPage - openHome()')
+    console.log('SideNavPage - openHome()')
     await this.btn_home.click()
     await this.assertTitleAndUrl('Cypress Real World App')
     // Note: Home doesn't have any name in URL
+  }
+
+  async logout(){
+        console.log('SideNavPage - logout()')
+    await this.btn_logout.click()
+    await this.assertTitleAndUrl('Cypress Real World App', 'signin')
   }
 }

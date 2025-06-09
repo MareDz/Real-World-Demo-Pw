@@ -128,4 +128,21 @@ export class MyAccountPage extends BasePage {
     await expect(this.lbl_errorPhoneNumber).toHaveCount(0)
     await this.btn_save.isEnabled()
   }
+
+  async editAccountDetails(param_firstName: string, param_lastName: string, param_email: string, param_phone: string) {
+    console.log('MyAccount - editAccountDetails()')
+
+    this.ctx.user.firstName = param_firstName
+    this.ctx.user.lastName = param_lastName
+    this.ctx.user.email = param_email
+    this.ctx.user.phone = param_phone
+
+    const { firstName, lastName, email, phone } = this.ctx.user
+
+    await this.fillAndAssert(this.inp_firstName, firstName)
+    await this.fillAndAssert(this.inp_lastName, lastName)
+    await this.fillAndAssert(this.inp_email, email)
+    await this.fillAndAssert(this.inp_phoneNumber, phone)
+    await this.btn_save.click()
+  }
 }
