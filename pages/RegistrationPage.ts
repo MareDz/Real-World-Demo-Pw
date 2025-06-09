@@ -66,6 +66,8 @@ export class RegistrationPage extends BasePage {
    */
   async verifyRegistrationFormPasswordFieldsErrorHandling() {
     console.log('RegistrationPage - verifyRegistrationFormPasswordFieldsErrorHandling()')
+    await this.btn_signUp.isDisabled()
+
     await this.fillAndAssert(this.inp_firstName, 'Rndfirstname')
     await this.fillAndAssert(this.inp_lastName, 'Rndlastname')
     await this.fillAndAssert(this.inp_username, 'Rndusername')
@@ -101,6 +103,8 @@ export class RegistrationPage extends BasePage {
    */
   async verifyRegistrationFormEmptyFieldErrorHandling() {
     console.log('RegistrationPage - verifyRegistrationFormEmptyFieldErrorHandling()')
+    
+    await this.btn_signUp.isDisabled()
     await this.clearAndBlur(this.inp_firstName)
     await this.assertInnerText(this.lbl_errorFirstName, 'First Name is required')
     await this.btn_signUp.isDisabled()
