@@ -248,7 +248,7 @@ export async function PATCH_completeAccountDetails(request: APIRequestContext, c
   if (param_email) ctx.user.email = param_email
   if (param_phone) ctx.user.phone = param_phone
   if (param_userID) ctx.user.userID = param_userID
-  
+
   const { firstName, lastName, email, phone, userID } = ctx.user
 
   try {

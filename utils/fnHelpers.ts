@@ -1,4 +1,4 @@
-import { UserData } from "../state/UserModel"
+import { UserData } from '../state/UserModel'
 
 /**
  * Generates a random string of alphabetic characters.
@@ -107,7 +107,6 @@ export const getAccountNumber = (minLength: number = 9, maxLength: number = 12):
   }
   return result
 }
-
 
 /**
  * Generates a random 10-digit phone number using only numeric characters (0–9).

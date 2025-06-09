@@ -33,11 +33,11 @@ export const test = base.extend<Fixtures>({
     await use(new OnboardingPage(page, ctx))
   },
 
-  sideNavPage: async ({page, ctx}, use) => {
+  sideNavPage: async ({ page, ctx }, use) => {
     await use(new SideNavPage(page, ctx))
   },
 
-  myAccountPage: async ({page, ctx}, use) => {
+  myAccountPage: async ({ page, ctx }, use) => {
     await use(new MyAccountPage(page, ctx))
-  }
+  },
 })

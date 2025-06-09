@@ -109,7 +109,7 @@ export class OnboardingPage extends BasePage {
     expect(userFullName).toBe(this.ctx.user.firstName + ' ' + this.ctx.user.lastName?.charAt(0))
     expect(userUsername).toBe(this.ctx.user.username)
   }
-  
+
   /**
    * This method is usefull for a tests where we're onboarding is not in focus but we need to complete this flow in order to access the home page
    */
