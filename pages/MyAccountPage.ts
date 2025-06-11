@@ -151,7 +151,7 @@ export class MyAccountPage extends BasePage {
     await this.fillAndAssert(this.inp_lastName, lastName)
     await this.fillAndAssert(this.inp_email, email)
     await this.fillAndAssert(this.inp_phoneNumber, phone)
-    
+
     await this.btn_save.click()
     await this.page.waitForTimeout(5000)
   }

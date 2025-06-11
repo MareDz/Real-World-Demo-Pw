@@ -9,12 +9,12 @@ test.beforeAll(async () => {
   Base.initializeEnvironmentCRWA()
 })
 
-test.beforeEach(async ({ ctx, request, loginPage, onboardingPage}) => {
-//   await GET_getNewUserData(ctx)
-//   await POST_registerUser(request, ctx)
-//   await loginPage.launchRWA()
-//   await loginPage.login()
-//   await onboardingPage.completeOnboardingProcessWithRandomBankData()
+test.beforeEach(async ({ ctx, request, loginPage, onboardingPage }) => {
+  //   await GET_getNewUserData(ctx)
+  //   await POST_registerUser(request, ctx)
+  //   await loginPage.launchRWA()
+  //   await loginPage.login()
+  //   await onboardingPage.completeOnboardingProcessWithRandomBankData()
 })
 
 test.afterEach(async ({ page }) => {
@@ -22,7 +22,7 @@ test.afterEach(async ({ page }) => {
 })
 
 test.only('Bank Account - Created Bank Account During Onboarding Process Displayed in Bank Details', async ({ ctx, registrationPage, loginPage, onboardingPage, sideNavPage, bankAccountPage }) => {
-    await GET_getNewUserData(ctx)
+  await GET_getNewUserData(ctx)
   await loginPage.launchRWA()
   await loginPage.goToRegistrationPage()
   await registrationPage.completeRegistrationForm()
@@ -34,6 +34,5 @@ test.only('Bank Account - Created Bank Account During Onboarding Process Display
 })
 
 test.skip('Bank Account - Empty Required Fields Validation', async ({ loginPage, sideNavPage }) => {
-    await sideNavPage.goToBankAccounts()
-
+  await sideNavPage.goToBankAccounts()
 })
