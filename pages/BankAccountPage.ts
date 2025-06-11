@@ -82,4 +82,37 @@ export class BankAccountPage extends BasePage {
     await this.btn_saveBankAccount.click()
     await this.page.waitForTimeout(3000)
   }
+
+  /**
+   * Deletes all bank accounts in the list and verifies that they are marked as "Deleted".
+   *
+   * This method interacts with the "Delete" buttons for each bank account in the list, clicking on each to remove
+   * the corresponding bank account. After each delete action, it checks that the bank account is successfully removed
+   * from the list and marked as "Deleted" in the UI.
+   *
+   * - Counts the number of "Delete" buttons present for the bank accounts.
+   * - Iterates through each delete button and clicks it to delete the bank account.
+   * - After deleting the accounts, checks that each bank account is marked as "Deleted" in the list.
+   */
+  async deleteAllBankAccount() {
+    console.log('BankAccountPage - deleteAllBankAccount()')
+    await this.lbl_bankAccounts.isVisible({ timeout: 30000 })
+
+    const numberOfDeleteButtons = await this.btn_deleteBankAccount.count()
+    console.log(`Number of displayed delete buttons are :  ${numberOfDeleteButtons}`)
+
+    for (let i = 0; i < numberOfDeleteButtons; i++) {
+      console.log(`Deleting button no.${i+1}`)
+      await this.page.waitForTimeout(2500)
+      await this.btn_deleteBankAccount.first().click()
+    }
+
+    const bankAccountInList = this.li_bankAccounts.locator(`//p`)
+    for (let i = 0; i < numberOfDeleteButtons; i++) {
+      await this.page.waitForTimeout(2500)
+      await this.assertInnerTextContain(bankAccountInList.first(), 'Deleted')
+    }
+
+    await expect(this.btn_deleteBankAccount).toHaveCount(0)
+  }
 }

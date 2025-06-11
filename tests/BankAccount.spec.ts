@@ -63,7 +63,7 @@ test('Bank Account - Invalid Data Fields Validation', async ({ ctx, request, log
     await bankAccountPage.verifyBankAccountInvalidInputErrors()
 })
 
-test('Bank Account - Add New Bank Account', async ({ page, ctx, request, loginPage, sideNavPage, bankAccountPage }) => {
+test('Bank Account - Add New Bank Account', async ({ ctx, request, loginPage, sideNavPage, bankAccountPage }) => {
     await GET_getNewUserData(ctx)
     await POST_registerUser(request, ctx)
     await POST_loginUser(request, ctx)
@@ -79,4 +79,33 @@ test('Bank Account - Add New Bank Account', async ({ page, ctx, request, loginPa
     await bankAccountPage.clickCreateNewBankAccount()
     await bankAccountPage.addNewBankAccount()
     await bankAccountPage.verifyBankAccountDisplayed()
+})
+
+test('Bank Account - Delete Single Bank Account', async ({ ctx, request, loginPage, sideNavPage, bankAccountPage }) => {
+    await GET_getNewUserData(ctx)
+    await POST_registerUser(request, ctx)
+    await POST_loginUser(request, ctx)
+    await POST_createBankAccount(request, ctx, getBankName(), getRoutingNumber(), getAccountNumber())
+    await loginPage.login()
+    await sideNavPage.goToBankAccounts()
+    await bankAccountPage.deleteAllBankAccount()
+})
+
+test('Bank Account - Delete All Bank Account', async ({ ctx, request, loginPage, sideNavPage, bankAccountPage }) => {
+    await GET_getNewUserData(ctx)
+    await POST_registerUser(request, ctx)
+    await POST_loginUser(request, ctx)
+    await POST_createBankAccount(request, ctx, getBankName(), getRoutingNumber(), getAccountNumber())
+    await loginPage.login()
+    await sideNavPage.goToBankAccounts()
+    await bankAccountPage.clickCreateNewBankAccount()
+    await bankAccountPage.addNewBankAccount()
+    await bankAccountPage.verifyBankAccountDisplayed()
+    await bankAccountPage.clickCreateNewBankAccount()
+    await bankAccountPage.addNewBankAccount()
+    await bankAccountPage.verifyBankAccountDisplayed()
+    await bankAccountPage.clickCreateNewBankAccount()
+    await bankAccountPage.addNewBankAccount()
+    await bankAccountPage.verifyBankAccountDisplayed()
+    await bankAccountPage.deleteAllBankAccount()
 })
