@@ -5,6 +5,7 @@ import { createUserData, UserData } from '../state/UserModel'
 import { OnboardingPage } from '../pages/OnboardingPage'
 import { SideNavPage } from '../pages/SideNavPage'
 import { MyAccountPage } from '../pages/MyAccountPage'
+import { BankAccountPage } from '../pages/BankAccountPage'
 
 type Fixtures = {
   loginPage: LoginPage
@@ -12,6 +13,7 @@ type Fixtures = {
   onboardingPage: OnboardingPage
   sideNavPage: SideNavPage
   myAccountPage: MyAccountPage
+  bankAccountPage: BankAccountPage
   ctx: UserData
 }
 
@@ -39,5 +41,9 @@ export const test = base.extend<Fixtures>({
 
   myAccountPage: async ({ page, ctx }, use) => {
     await use(new MyAccountPage(page, ctx))
+  },
+
+  bankAccountPage: async ({ page, ctx }, use) => {
+    await use(new BankAccountPage(page, ctx))
   },
 })
