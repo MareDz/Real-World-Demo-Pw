@@ -128,19 +128,19 @@ export function generateRandomPhoneNumber(): string {
 Generate current date in format as YYYYMMDDHHmmssSSS
 */
 export const getCurrentDateTimeAsNumbers = (): string => {
-  console.log("getCurrentDateTimeAsNumbers()")
+  console.log('getCurrentDateTimeAsNumbers()')
   const now = new Date()
 
   const year = now.getFullYear().toString()
-  const month = (now.getMonth() + 1).toString().padStart(2, "0")
-  const day = now.getDate().toString().padStart(2, "0")
-  const hours = now.getHours().toString().padStart(2, "0")
-  const minutes = now.getMinutes().toString().padStart(2, "0")
-  const seconds = now.getSeconds().toString().padStart(2, "0")
-  const milliseconds = now.getMilliseconds().toString().padStart(2, "0")
+  const month = (now.getMonth() + 1).toString().padStart(2, '0')
+  const day = now.getDate().toString().padStart(2, '0')
+  const hours = now.getHours().toString().padStart(2, '0')
+  const minutes = now.getMinutes().toString().padStart(2, '0')
+  const seconds = now.getSeconds().toString().padStart(2, '0')
+  const milliseconds = now.getMilliseconds().toString().padStart(2, '0')
 
   const formattedDateTime = year + month + day + hours + minutes + seconds + milliseconds
-  console.log("Current Date and Time: " + formattedDateTime)
+  console.log('Current Date and Time: ' + formattedDateTime)
 
   return formattedDateTime
 }

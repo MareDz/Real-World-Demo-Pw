@@ -22,19 +22,19 @@ export class BankAccountPage extends BasePage {
     this.li_bankAccounts = page.locator("//ul[@data-test='bankaccount-list']")
   }
 
-/**
- * Verifies that the most recently added bank account is correctly displayed in the list.
- * 
- * Since new bank accounts are appended to the end of the list, this method targets the last
- * element and checks if its text matches the expected bank name from the test context.
- * 
- * Useful in cases where we want to confirm that a newly created account has been successfully added
- * without relying on the full list structure or order of existing accounts.
- */
+  /**
+   * Verifies that the most recently added bank account is correctly displayed in the list.
+   *
+   * Since new bank accounts are appended to the end of the list, this method targets the last
+   * element and checks if its text matches the expected bank name from the test context.
+   *
+   * Useful in cases where we want to confirm that a newly created account has been successfully added
+   * without relying on the full list structure or order of existing accounts.
+   */
   async verifyBankAccountDisplayed() {
-    console.log("BankAccountPage - verifyBankAccountDisplayed()")
+    console.log('BankAccountPage - verifyBankAccountDisplayed()')
 
-    const lbl_recendAddedBankAccount = this.li_bankAccounts.locator("//li//p").last()
+    const lbl_recendAddedBankAccount = this.li_bankAccounts.locator('//li//p').last()
     await this.assertInnerText(lbl_recendAddedBankAccount, String(this.ctx.bank.bankName))
   }
 
@@ -51,7 +51,6 @@ export class BankAccountPage extends BasePage {
     await this.assertInnerText(this.lbl_createBankAccount, 'Create Bank Account')
   }
 
-
   /**
    * Adds a new bank account by filling out the form with dynamically generated data and saving it.
    *
@@ -60,10 +59,10 @@ export class BankAccountPage extends BasePage {
    * - Stores all generated values in the shared context (`this.ctx.bank`) for future reference or assertions.
    * - Fills each input field using `fillAndAssert()` to ensure data is entered correctly.
    * - Submits the form by clicking the "Save" button.
-   * 
+   *
    * Testing of this app is atm performing in local environments and PW scripts are too fast. Application can't handle this ammount of new objects created.
    * Because of that, fixed wait is added so that whole screen can be rendered in situations when system is bottlenecking.
-  */
+   */
   async addNewBankAccount() {
     console.log('BankAccountPage - addNewBankAccount()')
 
@@ -102,7 +101,7 @@ export class BankAccountPage extends BasePage {
     console.log(`Number of displayed delete buttons are :  ${numberOfDeleteButtons}`)
 
     for (let i = 0; i < numberOfDeleteButtons; i++) {
-      console.log(`Deleting button no.${i+1}`)
+      console.log(`Deleting button no.${i + 1}`)
       await this.page.waitForTimeout(2500)
       await this.btn_deleteBankAccount.first().click()
     }
