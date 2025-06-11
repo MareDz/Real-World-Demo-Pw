@@ -1,6 +1,7 @@
 import { Page, Locator, expect } from '@playwright/test'
 import { BasePage } from './BasePage'
 import { UserData } from '../state/UserModel'
+import { getBankName, getAccountNumber, getRoutingNumber, getCurrentDateTimeAsNumbers } from '../utils/fnHelpers'
 
 export class BankAccountPage extends BasePage {
   readonly page: Page
@@ -48,5 +49,29 @@ export class BankAccountPage extends BasePage {
     await this.btn_createNewBankAccount.click()
     await this.assertTitleAndUrl('Cypress Real World App', 'bankaccounts/new')
     await this.assertInnerText(this.lbl_createBankAccount, 'Create Bank Account')
+  }
+
+   /**
+   * Generates random bank details (bank name, account number, and routing number).
+   * Updates the test context with the generated bank details.
+   * Fills out the bank account form with the generated data.
+   * Submits the form by clicking the "Save" button.
+   */
+  async addNewBankAccount() {
+    console.log('BankAccountPage - addNewBankAccount()')
+
+    const bankName = `${getCurrentDateTimeAsNumbers()}${getBankName()}`
+    const accountNumber = getAccountNumber()
+    const routingNumber = getRoutingNumber()
+
+    this.ctx.bank.bankName = bankName
+    this.ctx.bank.accountNumber = accountNumber
+    this.ctx.bank.routingNumber = routingNumber
+
+    await this.fillAndAssert(this.inp_bankName, bankName)
+    await this.fillAndAssert(this.inp_routingNumber, routingNumber)
+    await this.fillAndAssert(this.inp_accountNumber, accountNumber)
+
+    await this.btn_saveBankAccount.click()
   }
 }
