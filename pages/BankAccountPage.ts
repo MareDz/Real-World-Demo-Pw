@@ -51,12 +51,19 @@ export class BankAccountPage extends BasePage {
     await this.assertInnerText(this.lbl_createBankAccount, 'Create Bank Account')
   }
 
-   /**
-   * Generates random bank details (bank name, account number, and routing number).
-   * Updates the test context with the generated bank details.
-   * Fills out the bank account form with the generated data.
-   * Submits the form by clicking the "Save" button.
-   */
+
+  /**
+   * Adds a new bank account by filling out the form with dynamically generated data and saving it.
+   *
+   * - Generates a unique `bankName` by combining the current timestamp with a random bank name to avoid duplicates.
+   * - Retrieves random `accountNumber` and `routingNumber` using helper functions.
+   * - Stores all generated values in the shared context (`this.ctx.bank`) for future reference or assertions.
+   * - Fills each input field using `fillAndAssert()` to ensure data is entered correctly.
+   * - Submits the form by clicking the "Save" button.
+   * 
+   * Testing of this app is atm performing in local environments and PW scripts are too fast. Application can't handle this ammount of new objects created.
+   * Because of that, fixed wait is added so that whole screen can be rendered in situations when system is bottlenecking.
+  */
   async addNewBankAccount() {
     console.log('BankAccountPage - addNewBankAccount()')
 
@@ -73,5 +80,6 @@ export class BankAccountPage extends BasePage {
     await this.fillAndAssert(this.inp_accountNumber, accountNumber)
 
     await this.btn_saveBankAccount.click()
+    await this.page.waitForTimeout(3000)
   }
 }
