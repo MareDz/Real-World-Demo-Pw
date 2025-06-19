@@ -18,7 +18,7 @@ test.afterEach(async ({ page }) => {
   await page.close()
 })
 
-test('My Account - Verify Data for Partially-Configured/New User', async ({ ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
+test('My Account - Verify Data for Partially-Configured/New User', async ({ loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
   await loginPage.login()
   await onboardingPage.completeOnboardingProcessWithRandomBankData()
   await sideNavPage.goToMyAccount()
