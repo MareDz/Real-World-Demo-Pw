@@ -113,6 +113,7 @@ export class OnboardingPage extends BasePage {
   /**
    * Completes the onboarding process using randomly generated bank data.
    *
+   * NOTE:
    * This method is useful in tests where the onboarding flow itself is NOT the focus,
    * but must be completed in order to access the home page or other parts of the app.
    *
