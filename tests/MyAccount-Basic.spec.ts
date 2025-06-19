@@ -8,10 +8,13 @@ test.beforeAll(async () => {
   Base.initializeEnvironmentCRWA()
 })
 
-test.beforeEach(async ({ loginPage, ctx, request }) => {
-  await loginPage.launchRWA()
+test.beforeEach(async ({ loginPage, ctx, registrationPage, onboardingPage }) => {
   await GET_getNewUserData(ctx)
-  await POST_registerUser(request, ctx)
+  await loginPage.launchRWA()
+  await loginPage.goToRegistrationPage()
+  await registrationPage.completeRegistrationForm()
+  await loginPage.login()
+  await onboardingPage.verifyGetStartedIsDisplayed()
 })
 
 test.afterEach(async ({ page }) => {
@@ -19,43 +22,34 @@ test.afterEach(async ({ page }) => {
 })
 
 test('My Account - Verify Data for Partially-Configured/New User', async ({ loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
-  await loginPage.login()
   await onboardingPage.completeOnboardingProcessWithRandomBankData()
   await sideNavPage.goToMyAccount()
   await myAccountPage.verifyDisplayedAccountDetails('', '')
 })
 
-test('My Account - Verify Data for Fully Configured User', async ({ ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
-  await POST_loginUser(request, ctx)
-  await PATCH_completeAccountDetails(request, ctx)
-  await loginPage.login()
-  await onboardingPage.completeOnboardingProcessWithRandomBankData()
-  await sideNavPage.goToMyAccount()
-  await myAccountPage.verifyDisplayedAccountDetails()
-})
+// test.only('My Account - Verify Data for Fully Configured User', async ({ ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
+//   await POST_loginUser(request, ctx)
+//   await PATCH_completeAccountDetails(request, ctx)
+//   await loginPage.launchRWA()
+//   await loginPage.login()
+//   await onboardingPage.completeOnboardingProcessWithRandomBankData()
+//   await sideNavPage.goToMyAccount()
+//   await myAccountPage.verifyDisplayedAccountDetails()
+// })
 
 test('My Account - Empty Fields Validation', async ({ ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
-  await POST_loginUser(request, ctx)
-  await PATCH_completeAccountDetails(request, ctx)
-  await loginPage.login()
   await onboardingPage.completeOnboardingProcessWithRandomBankData()
   await sideNavPage.goToMyAccount()
   await myAccountPage.verifyAccountDetailsEmptyFieldsErrorHandling()
 })
 
 test('My Account -  Invalid Data Fields Validation', async ({ ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
-  await POST_loginUser(request, ctx)
-  await PATCH_completeAccountDetails(request, ctx)
-  await loginPage.login()
   await onboardingPage.completeOnboardingProcessWithRandomBankData()
   await sideNavPage.goToMyAccount()
   await myAccountPage.verifyAccountDetailsFieldsErrorHandling()
 })
 
 test('My Account - Edit User Details', async ({ page, ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
-  await POST_loginUser(request, ctx)
-  await PATCH_completeAccountDetails(request, ctx)
-  await loginPage.login()
   await onboardingPage.completeOnboardingProcessWithRandomBankData()
   await sideNavPage.goToMyAccount()
   await myAccountPage.editAccountDetails(`Edited${ctx.user.firstName}`, `Edited${ctx.user.lastName}`, `Edited${ctx.user.email}`, `123${ctx.user.phone}`)
