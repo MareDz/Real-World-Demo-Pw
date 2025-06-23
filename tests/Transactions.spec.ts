@@ -7,7 +7,6 @@ import { LoginPage } from '../pages/LoginPage'
 import { OnboardingPage } from '../pages/OnboardingPage'
 import { SideNavPage } from '../pages/SideNavPage'
 
-
 let ctxA: UserData
 let ctxB: UserData
 let loginPage: LoginPage
@@ -21,14 +20,14 @@ test.beforeAll(async () => {
 })
 
 test.beforeEach(async ({ page }) => {
-    ctxA = createUserData()
-    ctxB = createUserData()
+  ctxA = createUserData()
+  ctxB = createUserData()
 
   loginPage = new LoginPage(page, ctxA)
   onboardingPage = new OnboardingPage(page, ctxA)
   sideNavPage = new SideNavPage(page, ctxA)
 
- await loginPage.launchRWA()
+  await loginPage.launchRWA()
 })
 
 test.afterEach(async ({ page }) => {
@@ -36,19 +35,18 @@ test.afterEach(async ({ page }) => {
 })
 
 test('New Transaction - Empty Fields Validation', async ({ request, page }) => {
-  // Generate user 1 
+  // Generate user 1
   await GET_getNewUserData(ctxA)
   await POST_registerUser(request, ctxA)
   await loginPage.login()
   await onboardingPage.completeOnboardingProcessWithRandomBankData()
   await sideNavPage.logout()
- const user1Name = ctxA.user.firstName
+  const user1Name = ctxA.user.firstName
 
- // Generate user 2
- await loginPage.launchRWA()
- await GET_getNewUserData(ctxA)
+  // Generate user 2
+  await loginPage.launchRWA()
+  await GET_getNewUserData(ctxA)
   await POST_registerUser(request, ctxA)
   await loginPage.login()
   await onboardingPage.completeOnboardingProcessWithRandomBankData()
-
 })

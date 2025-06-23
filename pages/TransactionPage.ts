@@ -9,8 +9,5 @@ export class TransactionPage extends BasePage {
     super(page, ctx)
     this.page = page
     this.ctx = ctx
-
   }
-  
-
 }
