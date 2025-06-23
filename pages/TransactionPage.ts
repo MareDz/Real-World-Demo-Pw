@@ -146,6 +146,7 @@ export class TransactionPage extends BasePage {
    * - Reads the formatted amount from the input, removes formatting symbols (like "$", commas, ".00"),
    *   and parses it into a number.
    * - Logs the cleaned numeric value of the transaction amount.
+   * - Stores the cleaned numeric value in the test context (`ctx.bank.transactionAmmount`) for later use.
    * - If a `note` is provided:
    *   - Fills the note input field.
    *   - Asserts that the note field contains the expected value.
@@ -164,6 +165,8 @@ export class TransactionPage extends BasePage {
     const amountValue = await this.inp_amount.inputValue()
     const cleanedString = amountValue.replace('$', '').replace('.00', '')
     const transactionAmmountFormated = parseInt(cleanedString.replace(/,/g, ''), 10)
+
+    this.ctx.bank.transactionAmmount = transactionAmmountFormated
     console.log(`Transaction Amount is: ${transactionAmmountFormated}`)
 
     if (note) {

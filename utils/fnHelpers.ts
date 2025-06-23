@@ -157,3 +157,8 @@ export const getCurrentDateTimeAsNumbers = (): string => {
     const formatedAmount = `$${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
     return formatedAmount
   }
+
+  export function calculateAccountBalanceDecrease(amountBeforeTransaction: number, transactionAmount: number){
+    console.log('calculateAccountBalanceDecrease')
+
+  }

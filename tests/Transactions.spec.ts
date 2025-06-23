@@ -3,19 +3,25 @@ import { Base } from '../pages/Base'
 import { GET_getNewUserData, POST_createBankAccount, POST_loginUser, POST_registerUser } from '../utils/apiHelpers'
 import { createUserData, UserData } from '../state/UserModel'
 import { LoginPage } from '../pages/LoginPage'
-import { OnboardingPage } from '../pages/OnboardingPage'
 import { SideNavPage } from '../pages/SideNavPage'
 import { TransactionPage } from '../pages/TransactionPage'
 import { getBankName, getRoutingNumber, getAccountNumber } from '../utils/fnHelpers'
 import { TransactionListPage } from '../pages/TransactionListPage'
 
+// TODO:
+// Divide in Describe block complex and common test cases here
+
 let ctxA: UserData
 let ctxB: UserData
 let loginPage_A: LoginPage
-let onboardingPage_A: OnboardingPage
 let sideNavPage_A: SideNavPage
 let transactionPage_A: TransactionPage
 let transactionListPage_A: TransactionListPage
+
+let loginPage_B: LoginPage
+let sideNavPage_B: SideNavPage
+let transactionPage_B: TransactionPage
+let transactionListPage_B: TransactionListPage
 
 test.describe.configure({ mode: 'parallel' })
 
@@ -28,7 +34,6 @@ test.beforeEach(async ({ page, request }) => {
   ctxB = createUserData()
 
   loginPage_A = new LoginPage(page, ctxA)
-  onboardingPage_A = new OnboardingPage(page, ctxA)
   sideNavPage_A = new SideNavPage(page, ctxA)
   transactionPage_A = new TransactionPage(page, ctxA)
   transactionListPage_A = new TransactionListPage(page, ctxA)
@@ -148,4 +153,32 @@ test('New Transaction - Navigate to new transaction form  after submitting a req
   await transactionPage_A.verifyTargetUserCredentials(String(user2FirstName), String(user2LastName))
   await transactionPage_A.verifyTransactionMessage('Requested', 3500, 'Gift')
   await transactionPage_A.clickCreateAnotherTransaction()
+})
+
+test.only('New Transaction - Submit a payment and verify transaction details', async ({page}) => {
+  loginPage_B = new LoginPage(page, ctxB)
+  sideNavPage_B = new SideNavPage(page, ctxB)
+  transactionPage_B = new TransactionPage(page, ctxB)
+  transactionListPage_B = new TransactionListPage(page, ctxB)
+
+  const { username: user1Username, firstName: user1FirstName, lastName: user1LastName } = ctxA.user
+  const { username: user2Username, firstName: user2FirstName, lastName: user2LastName } = ctxB.user
+
+  // User 1
+  await loginPage_A.login()
+  await sideNavPage_A.getAccountBalance()
+  await sideNavPage_A.logout()
+
+  // User 2
+  await loginPage_B.login()
+  await sideNavPage_B.getAccountBalance()
+  await transactionPage_B.clickCreateAnotherTransaction()
+  await transactionPage_B.searchForUser(String(user1Username))
+  await transactionPage_B.clickOnUser(String(user1Username))
+  await transactionPage_B.fillUpAmmountAndAddNote(20, 'Testing 123')
+  await transactionPage_B.completeTransaction('Pay')
+  await transactionPage_B.verifyTargetUserCredentials(String(user1Username), String(user1Username))
+  
+
+
 })
