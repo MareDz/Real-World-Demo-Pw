@@ -7,11 +7,13 @@ export class TransactionPage extends BasePage {
   readonly btn_newTransaction: Locator
   readonly btn_pay: Locator
   readonly btn_request: Locator
+  readonly btn_returnToTransactions: Locator
   readonly inp_searchForUser: Locator
   readonly inp_amount: Locator
   readonly inp_addNote: Locator
   readonly lbl_errorAmount: Locator
   readonly lbl_errorAddNote: Locator
+  readonly lbl_successTransactionTaoastMessage: Locator
   readonly li_userList: Locator
 
   constructor(page: Page, ctx: UserData) {
@@ -21,11 +23,13 @@ export class TransactionPage extends BasePage {
     this.btn_newTransaction = page.locator("[data-test='nav-top-new-transaction']")
     this.btn_pay = page.locator("[data-test='transaction-create-submit-payment']")
     this.btn_request = page.locator("[data-test='transaction-create-submit-request']")
+    this.btn_newTransaction = page.locator("[data-test='new-transaction-return-to-transactions']")
     this.inp_searchForUser = page.locator('#user-list-search-input')
     this.inp_amount = page.locator('#amount')
     this.inp_addNote = page.locator('#transaction-create-description-input')
     this.lbl_errorAmount = page.locator('#transaction-create-amount-input-helper-text')
     this.lbl_errorAddNote = page.locator('#transaction-create-description-input-helper-text')
+    this.lbl_successTransactionTaoastMessage = page.locator("[data-test='alert-bar-success']")
     this.li_userList = page.locator("//ul[@data-test='users-list']")
   }
 
@@ -65,22 +69,26 @@ export class TransactionPage extends BasePage {
    */
   async verifyNoUsersFound() {
     console.log('NewTransactionPage - verifyNoUsersFound()')
-
     const li_userElement = this.li_userList.locator('//li')
     await expect(li_userElement).toHaveCount(0, { timeout: 10000 })
   }
 
   /**
-   * Clicks on a user from the user list by username and verifies
-   * that the correct first name and last name are displayed.
-   *
+   * Clicks on a user from the user list by username 
    * @param username - The username used to locate and click the user in the list.
+   */
+  async clickOnUser(username: string) {
+    console.log('NewTransactionPage - clickOnUser()')
+    await this.li_userList.locator(`//span[text()='${username}']`).click()
+  }
+
+  /**
+   * Verifies that the correct first name and last name are displayed.
    * @param firstName - The expected first name to be shown in the user detail view.
    * @param lastName - The expected last name to be shown in the user detail view.
    */
-  async clickOnUserAndVerifyDetails(username: string, firstName: String, lastName: string) {
-    console.log('NewTransactionPage - clickOnUserAndVerifyDetails()')
-    await this.li_userList.locator(`//span[text()='${username}']`).click()
+  async verifyTargetUserCredentials(firstName: String, lastName: string){
+    console.log('NewTransactionPage - verifyTargetUserCredentials()')
 
     const lbl_firstName = this.page.locator(`//h2[text()='${firstName}']`)
     const lbl_lastName = this.page.locator(`//h2[text()='${lastName}']`)
@@ -128,16 +136,101 @@ export class TransactionPage extends BasePage {
     await expect(this.btn_pay).toBeEnabled()
   }
 
-  async fillUpAmmountAndNote(amount: string, note?: string) {
-    console.log('NewTransactionPage - fillUpAmmountAndNote()')
+/**
+ * Fills in the transaction amount and optionally a note for a new transaction.
+ *
+ * - Enters the provided `amount` into the transaction amount input field.
+ * - Reads the formatted amount from the input, removes formatting symbols (like "$", commas, ".00"),
+ *   and parses it into a number.
+ * - Logs the cleaned numeric value of the transaction amount.
+ * - If a `note` is provided:
+ *   - Fills the note input field.
+ *   - Asserts that the note field contains the expected value.
+ *   - Logs the note value.
+ *
+ * This helps ensure that both amount and optional note inputs are correctly filled
+ * and stored in a consistent, clean format for further validation or processing.
+ *
+ * @param amount - The amount to be entered in the transaction form, as a string (e.g., "1,234").
+ * @param note - (Optional) A short text note to include with the transaction.
+ */
+  async fillUpAmmountAndAddNote(amount: number, note?: string) {
+    console.log('NewTransactionPage - fillUpAmmountAndAddNote()')
 
-    await this.inp_amount.fill(amount)
-    
+    await this.inp_amount.fill(String(amount))
     const amountValue = await this.inp_amount.inputValue()
-    
+    const cleanedString = amountValue.replace('$', '').replace('.00', '')
+    const transactionAmmountFormated = parseInt(cleanedString.replace(/,/g, ''), 10)
+    console.log(`Transaction Amount is: ${transactionAmmountFormated}`)
+
     if(note){
       await this.inp_addNote.fill(note)
       await this.fillAndAssert(this.inp_addNote, note)
+      console.log(`Transaction Note is: ${note}`)
     }
   }
+
+/**
+ * Submits a transaction of the specified type (`'Pay'` or `'Request'`) and verifies success.
+ *
+ * - Clicks the appropriate transaction button based on the `transactionType`.
+ * - Asserts that a success toast message is displayed after submission.
+ *
+ * @param transactionType - The type of transaction to perform: `'Pay'` or `'Request'`.
+ */
+async completeTransaction(transactionType: 'Request' | 'Pay') {
+  console.log('NewTransactionPage - completeTransaction()')
+
+  const button = transactionType === 'Request' ? this.btn_request : this.btn_pay
+  await button.click()
+
+  await this.assertInnerText(this.lbl_successTransactionTaoastMessage, 'Transaction Submitted!')
+}
+
+
+/**
+ * Formats a number into a currency string with dollar sign, commas and 2 decimals.
+ *
+ * @param amount - The numeric amount to format.
+ * @returns The formatted currency string, e.g. "$55,341,124.00".
+ */
+ formatCurrency(amount: number): string {
+  console.log('formatCurrency')
+
+  const formatedAmount = `$${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+  return formatedAmount
+}
+
+/**
+ * Verifies the transaction confirmation message shown to the user.
+ *
+ * Example expected format:
+ *   - "Paid $1,000.00 for Lunch"
+ *   - "Requested $250.00 for Groceries"
+ *
+ * This method strictly checks that the full message matches the expected action,
+ * amount, and note.
+ *
+ * @param action - The transaction type, either "Paid" or "Requested".
+ * @param amount - The numeric transaction amount.
+ * @param note - The note associated with the transaction.
+ */
+async verifyTransactionMessage(action: 'Paid' | 'Requested', amount: number, note: string) {
+  console.log('NewTransactionPage - verifyTransactionMessage()')
+
+  const formattedAmount = this.formatCurrency(amount)
+
+  const locator = this.page.locator("//main[@data-test='main']//h2").last()
+  const actualText = await locator.innerText()
+
+  const expectedText = `${action} ${formattedAmount} for ${note}`
+  expect(actualText).toBe(expectedText)
+}
+
+async clickReturnOnTransactions() {
+  console.log('NewTransactionPage - clickReturnOnTransactions()')
+  await this.btn_returnToTransactions.click()
+}
+
+  
 }

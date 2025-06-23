@@ -35,7 +35,6 @@ test.beforeEach(async ({ page, request }) => {
   await POST_registerUser(request, ctxA)
   await POST_loginUser(request, ctxA)
   await POST_createBankAccount(request, ctxA, getBankName(), getRoutingNumber(), getAccountNumber())
-
   // Generate user 2
   await GET_getNewUserData(ctxB)
   await POST_registerUser(request, ctxB)
@@ -55,10 +54,10 @@ test('New Transaction - Empty Fields Validation - Demo v1', async () => {
   // Login UI User 1
   await loginPage_A.login()
   await transactionPage_A.clickCreateNewTransaction()
-
   // Search for user 2
   await transactionPage_A.searchForUser(String(user2Username))
-  await transactionPage_A.clickOnUserAndVerifyDetails(String(user2Username), String(user2FirstName), String(user2LastName))
+  await transactionPage_A.clickOnUser(String(user2Username))
+  await transactionPage_A.verifyTargetUserCredentials(String(user2FirstName), String(user2LastName))
   await transactionPage_A.verifyActionsAreDisabled()
   await transactionPage_A.verifyTransactionEmptyFieldsErrorHandling()
 })
@@ -70,11 +69,10 @@ test('New Transaction - Empty Fields Validation - Demo v2', async () => {
   // Login UI User 1
   await loginPage_A.login(true, user1Username, user1password)
   await transactionPage_A.clickCreateNewTransaction()
-
   // Search for User 2
   await transactionPage_A.searchForUser(String(user2Username))
-  await transactionPage_A.clickOnUserAndVerifyDetails(String(user2Username), String(user2FirstName), String(user2LastName))
-
+  await transactionPage_A.clickOnUser(String(user2Username))
+  await transactionPage_A.verifyTargetUserCredentials(String(user2FirstName), String(user2LastName))
   // Verify Input Error Handling
   await transactionPage_A.verifyActionsAreDisabled()
   await transactionPage_A.verifyTransactionEmptyFieldsErrorHandling()
@@ -94,5 +92,10 @@ test.only('New Transaction - Navigate to all transactions after submitting a pay
   await loginPage_A.login()
   await transactionPage_A.clickCreateNewTransaction()
   await transactionPage_A.searchForUser(String(user2Username))
-
+  await transactionPage_A.clickOnUser(String(user2Username))
+  await transactionPage_A.verifyTargetUserCredentials(String(user2FirstName), String(user2LastName))
+  await transactionPage_A.fillUpAmmountAndAddNote(3500, 'Gift')
+  await transactionPage_A.completeTransaction('Pay')
+  await transactionPage_A.verifyTargetUserCredentials(String(user2FirstName), String(user2LastName))
+  await transactionPage_A.verifyTransactionMessage('Paid', 3500, 'Gift')
 })

@@ -11,6 +11,7 @@ export class SideNavPage extends BasePage {
   readonly btn_notifications: Locator
   readonly btn_logout: Locator
   readonly lbl_moduleName: Locator
+  readonly lbl_accountBalance: Locator
   readonly dom_sideNavVisibility: Locator
 
   constructor(page: Page, ctx: UserData) {
@@ -24,6 +25,7 @@ export class SideNavPage extends BasePage {
     this.btn_notifications = page.locator("[data-test='sidenav-notifications']")
     this.btn_logout = page.locator("[data-test='sidenav-signout']")
     this.lbl_moduleName = page.locator('//div/h2').first()
+    this.lbl_accountBalance = page.locator("[data-test='sidenav-user-balance']")
     this.dom_sideNavVisibility = page.locator("//div[@data-test='sidenav']//div[1]")
   }
 
@@ -88,5 +90,28 @@ export class SideNavPage extends BasePage {
     console.log('SideNavPage - logout()')
     await this.btn_logout.click()
     await this.assertTitleAndUrl('Cypress Real World App', 'signin')
+  }
+
+/**
+ * Retrieves and parses the user's current account balance from the UI,
+ * then stores the value in the test context (`ctx.bank.balance`).
+ *
+ * - Reads the visible balance text (e.g., "$1,234.00")
+ * - Removes the dollar sign, commas, and decimal portion
+ * - Parses the cleaned string into an integer
+ * - Saves the result to the shared test context for later assertions or usage
+ *
+ * Example:
+ *   "$1,234.00" → 1234
+ */
+  async getAccountBalance() {
+    console.log('SideNavPage - getAccountBalance()')
+
+    const accountBalance = await this.lbl_accountBalance.innerText()
+    const cleanedString = accountBalance.replace('$', '').replace('.00', '')
+    const accountBalanceFormated = parseInt(cleanedString.replace(/,/g, ''), 10)
+
+    console.log(`Account Balance is: ${accountBalanceFormated}`)
+    this.ctx.bank.balance = accountBalanceFormated
   }
 }
