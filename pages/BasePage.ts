@@ -41,10 +41,14 @@ export class BasePage extends Base {
     this.lbl_currentUserUsername = page.locator("[data-test='sidenav-username']")
   }
 
-  /**
-   * Verifies that appropriate error messages are displayed when the bank account fields are empty.
-   * Verifies that the Save button is disabled when fields are empty and enabled only when all fields have valid data.
-   */
+/**
+ * Verifies validation and button state behavior on the "Create Bank Account" form when fields are empty or invalid.
+ * 
+ * - Checks that error messages are displayed for empty or incorrectly filled fields (bank name, routing number, account number).
+ * - Ensures the "Save" button remains disabled until all fields are filled with valid input.
+ * - Validates that error messages disappear once valid data is entered.
+ * - Confirms the "Save" button is enabled only after all inputs are correctly filled.
+ */
   async verifyBankAccountEmptyFieldErrorHandling() {
     console.log('BasePage - verifyBankAccountEmptyFieldErrorHandling()')
 
@@ -75,12 +79,20 @@ export class BasePage extends Base {
   }
 
   /**
+ * Verifies error validation messages and "Save" button state for invalid inputs 
+ * on the "Create Bank Account" form.
+ *
+ * - Ensures that appropriate validation errors are shown when:
+ *   - Bank name is too short
+ *   - Routing number is not exactly 9 digits
+ *   - Account number is too short or too long
+ * - Verifies that the "Save" button remains disabled while inputs are invalid.
+ * - Confirms that valid inputs remove error messages and enable the "Save" button.
+ *
    * BUG - number of maximum characters is not set for 'Bank Name' input
    * BUG - fields accepts empty string
-   *
-   * Verifies that every field accepts only the defined number of characters, and checks error messages for each field.
-   * Verifies that the Save button is disabled if any field has an error and enabled only when all fields have valid data.
-   */
+    */
+
   async verifyBankAccountInvalidInputErrors() {
     console.log('BasePage - verifyBankAccountInvalidInputErrors()')
 
