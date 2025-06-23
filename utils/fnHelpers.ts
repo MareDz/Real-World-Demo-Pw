@@ -144,3 +144,16 @@ export const getCurrentDateTimeAsNumbers = (): string => {
 
   return formattedDateTime
 }
+
+  /**
+   * Formats a number into a currency string with dollar sign, commas and 2 decimals.
+   *
+   * @param amount - The numeric amount to format.
+   * @returns The formatted currency string, e.g. "$55,341,124.00".
+   */
+  export function formatCurrency(amount: number): string {
+    console.log('formatCurrency')
+
+    const formatedAmount = `$${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+    return formatedAmount
+  }

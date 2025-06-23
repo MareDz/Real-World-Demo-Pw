@@ -1,6 +1,7 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { BasePage } from './BasePage'
 import { UserData } from '../state/UserModel'
+import { formatCurrency } from '../utils/fnHelpers'
 
 export class TransactionPage extends BasePage {
   readonly page: Page
@@ -190,19 +191,6 @@ export class TransactionPage extends BasePage {
   }
 
   /**
-   * Formats a number into a currency string with dollar sign, commas and 2 decimals.
-   *
-   * @param amount - The numeric amount to format.
-   * @returns The formatted currency string, e.g. "$55,341,124.00".
-   */
-  formatCurrency(amount: number): string {
-    console.log('formatCurrency')
-
-    const formatedAmount = `$${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
-    return formatedAmount
-  }
-
-  /**
    * Verifies the transaction confirmation message shown to the user.
    *
    * Example expected format:
@@ -219,7 +207,7 @@ export class TransactionPage extends BasePage {
   async verifyTransactionMessage(action: 'Paid' | 'Requested', amount: number, note: string) {
     console.log('NewTransactionPage - verifyTransactionMessage()')
 
-    const formattedAmount = this.formatCurrency(amount)
+    const formattedAmount = formatCurrency(amount)
 
     const locator = this.page.locator("//main[@data-test='main']//h2").last()
     const actualText = await locator.innerText()
