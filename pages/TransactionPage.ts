@@ -127,4 +127,17 @@ export class TransactionPage extends BasePage {
     await expect(this.btn_request).toBeEnabled()
     await expect(this.btn_pay).toBeEnabled()
   }
+
+  async fillUpAmmountAndNote(amount: string, note?: string) {
+    console.log('NewTransactionPage - fillUpAmmountAndNote()')
+
+    await this.inp_amount.fill(amount)
+    
+    const amountValue = await this.inp_amount.inputValue()
+    
+    if(note){
+      await this.inp_addNote.fill(note)
+      await this.fillAndAssert(this.inp_addNote, note)
+    }
+  }
 }
