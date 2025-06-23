@@ -92,18 +92,18 @@ export class SideNavPage extends BasePage {
     await this.assertTitleAndUrl('Cypress Real World App', 'signin')
   }
 
-/**
- * Retrieves and parses the user's current account balance from the UI,
- * then stores the value in the test context (`ctx.bank.balance`).
- *
- * - Reads the visible balance text (e.g., "$1,234.00")
- * - Removes the dollar sign, commas, and decimal portion
- * - Parses the cleaned string into an integer
- * - Saves the result to the shared test context for later assertions or usage
- *
- * Example:
- *   "$1,234.00" → 1234
- */
+  /**
+   * Retrieves and parses the user's current account balance from the UI,
+   * then stores the value in the test context (`ctx.bank.balance`).
+   *
+   * - Reads the visible balance text (e.g., "$1,234.00")
+   * - Removes the dollar sign, commas, and decimal portion
+   * - Parses the cleaned string into an integer
+   * - Saves the result to the shared test context for later assertions or usage
+   *
+   * Example:
+   *   "$1,234.00" → 1234
+   */
   async getAccountBalance() {
     console.log('SideNavPage - getAccountBalance()')
 

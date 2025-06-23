@@ -7,6 +7,7 @@ import { OnboardingPage } from '../pages/OnboardingPage'
 import { SideNavPage } from '../pages/SideNavPage'
 import { TransactionPage } from '../pages/TransactionPage'
 import { getBankName, getRoutingNumber, getAccountNumber } from '../utils/fnHelpers'
+import { TransactionListPage } from '../pages/TransactionListPage'
 
 let ctxA: UserData
 let ctxB: UserData
@@ -14,6 +15,7 @@ let loginPage_A: LoginPage
 let onboardingPage_A: OnboardingPage
 let sideNavPage_A: SideNavPage
 let transactionPage_A: TransactionPage
+let transactionListPage_A: TransactionListPage
 
 test.describe.configure({ mode: 'parallel' })
 
@@ -29,6 +31,7 @@ test.beforeEach(async ({ page, request }) => {
   onboardingPage_A = new OnboardingPage(page, ctxA)
   sideNavPage_A = new SideNavPage(page, ctxA)
   transactionPage_A = new TransactionPage(page, ctxA)
+  transactionListPage_A = new TransactionListPage(page, ctxA)
 
   // Generate user 1
   await GET_getNewUserData(ctxA)
@@ -85,8 +88,7 @@ test('New Transaction - Search for non-existing user', async () => {
   await transactionPage_A.verifyNoUsersFound()
 })
 
-test.only('New Transaction - Navigate to all transactions after submitting a payment', async ({ request }) => {
-  const { username: user1Username, firstName: user1FirstName, lastName: user1LastName } = ctxA.user
+test('New Transaction - Navigate to all transactions after submitting a payment', async () => {
   const { username: user2Username, firstName: user2FirstName, lastName: user2LastName } = ctxB.user
 
   await loginPage_A.login()
@@ -98,4 +100,52 @@ test.only('New Transaction - Navigate to all transactions after submitting a pay
   await transactionPage_A.completeTransaction('Pay')
   await transactionPage_A.verifyTargetUserCredentials(String(user2FirstName), String(user2LastName))
   await transactionPage_A.verifyTransactionMessage('Paid', 3500, 'Gift')
+  await transactionPage_A.clickReturnOnTransactions()
+  await transactionListPage_A.verifyActiveTab('Everyone')
+})
+
+test('New Transaction - Navigate to all transactions after submitting a request', async () => {
+  const { username: user2Username, firstName: user2FirstName, lastName: user2LastName } = ctxB.user
+
+  await loginPage_A.login()
+  await transactionPage_A.clickCreateNewTransaction()
+  await transactionPage_A.searchForUser(String(user2Username))
+  await transactionPage_A.clickOnUser(String(user2Username))
+  await transactionPage_A.verifyTargetUserCredentials(String(user2FirstName), String(user2LastName))
+  await transactionPage_A.fillUpAmmountAndAddNote(3500, 'Gift')
+  await transactionPage_A.completeTransaction('Request')
+  await transactionPage_A.verifyTargetUserCredentials(String(user2FirstName), String(user2LastName))
+  await transactionPage_A.verifyTransactionMessage('Requested', 3500, 'Gift')
+  await transactionPage_A.clickReturnOnTransactions()
+  await transactionListPage_A.verifyActiveTab('Everyone')
+})
+
+test('New Transaction - Navigate to new transaction form after submitting a payment', async () => {
+  const { username: user2Username, firstName: user2FirstName, lastName: user2LastName } = ctxB.user
+
+  await loginPage_A.login()
+  await transactionPage_A.clickCreateNewTransaction()
+  await transactionPage_A.searchForUser(String(user2Username))
+  await transactionPage_A.clickOnUser(String(user2Username))
+  await transactionPage_A.verifyTargetUserCredentials(String(user2FirstName), String(user2LastName))
+  await transactionPage_A.fillUpAmmountAndAddNote(3500, 'Gift')
+  await transactionPage_A.completeTransaction('Pay')
+  await transactionPage_A.verifyTargetUserCredentials(String(user2FirstName), String(user2LastName))
+  await transactionPage_A.verifyTransactionMessage('Paid', 3500, 'Gift')
+  await transactionPage_A.clickCreateAnotherTransaction()
+})
+
+test('New Transaction - Navigate to new transaction form  after submitting a request', async () => {
+  const { username: user2Username, firstName: user2FirstName, lastName: user2LastName } = ctxB.user
+
+  await loginPage_A.login()
+  await transactionPage_A.clickCreateNewTransaction()
+  await transactionPage_A.searchForUser(String(user2Username))
+  await transactionPage_A.clickOnUser(String(user2Username))
+  await transactionPage_A.verifyTargetUserCredentials(String(user2FirstName), String(user2LastName))
+  await transactionPage_A.fillUpAmmountAndAddNote(3500, 'Gift')
+  await transactionPage_A.completeTransaction('Request')
+  await transactionPage_A.verifyTargetUserCredentials(String(user2FirstName), String(user2LastName))
+  await transactionPage_A.verifyTransactionMessage('Requested', 3500, 'Gift')
+  await transactionPage_A.clickCreateAnotherTransaction()
 })
