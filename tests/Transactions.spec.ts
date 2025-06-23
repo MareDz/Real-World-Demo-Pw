@@ -10,10 +10,10 @@ import { getBankName, getRoutingNumber, getAccountNumber } from '../utils/fnHelp
 
 let ctxA: UserData
 let ctxB: UserData
-let loginPage: LoginPage
-let onboardingPage: OnboardingPage
-let sideNavPage: SideNavPage
-let transactionPage: TransactionPage
+let loginPage_A: LoginPage
+let onboardingPage_A: OnboardingPage
+let sideNavPage_A: SideNavPage
+let transactionPage_A: TransactionPage
 
 test.describe.configure({ mode: 'parallel' })
 
@@ -21,78 +21,78 @@ test.beforeAll(async () => {
   Base.initializeEnvironmentCRWA()
 })
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, request }) => {
   ctxA = createUserData()
   ctxB = createUserData()
 
-  loginPage = new LoginPage(page, ctxA)
-  onboardingPage = new OnboardingPage(page, ctxA)
-  sideNavPage = new SideNavPage(page, ctxA)
-  transactionPage = new TransactionPage(page, ctxA)
+  loginPage_A = new LoginPage(page, ctxA)
+  onboardingPage_A = new OnboardingPage(page, ctxA)
+  sideNavPage_A = new SideNavPage(page, ctxA)
+  transactionPage_A = new TransactionPage(page, ctxA)
 
-  await loginPage.launchRWA()
+  // Generate user 1
+  await GET_getNewUserData(ctxA)
+  await POST_registerUser(request, ctxA)
+  await POST_loginUser(request, ctxA)
+  await POST_createBankAccount(request, ctxA, getBankName(), getRoutingNumber(), getAccountNumber())
+
+  // Generate user 2
+  await GET_getNewUserData(ctxB)
+  await POST_registerUser(request, ctxB)
+  await POST_loginUser(request, ctxB)
+  await POST_createBankAccount(request, ctxB, getBankName(), getRoutingNumber(), getAccountNumber())
+
+  await loginPage_A.launchRWA()
 })
 
 test.afterEach(async ({ page }) => {
   await page.close()
 })
 
-test('New Transaction - Empty Fields Validation - Demo v1', async ({ request }) => {
-  // Generate user 1
-  await GET_getNewUserData(ctxA)
-  await POST_registerUser(request, ctxA)
-  await loginPage.login()
-  await onboardingPage.completeOnboardingProcessWithRandomBankData()
-  await sideNavPage.logout()
+test('New Transaction - Empty Fields Validation - Demo v1', async () => {
+  const { username: user2Username, firstName: user2FirstName, lastName: user2LastName } = ctxB.user
 
-  const { username: user1Username, firstName: user1FirstName, lastName: user1LastName } = ctxA.user
+  // Login UI User 1
+  await loginPage_A.login()
+  await transactionPage_A.clickCreateNewTransaction()
 
-  // Generate user 2
-  await loginPage.launchRWA()
-  await GET_getNewUserData(ctxA)
-  await POST_registerUser(request, ctxA)
-  await loginPage.login()
-  await onboardingPage.completeOnboardingProcessWithRandomBankData()
-  await transactionPage.clickCreateNewTransaction()
-
-  // Search for user 1
-  await transactionPage.searchForUser(String(user1Username))
-  await transactionPage.clickOnUserAndVerifyDetails(String(user1Username), String(user1FirstName), String(user1LastName))
-  await transactionPage.verifyActionsAreDisabled()
-  await transactionPage.verifyTransactionEmptyFieldsErrorHandling()
+  // Search for user 2
+  await transactionPage_A.searchForUser(String(user2Username))
+  await transactionPage_A.clickOnUserAndVerifyDetails(String(user2Username), String(user2FirstName), String(user2LastName))
+  await transactionPage_A.verifyActionsAreDisabled()
+  await transactionPage_A.verifyTransactionEmptyFieldsErrorHandling()
 })
 
-test('New Transaction - Empty Fields Validation - Demo v2', async ({ request }) => {
-  // Create User 1
-  await GET_getNewUserData(ctxA)
-  await POST_registerUser(request, ctxA)
-  // Create User 2
-  await GET_getNewUserData(ctxB)
-  await POST_registerUser(request, ctxB)
-
+test('New Transaction - Empty Fields Validation - Demo v2', async () => {
   const { username: user1Username, password: user1password } = ctxA.user
   const { username: user2Username, firstName: user2FirstName, lastName: user2LastName } = ctxB.user
 
   // Login UI User 1
-  await loginPage.login(true, user1Username, user1password)
-  await onboardingPage.completeOnboardingProcessWithRandomBankData()
-  await transactionPage.clickCreateNewTransaction()
+  await loginPage_A.login(true, user1Username, user1password)
+  await transactionPage_A.clickCreateNewTransaction()
 
   // Search for User 2
-  await transactionPage.searchForUser(String(user2Username))
-  await transactionPage.clickOnUserAndVerifyDetails(String(user2Username), String(user2FirstName), String(user2LastName))
+  await transactionPage_A.searchForUser(String(user2Username))
+  await transactionPage_A.clickOnUserAndVerifyDetails(String(user2Username), String(user2FirstName), String(user2LastName))
 
   // Verify Input Error Handling
-  await transactionPage.verifyActionsAreDisabled()
-  await transactionPage.verifyTransactionEmptyFieldsErrorHandling()
+  await transactionPage_A.verifyActionsAreDisabled()
+  await transactionPage_A.verifyTransactionEmptyFieldsErrorHandling()
 })
 
-test('New Transaction - Search for non-existing user', async ({ request }) => {
-  await GET_getNewUserData(ctxA)
-  await POST_registerUser(request, ctxA)
-  await loginPage.login()
-  await onboardingPage.completeOnboardingProcessWithRandomBankData()
-  await transactionPage.clickCreateNewTransaction()
-  await transactionPage.searchForUser('asdasd121424124sdqsdf!@#!@$12422')
-  await transactionPage.verifyNoUsersFound()
+test('New Transaction - Search for non-existing user', async () => {
+  await loginPage_A.login()
+  await transactionPage_A.clickCreateNewTransaction()
+  await transactionPage_A.searchForUser('asdasd121424124sdqsdf!@#!@$12422')
+  await transactionPage_A.verifyNoUsersFound()
+})
+
+test.only('New Transaction - Navigate to all transactions after submitting a payment', async ({ request }) => {
+  const { username: user1Username, firstName: user1FirstName, lastName: user1LastName } = ctxA.user
+  const { username: user2Username, firstName: user2FirstName, lastName: user2LastName } = ctxB.user
+
+  await loginPage_A.login()
+  await transactionPage_A.clickCreateNewTransaction()
+  await transactionPage_A.searchForUser(String(user2Username))
+
 })
