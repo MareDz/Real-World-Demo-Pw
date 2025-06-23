@@ -24,12 +24,12 @@ export class TransactionPage extends BasePage {
     this.inp_searchForUser = page.locator('#user-list-search-input')
     this.inp_amount = page.locator('#amount')
     this.inp_addNote = page.locator('#transaction-create-description-input')
-    this.lbl_errorAmount = page.locator("#transaction-create-amount-input-helper-text")
-    this.lbl_errorAddNote = page.locator("#transaction-create-description-input-helper-text")
+    this.lbl_errorAmount = page.locator('#transaction-create-amount-input-helper-text')
+    this.lbl_errorAddNote = page.locator('#transaction-create-description-input-helper-text')
     this.li_userList = page.locator("//ul[@data-test='users-list']")
   }
 
-    /**
+  /**
    * Navigates to the "Create New Transaction" page by clicking the associated button.
    *
    * This method performs the following actions:
@@ -44,7 +44,7 @@ export class TransactionPage extends BasePage {
     await expect(this.page).toHaveURL(/.*transaction\/new.*/)
   }
 
-    /**
+  /**
    * Searches for a user by their username and selects them from the list of results.
    *
    * This method performs the following actions:
@@ -59,18 +59,29 @@ export class TransactionPage extends BasePage {
   }
 
   /**
- * Clicks on a user from the user list by username and verifies
- * that the correct first name and last name are displayed.
- *
- * @param username - The username used to locate and click the user in the list.
- * @param firstName - The expected first name to be shown in the user detail view.
- * @param lastName - The expected last name to be shown in the user detail view.
- */
-  async clickOnUserAndVerifyDetails(username: string, firstName: String, lastName: string){
+   * Verify that 0 results are displayed in user list
+   * Fixed w8 is here just to make sure that test is not flaky, we're running code on Local and Pw is blazing fast.
+   *        Because of this FE can't response that fast when filtering table
+   */
+  async verifyNoUsersFound() {
+    console.log('NewTransactionPage - verifyNoUsersFound()')
+
+    const li_userElement = this.li_userList.locator('//li')
+    await expect(li_userElement).toHaveCount(0, { timeout: 10000 })
+  }
+
+  /**
+   * Clicks on a user from the user list by username and verifies
+   * that the correct first name and last name are displayed.
+   *
+   * @param username - The username used to locate and click the user in the list.
+   * @param firstName - The expected first name to be shown in the user detail view.
+   * @param lastName - The expected last name to be shown in the user detail view.
+   */
+  async clickOnUserAndVerifyDetails(username: string, firstName: String, lastName: string) {
     console.log('NewTransactionPage - clickOnUserAndVerifyDetails()')
     await this.li_userList.locator(`//span[text()='${username}']`).click()
 
-    // Verify User Fn and Ln
     const lbl_firstName = this.page.locator(`//h2[text()='${firstName}']`)
     const lbl_lastName = this.page.locator(`//h2[text()='${lastName}']`)
     await expect(lbl_firstName).toBeVisible()
@@ -78,24 +89,23 @@ export class TransactionPage extends BasePage {
   }
 
   /**
- * Verifies that the "Request" and "Pay" buttons are disabled.
- */
+   * Verifies that the "Request" and "Pay" buttons are disabled.
+   */
   async verifyActionsAreDisabled() {
     console.log('NewTransactionPage - verifyActionsAreDisabled()')
     await expect(this.btn_request).toBeDisabled()
     await expect(this.btn_pay).toBeDisabled()
   }
 
-
-/**
- * Verifies error handling and button states when required transaction fields are empty or invalid.
- * 
- * - Checks that appropriate error messages are shown for the amount and note fields when left empty.
- * - Ensures that the "Request" and "Pay" buttons remain disabled until all required fields are filled with valid data.
- * - Verifies that once valid input is provided (e.g., a numeric amount and note), errors disappear and actions become enabled.
- *
- * Note: Uses `.fill()` on the amount field without assertion because the UI includes a currency format (e.g., "$[amount]").
- */
+  /**
+   * Verifies error handling and button states when required transaction fields are empty or invalid.
+   *
+   * - Checks that appropriate error messages are shown for the amount and note fields when left empty.
+   * - Ensures that the "Request" and "Pay" buttons remain disabled until all required fields are filled with valid data.
+   * - Verifies that once valid input is provided (e.g., a numeric amount and note), errors disappear and actions become enabled.
+   *
+   * Note: Uses `.fill()` on the amount field without assertion because the UI includes a currency format (e.g., "$[amount]").
+   */
   async verifyTransactionEmptyFieldsErrorHandling() {
     console.log('NewTransactionPage - verifyTransactionEmptyFieldsErrorHandling()')
 
@@ -107,7 +117,7 @@ export class TransactionPage extends BasePage {
     await this.assertInnerText(this.lbl_errorAddNote, 'Please enter a note')
     await this.verifyActionsAreDisabled()
 
-    await this.inp_amount.fill('5') 
+    await this.inp_amount.fill('5')
     await expect(this.lbl_errorAmount).toHaveCount(0)
     await this.verifyActionsAreDisabled()
 
