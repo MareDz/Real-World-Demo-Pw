@@ -52,14 +52,20 @@ export class TransactionPage extends BasePage {
    * - Searches the user list for a matching username and clicks the corresponding user entry.
    *
    * @param username - The username of the user to search for.
-   *
-   * @throws If the specified username is not found in the user list, the method will fail at the selection step.
-   */
+   *   */
   async searchForUser(username: string) {
     console.log('NewTransactionPage - searchForUser()')
     await this.fillAndAssert(this.inp_searchForUser, username)
   }
 
+  /**
+ * Clicks on a user from the user list by username and verifies
+ * that the correct first name and last name are displayed.
+ *
+ * @param username - The username used to locate and click the user in the list.
+ * @param firstName - The expected first name to be shown in the user detail view.
+ * @param lastName - The expected last name to be shown in the user detail view.
+ */
   async clickOnUserAndVerifyDetails(username: string, firstName: String, lastName: string){
     console.log('NewTransactionPage - clickOnUserAndVerifyDetails()')
     await this.li_userList.locator(`//span[text()='${username}']`).click()
@@ -71,6 +77,9 @@ export class TransactionPage extends BasePage {
     await expect(lbl_lastName).toBeVisible()
   }
 
+  /**
+ * Verifies that the "Request" and "Pay" buttons are disabled.
+ */
   async verifyActionsAreDisabled() {
     console.log('NewTransactionPage - verifyActionsAreDisabled()')
     await expect(this.btn_request).toBeDisabled()
@@ -78,10 +87,15 @@ export class TransactionPage extends BasePage {
   }
 
 
-  /**
-   * Verifies that appropriate error messages are displayed when requiered fields are empty
-   * Verifies that the Request and Pay buttons are disabled when fields are empty and enabled only when all fields have valid data.
-   */
+/**
+ * Verifies error handling and button states when required transaction fields are empty or invalid.
+ * 
+ * - Checks that appropriate error messages are shown for the amount and note fields when left empty.
+ * - Ensures that the "Request" and "Pay" buttons remain disabled until all required fields are filled with valid data.
+ * - Verifies that once valid input is provided (e.g., a numeric amount and note), errors disappear and actions become enabled.
+ *
+ * Note: Uses `.fill()` on the amount field without assertion because the UI includes a currency format (e.g., "$[amount]").
+ */
   async verifyTransactionEmptyFieldsErrorHandling() {
     console.log('NewTransactionPage - verifyTransactionEmptyFieldsErrorHandling()')
 
@@ -93,7 +107,7 @@ export class TransactionPage extends BasePage {
     await this.assertInnerText(this.lbl_errorAddNote, 'Please enter a note')
     await this.verifyActionsAreDisabled()
 
-    await this.inp_amount.fill('5') // Note: use pw fill w/o assertion because regex is requiered so that $[amount] can be verified. Maybe add this part of logic too.
+    await this.inp_amount.fill('5') 
     await expect(this.lbl_errorAmount).toHaveCount(0)
     await this.verifyActionsAreDisabled()
 
