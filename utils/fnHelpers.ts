@@ -145,48 +145,48 @@ export const getCurrentDateTimeAsNumbers = (): string => {
   return formattedDateTime
 }
 
-  /**
-   * Formats a number into a currency string with dollar sign, commas and 2 decimals.
-   *
-   * @param amount - The numeric amount to format.
-   * @returns The formatted currency string, e.g. "$55,341,124.00".
-   */
-  export function formatCurrency(amount: number): string {
-    console.log('formatCurrency')
+/**
+ * Formats a number into a currency string with dollar sign, commas and 2 decimals.
+ *
+ * @param amount - The numeric amount to format.
+ * @returns The formatted currency string, e.g. "$55,341,124.00".
+ */
+export function formatCurrency(amount: number): string {
+  console.log('formatCurrency')
 
-    const formatedAmount = `$${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
-    return formatedAmount
-  }
+  const formatedAmount = `$${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+  return formatedAmount
+}
 
-  /**
-   * Verifies that the user's account balance has been correctly updated after making a payment.
-   *
-   * - Subtracts the transaction amount from the account balance before the payment.
-   * - Compares the calculated expected balance with the actual current balance.
-   * - Fails the test if the values do not match.
-   *
-   * @param accountBalanceBeforeTransaction - The user's account balance before making the payment.
-   * @param transactionAmount - The amount that was paid in the transaction.
-   * @param currentBalance - The current balance fetched after the payment.
-   */
-  export function verifyBalanceChangeAfterPaying(accountBalanceBeforeTransaction: number, transactionAmount: number, currentBalance: number){
-    console.log('verifyBalanceChangeAfterPaying')
+/**
+ * Verifies that the user's account balance has been correctly updated after making a payment.
+ *
+ * - Subtracts the transaction amount from the account balance before the payment.
+ * - Compares the calculated expected balance with the actual current balance.
+ * - Fails the test if the values do not match.
+ *
+ * @param accountBalanceBeforeTransaction - The user's account balance before making the payment.
+ * @param transactionAmount - The amount that was paid in the transaction.
+ * @param currentBalance - The current balance fetched after the payment.
+ */
+export function verifyBalanceChangeAfterPaying(accountBalanceBeforeTransaction: number, transactionAmount: number, currentBalance: number) {
+  console.log('verifyBalanceChangeAfterPaying')
 
-    expect(accountBalanceBeforeTransaction-transactionAmount).toBe(currentBalance)
-  }
+  expect(accountBalanceBeforeTransaction - transactionAmount).toBe(currentBalance)
+}
 
-  /**
-   * Verifies that the user's account balance has increased correctly after receiving a payment.
-   *
-   * This function checks whether the current account balance is equal to the expected balance,
-   * which is calculated by adding the transaction amount to the balance before the transaction.
-   *
-   * @param accountBalanceBeforeReceiving - The user's account balance before the payment was received.
-   * @param transactionAmmount - The amount of money that was received in the transaction.
-   * @param currentBalance - The user's current account balance after the transaction.
-   */
-  export function verifyBalanceChangeAfterReceiving(accountBalanceBeforeReceiving: number, transactionAmmount: number, currentBalance: number) {
-    console.log('verifyBalanceChangeAfterReceiving')
+/**
+ * Verifies that the user's account balance has increased correctly after receiving a payment.
+ *
+ * This function checks whether the current account balance is equal to the expected balance,
+ * which is calculated by adding the transaction amount to the balance before the transaction.
+ *
+ * @param accountBalanceBeforeReceiving - The user's account balance before the payment was received.
+ * @param transactionAmmount - The amount of money that was received in the transaction.
+ * @param currentBalance - The user's current account balance after the transaction.
+ */
+export function verifyBalanceChangeAfterReceiving(accountBalanceBeforeReceiving: number, transactionAmmount: number, currentBalance: number) {
+  console.log('verifyBalanceChangeAfterReceiving')
 
-    expect(accountBalanceBeforeReceiving+transactionAmmount).toBe(currentBalance)
-  }
+  expect(accountBalanceBeforeReceiving + transactionAmmount).toBe(currentBalance)
+}

@@ -7,6 +7,7 @@ import { SideNavPage } from '../pages/SideNavPage'
 import { TransactionPage } from '../pages/TransactionPage'
 import { getBankName, getRoutingNumber, getAccountNumber, verifyBalanceChangeAfterPaying, verifyBalanceChangeAfterReceiving } from '../utils/fnHelpers'
 import { TransactionListPage } from '../pages/TransactionListPage'
+import { TransactionDetailsPage } from '../pages/TransactionDetailsPage'
 
 // TODO:
 // Divide in Describe block complex and common test cases here
@@ -17,6 +18,7 @@ let loginPage_A: LoginPage
 let sideNavPage_A: SideNavPage
 let transactionPage_A: TransactionPage
 let transactionListPage_A: TransactionListPage
+let transactionDetailsPage_A: TransactionDetailsPage
 
 let loginPage_B: LoginPage
 let sideNavPage_B: SideNavPage
@@ -37,6 +39,7 @@ test.beforeEach(async ({ page, request }) => {
   sideNavPage_A = new SideNavPage(page, ctxA)
   transactionPage_A = new TransactionPage(page, ctxA)
   transactionListPage_A = new TransactionListPage(page, ctxA)
+  transactionDetailsPage_A = new TransactionDetailsPage(page, ctxA)
 
   // Generate user 1
   await GET_getNewUserData(ctxA)
@@ -155,7 +158,7 @@ test('New Transaction - Navigate to new transaction form  after submitting a req
   await transactionPage_A.clickCreateAnotherTransaction()
 })
 
-test.only('New Transaction - Submit a payment and verify transaction details', async ({page}) => {
+test.only('New Transaction - Submit a payment and verify transaction details', async ({ page }) => {
   loginPage_B = new LoginPage(page, ctxB)
   sideNavPage_B = new SideNavPage(page, ctxB)
   transactionPage_B = new TransactionPage(page, ctxB)
@@ -178,13 +181,15 @@ test.only('New Transaction - Submit a payment and verify transaction details', a
   await transactionPage_B.fillUpAmmountAndAddNote(20, 'Testing 123')
   await transactionPage_B.completeTransaction('Pay')
   await transactionPage_B.verifyTargetUserCredentials(String(user1FirstName), String(user1LastName))
-  await page.waitForTimeout(5000)
+  await page.waitForTimeout(4000)
   verifyBalanceChangeAfterPaying(Number(ctxB.bank.balance), Number(ctxB.bank.transactionAmmount), await sideNavPage_B.getAccountBalance())
   await sideNavPage_B.logout()
 
   // User 1
   await loginPage_A.login()
   verifyBalanceChangeAfterReceiving(Number(ctxA.bank.balance), Number(ctxB.bank.transactionAmmount), await sideNavPage_A.getAccountBalance())
-
-
+  await transactionListPage_A.goToTab('Mine')
+  await transactionListPage_A.verifyMineLastTransaction(`${user2FirstName} ${user2LastName}`, `${user1FirstName} ${user1LastName}`, `${ctxB.bank.note}`, `-${ctxB.bank.transactionAmmount}`, 0, 0, 'paid')
+  await transactionListPage_A.clickOnLastTransaction()
+  await transactionDetailsPage_A.verifyTransactionDetails(`${user2FirstName} ${user2LastName}`, `${user1FirstName} ${user1LastName}`, `${ctxB.bank.note}`, `-${ctxB.bank.transactionAmmount}`, 0, 0, 'paid')
 })

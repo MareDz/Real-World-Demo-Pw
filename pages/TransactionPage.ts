@@ -151,6 +151,7 @@ export class TransactionPage extends BasePage {
    *   - Fills the note input field.
    *   - Asserts that the note field contains the expected value.
    *   - Logs the note value.
+   *   - Store note in test context (`ctx.bank.note = note`) for later use.
    *
    * This helps ensure that both amount and optional note inputs are correctly filled
    * and stored in a consistent, clean format for further validation or processing.
@@ -172,6 +173,7 @@ export class TransactionPage extends BasePage {
     if (note) {
       await this.inp_addNote.fill(note)
       await this.fillAndAssert(this.inp_addNote, note)
+      this.ctx.bank.note = note
       console.log(`Transaction Note is: ${note}`)
     }
   }

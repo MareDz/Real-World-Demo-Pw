@@ -79,11 +79,22 @@ export class SideNavPage extends BasePage {
     await this.assertInnerText(this.lbl_moduleName.first(), 'Notifications')
   }
 
+  /**
+   * Navigates to the Home page via the side navigation bar.
+   *
+   * This method performs the following actions:
+   * - Clicks the "Home" button in the side navigation.
+   * - Asserts that the page title is "Cypress Real World App".
+   * - Verifies that the transaction navigation tabs are visible on the home screen.
+   *
+   * Note: The Home page does not include a specific name in the URL, so URL validation
+   * should be handled accordingly (e.g., by asserting that the pathname is `/`).
+   */
   async goToHome() {
     console.log('SideNavPage - openHome()')
     await this.btn_home.click()
     await this.assertTitleAndUrl('Cypress Real World App')
-    // Note: Home doesn't have any name in URL
+    await expect(this.lbl_transactionNavigationTabs).toBeVisible()
   }
 
   async logout() {
