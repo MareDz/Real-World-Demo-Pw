@@ -89,6 +89,8 @@ export class SideNavPage extends BasePage {
   async logout() {
     console.log('SideNavPage - logout()')
     await this.btn_logout.click()
+    await expect(this.inp_username).toBeVisible()
+    await expect(this.inp_password).toBeVisible()
     await this.assertTitleAndUrl('Cypress Real World App', 'signin')
   }
 
@@ -113,5 +115,6 @@ export class SideNavPage extends BasePage {
 
     console.log(`Account Balance is: ${accountBalanceFormated}`)
     this.ctx.bank.balance = accountBalanceFormated
+    return accountBalanceFormated
   }
 }

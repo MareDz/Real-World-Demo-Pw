@@ -5,7 +5,7 @@ import { createUserData, UserData } from '../state/UserModel'
 import { LoginPage } from '../pages/LoginPage'
 import { SideNavPage } from '../pages/SideNavPage'
 import { TransactionPage } from '../pages/TransactionPage'
-import { getBankName, getRoutingNumber, getAccountNumber } from '../utils/fnHelpers'
+import { getBankName, getRoutingNumber, getAccountNumber, verifyBalanceChangeAfterPaying, verifyBalanceChangeAfterReceiving } from '../utils/fnHelpers'
 import { TransactionListPage } from '../pages/TransactionListPage'
 
 // TODO:
@@ -172,13 +172,19 @@ test.only('New Transaction - Submit a payment and verify transaction details', a
   // User 2
   await loginPage_B.login()
   await sideNavPage_B.getAccountBalance()
-  await transactionPage_B.clickCreateAnotherTransaction()
+  await transactionPage_B.clickCreateNewTransaction()
   await transactionPage_B.searchForUser(String(user1Username))
   await transactionPage_B.clickOnUser(String(user1Username))
   await transactionPage_B.fillUpAmmountAndAddNote(20, 'Testing 123')
   await transactionPage_B.completeTransaction('Pay')
-  await transactionPage_B.verifyTargetUserCredentials(String(user1Username), String(user1Username))
-  
+  await transactionPage_B.verifyTargetUserCredentials(String(user1FirstName), String(user1LastName))
+  await page.waitForTimeout(5000)
+  verifyBalanceChangeAfterPaying(Number(ctxB.bank.balance), Number(ctxB.bank.transactionAmmount), await sideNavPage_B.getAccountBalance())
+  await sideNavPage_B.logout()
+
+  // User 1
+  await loginPage_A.login()
+  verifyBalanceChangeAfterReceiving(Number(ctxA.bank.balance), Number(ctxB.bank.transactionAmmount), await sideNavPage_A.getAccountBalance())
 
 
 })
