@@ -3,7 +3,6 @@ import { BasePage } from './BasePage'
 import { UserData } from '../state/UserModel'
 
 export class TransactionListPage extends BasePage {
-  readonly page: Page
   readonly btn_everyoneTab: Locator
   readonly btn_friendsTab: Locator
   readonly btn_mineTab: Locator
@@ -13,8 +12,6 @@ export class TransactionListPage extends BasePage {
 
   constructor(page: Page, ctx: UserData) {
     super(page, ctx)
-    this.page = page
-    this.ctx = ctx
     this.btn_everyoneTab = page.locator("[data-test='nav-public-tab']")
     this.btn_friendsTab = page.locator("[data-test='nav-contacts-tab']")
     this.btn_mineTab = page.locator("[data-test='nav-personal-tab']")

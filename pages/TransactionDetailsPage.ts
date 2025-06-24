@@ -3,7 +3,6 @@ import { BasePage } from './BasePage'
 import { UserData } from '../state/UserModel'
 
 export class TransactionDetailsPage extends BasePage {
-  readonly page: Page
   readonly btn_like: Locator
   readonly inp_comment: Locator
   readonly lbl_transactionDetailsHeader: Locator
@@ -12,8 +11,6 @@ export class TransactionDetailsPage extends BasePage {
 
   constructor(page: Page, ctx: UserData) {
     super(page, ctx)
-    this.page = page
-    this.ctx = ctx
     this.btn_like = page.locator("[data-test^='transaction-like-button']")
     this.inp_comment = page.locator("[data-test^='transaction-comment-input']")
     this.lbl_transactionDetailsHeader = page.locator("[data-test='transaction-detail-header']")

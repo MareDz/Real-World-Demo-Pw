@@ -4,7 +4,6 @@ import { UserData } from '../state/UserModel'
 import { getAccountNumber, getBankName, getRoutingNumber } from '../utils/fnHelpers'
 
 export class OnboardingPage extends BasePage {
-  readonly page: Page
   readonly btn_onboardingNext: Locator
   readonly lbl_onboardingTitle: Locator
   readonly lbl_onboardingTextContent: Locator
@@ -13,8 +12,6 @@ export class OnboardingPage extends BasePage {
 
   constructor(page: Page, ctx: UserData) {
     super(page, ctx)
-    this.page = page
-    this.ctx = ctx
     this.btn_onboardingNext = page.locator("[data-test='user-onboarding-next']")
     this.lbl_onboardingTitle = page.locator("[data-test='user-onboarding-dialog-title']")
     this.lbl_onboardingTextContent = page.locator("[data-test='user-onboarding-dialog-content'] p")

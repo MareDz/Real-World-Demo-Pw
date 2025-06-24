@@ -4,7 +4,6 @@ import { Global } from '../state/Global'
 import { UserData } from '../state/UserModel'
 
 export class LoginPage extends BasePage {
-  readonly page: Page
   readonly btn_signIn: Locator
   readonly lbl_loginError: Locator
   readonly lbl_signUpHeader: Locator
@@ -12,8 +11,6 @@ export class LoginPage extends BasePage {
 
   constructor(page: Page, ctx: UserData) {
     super(page, ctx)
-    this.page = page
-    this.ctx = ctx
     this.btn_signIn = page.locator("[data-test='signin-submit']")
     this.lbl_loginError = page.locator("[data-test='signin-error']")
     this.lbl_signUpHeader = page.locator("[data-test='signup-title']")

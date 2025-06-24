@@ -4,7 +4,6 @@ import { UserData } from '../state/UserModel'
 import { formatCurrency } from '../utils/fnHelpers'
 
 export class NewTransactionPage extends BasePage {
-  readonly page: Page
   readonly btn_newTransaction: Locator
   readonly btn_pay: Locator
   readonly btn_request: Locator
@@ -20,8 +19,6 @@ export class NewTransactionPage extends BasePage {
 
   constructor(page: Page, ctx: UserData) {
     super(page, ctx)
-    this.page = page
-    this.ctx = ctx
     this.btn_newTransaction = page.locator("[data-test='nav-top-new-transaction']")
     this.btn_pay = page.locator("[data-test='transaction-create-submit-payment']")
     this.btn_request = page.locator("[data-test='transaction-create-submit-request']")

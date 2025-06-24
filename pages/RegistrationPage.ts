@@ -3,7 +3,6 @@ import { BasePage } from './BasePage'
 import { UserData } from '../state/UserModel'
 
 export class RegistrationPage extends BasePage {
-  readonly page: Page
   readonly btn_signUp: Locator
   readonly inp_confirmPassword: Locator
   readonly lbl_errorFirstName: Locator
@@ -14,8 +13,6 @@ export class RegistrationPage extends BasePage {
 
   constructor(page: Page, ctx: UserData) {
     super(page, ctx)
-    this.page = page
-    this.ctx = ctx
     this.btn_signUp = page.locator("[data-test='signup-submit']")
     this.inp_confirmPassword = page.locator('#confirmPassword')
     this.lbl_errorFirstName = page.locator('#firstName-helper-text')

@@ -3,7 +3,6 @@ import { Base } from './Base'
 import { UserData } from '../state/UserModel'
 
 export class BasePage extends Base {
-  readonly page: Page
   readonly btn_saveBankAccount: Locator
   readonly inp_username: Locator
   readonly inp_password: Locator
@@ -28,8 +27,6 @@ export class BasePage extends Base {
 
   constructor(page: Page, ctx: UserData) {
     super(page, ctx)
-    this.page = page
-    this.ctx = ctx
     this.btn_saveBankAccount = page.locator("[data-test='bankaccount-submit']")
     this.lbl_erroBankName = page.locator('#bankaccount-bankName-input-helper-text')
     this.inp_bankName = page.locator('#bankaccount-bankName-input')

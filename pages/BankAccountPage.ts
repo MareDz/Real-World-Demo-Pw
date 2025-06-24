@@ -4,7 +4,6 @@ import { UserData } from '../state/UserModel'
 import { getBankName, getAccountNumber, getRoutingNumber, getCurrentDateTimeAsNumbers } from '../utils/fnHelpers'
 
 export class BankAccountPage extends BasePage {
-  readonly page: Page
   readonly btn_createNewBankAccount: Locator
   readonly btn_deleteBankAccount: Locator
   readonly lbl_createBankAccount: Locator
@@ -13,8 +12,6 @@ export class BankAccountPage extends BasePage {
 
   constructor(page: Page, ctx: UserData) {
     super(page, ctx)
-    this.page = page
-    this.ctx = ctx
     this.btn_createNewBankAccount = page.locator("[data-test='bankaccount-new']")
     this.btn_deleteBankAccount = page.locator("//button[@data-test='bankaccount-delete']")
     this.lbl_createBankAccount = page.locator("//h2[text()='Create Bank Account']") // TODO: ID

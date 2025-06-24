@@ -3,7 +3,6 @@ import { BasePage } from './BasePage'
 import { UserData } from '../state/UserModel'
 
 export class SideNavPage extends BasePage {
-  readonly page: Page
   readonly btn_sideNav: Locator
   readonly btn_home: Locator
   readonly btn_myAccount: Locator
@@ -16,8 +15,6 @@ export class SideNavPage extends BasePage {
 
   constructor(page: Page, ctx: UserData) {
     super(page, ctx)
-    this.page = page
-    this.ctx = ctx
     this.btn_sideNav = page.locator("[data-test='drawer-icon']")
     this.btn_home = page.locator("[data-test='sidenav-home']")
     this.btn_myAccount = page.locator("[data-test='sidenav-user-settings']")

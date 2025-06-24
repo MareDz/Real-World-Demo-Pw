@@ -3,7 +3,6 @@ import { BasePage } from './BasePage'
 import { UserData } from '../state/UserModel'
 
 export class MyAccountPage extends BasePage {
-  readonly page: Page
   readonly btn_save: Locator
   readonly inp_email: Locator
   readonly inp_phoneNumber: Locator
@@ -14,8 +13,6 @@ export class MyAccountPage extends BasePage {
 
   constructor(page: Page, ctx: UserData) {
     super(page, ctx)
-    this.page = page
-    this.ctx = ctx
     this.btn_save = page.locator("[data-test='user-settings-submit']")
     this.inp_email = page.locator("[data-test='user-settings-email-input']")
     this.inp_phoneNumber = page.locator("[data-test='user-settings-phoneNumber-input']")
