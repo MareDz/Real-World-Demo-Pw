@@ -3,7 +3,7 @@ import { BasePage } from './BasePage'
 import { UserData } from '../state/UserModel'
 import { formatCurrency } from '../utils/fnHelpers'
 
-export class TransactionPage extends BasePage {
+export class NewTransactionPage extends BasePage {
   readonly page: Page
   readonly btn_newTransaction: Locator
   readonly btn_pay: Locator

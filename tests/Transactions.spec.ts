@@ -4,7 +4,7 @@ import { GET_getNewUserData, POST_createBankAccount, POST_loginUser, POST_regist
 import { createUserData, UserData } from '../state/UserModel'
 import { LoginPage } from '../pages/LoginPage'
 import { SideNavPage } from '../pages/SideNavPage'
-import { TransactionPage } from '../pages/TransactionPage'
+import { NewTransactionPage } from '../pages/NewTransactionPage'
 import { getBankName, getRoutingNumber, getAccountNumber, verifyBalanceChangeAfterPaying, verifyBalanceChangeAfterReceiving } from '../utils/fnHelpers'
 import { TransactionListPage } from '../pages/TransactionListPage'
 import { TransactionDetailsPage } from '../pages/TransactionDetailsPage'
@@ -16,13 +16,13 @@ let ctxA: UserData
 let ctxB: UserData
 let loginPage_A: LoginPage
 let sideNavPage_A: SideNavPage
-let transactionPage_A: TransactionPage
+let transactionPage_A: NewTransactionPage
 let transactionListPage_A: TransactionListPage
 let transactionDetailsPage_A: TransactionDetailsPage
 
 let loginPage_B: LoginPage
 let sideNavPage_B: SideNavPage
-let transactionPage_B: TransactionPage
+let transactionPage_B: NewTransactionPage
 let transactionListPage_B: TransactionListPage
 
 test.describe.configure({ mode: 'parallel' })
@@ -37,7 +37,7 @@ test.beforeEach(async ({ page, request }) => {
 
   loginPage_A = new LoginPage(page, ctxA)
   sideNavPage_A = new SideNavPage(page, ctxA)
-  transactionPage_A = new TransactionPage(page, ctxA)
+  transactionPage_A = new NewTransactionPage(page, ctxA)
   transactionListPage_A = new TransactionListPage(page, ctxA)
   transactionDetailsPage_A = new TransactionDetailsPage(page, ctxA)
 
@@ -158,10 +158,10 @@ test('New Transaction - Navigate to new transaction form  after submitting a req
   await transactionPage_A.clickCreateAnotherTransaction()
 })
 
-test.only('New Transaction - Submit a payment and verify transaction details', async ({ page }) => {
+test('New Transaction - Submit a payment and verify transaction details', async ({ page }) => {
   loginPage_B = new LoginPage(page, ctxB)
   sideNavPage_B = new SideNavPage(page, ctxB)
-  transactionPage_B = new TransactionPage(page, ctxB)
+  transactionPage_B = new NewTransactionPage(page, ctxB)
   transactionListPage_B = new TransactionListPage(page, ctxB)
 
   const { username: user1Username, firstName: user1FirstName, lastName: user1LastName } = ctxA.user
