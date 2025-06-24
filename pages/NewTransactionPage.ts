@@ -87,7 +87,7 @@ export class NewTransactionPage extends BasePage {
    * @param firstName - The expected first name to be shown in the user detail view.
    * @param lastName - The expected last name to be shown in the user detail view.
    */
-  async verifyTargetUserCredentials(firstName: String, lastName: string) {
+  async verifyTargetUserCredentials(firstName: string, lastName: string) {
     console.log('NewTransactionPage - verifyTargetUserCredentials()')
 
     const lbl_firstName = this.page.locator(`//h2[text()='${firstName}']`)
