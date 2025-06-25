@@ -26,7 +26,7 @@ export class LoginPage extends BasePage {
    * This method serves as a starting point for test scenarios requiring access to the application.
    */
   async launchRWA() {
-    console.log('launchRWA()')
+    console.log('LoginPage - launchRWA()')
     await this.page.goto(Global.url)
     await this.assertTitleAndUrl('Cypress Real World App', 'signin')
   }

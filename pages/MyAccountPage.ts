@@ -35,7 +35,7 @@ export class MyAccountPage extends BasePage {
    * @param param_phone - The phone number to check on the UI (optional). Falls back to context if not provided.
    */
   async verifyDisplayedAccountDetails(param_email?: string, param_phone?: string, param_firstName?: string, param_lastName?: string) {
-    console.log('MyAccount - verifyDisplayedAccountDetails()')
+    console.log('MyAccountPage - verifyDisplayedAccountDetails()')
 
     const firstName = param_firstName ?? this.ctx.user.firstName
     const lastName = param_lastName ?? this.ctx.user.lastName
@@ -56,7 +56,7 @@ export class MyAccountPage extends BasePage {
    * valid data is provided, the save button becomes enabled and error messages are not visible.
    */
   async verifyAccountDetailsEmptyFieldsErrorHandling() {
-    console.log('MyAccount - verifyAccountDetailsEmptyFieldsErrorHandling()')
+    console.log('MyAccountPage - verifyAccountDetailsEmptyFieldsErrorHandling()')
 
     await this.clearAndBlur(this.inp_firstName)
     await this.assertInnerText(this.lbl_errorFirstName, 'Enter a first name')
@@ -101,7 +101,7 @@ export class MyAccountPage extends BasePage {
    * - Ensuring the 'Save' button is appropriately enabled or disabled based on input validity.
    */
   async verifyAccountDetailsFieldsErrorHandling() {
-    console.log('MyAccount - verifyAccountDetailsFieldsErrorHandling()')
+    console.log('MyAccountPage - verifyAccountDetailsFieldsErrorHandling()')
 
     await this.fillAndAssert(this.inp_email, '123')
     await this.assertInnerText(this.lbl_errorEmail, 'Must contain a valid email address')
@@ -135,7 +135,7 @@ export class MyAccountPage extends BasePage {
    * @param param_phone - New phone number to be entered
    */
   async editAccountDetails(param_firstName: string, param_lastName: string, param_email: string, param_phone: string) {
-    console.log('MyAccount - editAccountDetails()')
+    console.log('MyAccountPage - editAccountDetails()')
 
     this.ctx.user.firstName = param_firstName
     this.ctx.user.lastName = param_lastName

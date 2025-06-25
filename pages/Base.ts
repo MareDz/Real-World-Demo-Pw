@@ -105,8 +105,8 @@ export class Base {
    * @param value is value that we're asserting
    */
   async assertInnerText(selector: Locator, value: string) {
-    console.log('Base - assertInnerText()')
-    console.log(`LogInfo: Asserting text of selector: ${selector} with value: ${value}`)
+    console.log(`assertInnerText() | Asserting text of selector: ${selector} with value: ${value}`)
+
 
     const elementInnerText = await selector.innerText()
     expect(elementInnerText).toBe(value)
@@ -118,8 +118,8 @@ export class Base {
    * @param value is value that we're asserting
    */
   async assertInnerTextContain(selector: Locator, value: string) {
-    console.log('Base - assertInnerTextContain()')
-    console.log(`LogInfo: Asserting text of selector: ${selector} with value: ${value}`)
+    console.log(`assertInnerTextContain() | Asserting selector: ${selector} contains value: "${value}"`)
+
 
     const elementInnerText = await selector.innerText()
     expect(elementInnerText).toContain(value)
@@ -130,8 +130,7 @@ export class Base {
    * @param selector is selector
    */
   async clearAndBlur(selector: Locator) {
-    console.log('Base - clearAndBlur()')
-    console.log(`LogInfo: Clearing and Bluring locator ${selector}`)
+    console.log(`clearAndBlur() | Clearing and blurring locator: ${selector}`)
 
     await selector.clear()
     await selector.blur()
@@ -148,30 +147,34 @@ export class Base {
   }
 
   /**
-   * Retrieves the inner text of a given element, converts it to a number, and returns it.
-   * @param selector - The element whose inner text is to be retrieved and converted.
-   * @returns The numeric value of the element's inner text.
+   * Extracts a number from the inner text of a given locator element.
+   *
+   * @param selector - Playwright locator from which to extract the number.
+   * @returns A numeric value parsed from the element’s text content.
    */
   async getNumberFromElement(selector: Locator) {
-    console.log('getNumberFromElement()')
+    console.log(`getNumberFromElement() | Extracting number from: ${selector}`)
     const number = await selector.innerText()
     return Number(number)
   }
 
   /**
-   * Assert title and url
-   * @param title - title of the page
-   * @param url - optional param, url of the page
-   */
-  async assertTitleAndUrl(title: string, url?: string) {
-    console.log('Base - assertTitleAndUrl()')
-    console.log(`LogInfo: Title ${title} - URL ${url}`)
+ * Asserts that the current page has the expected title and optionally includes the expected URL path.
+ *
+ * - Verifies that the page title matches the provided `title`.
+ * - If a `url` is provided, verifies that the current page URL contains the specified path using a RegExp.
+ *
+ * @param title - The expected page title.
+ * @param url - (Optional) A substring or pattern expected to be found in the page URL.
+ */
+async assertTitleAndUrl(title: string, url?: string) {
+  console.log(`assertTitleAndUrl() | Asserting page title is "${title}"${url ? ` and URL contains "${url}"` : ''}`)
 
-    await expect(this.page).toHaveTitle(title)
+  await expect(this.page).toHaveTitle(title)
 
-    if (url) {
-      const urlPattern = new RegExp(`.*${url}.*`)
-      await expect(this.page).toHaveURL(urlPattern)
-    }
+  if (url) {
+    const urlPattern = new RegExp(`.*${url}.*`)
+    await expect(this.page).toHaveURL(urlPattern)
   }
+}
 }
