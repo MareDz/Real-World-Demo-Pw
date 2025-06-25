@@ -22,16 +22,16 @@ test.afterEach(async ({ page }) => {
   await page.close()
 })
 
-test('Onboarding Positive', async ({ onboardingPage }) => {
+test('[12] Onboarding Positive', async ({ onboardingPage }) => {
   await onboardingPage.completeBankAccountForm(getBankName(), getRoutingNumber(), getAccountNumber())
   await onboardingPage.verifyFinishedScreenDisplayed()
   await onboardingPage.clickDoneAndVerifyUserCredentials()
 })
 
-test('Onboarding - Empty Required Fields Validation', async ({ onboardingPage }) => {
+test('[13] Onboarding - Empty Required Fields Validation', async ({ onboardingPage }) => {
   await onboardingPage.verifyBankAccountEmptyFieldErrorHandling()
 })
 
-test('Onboarding - Invalid Data Fields Validation', async ({ onboardingPage }) => {
+test('[14] Onboarding - Invalid Data Fields Validation', async ({ onboardingPage }) => {
   await onboardingPage.verifyBankAccountInvalidInputErrors()
 })
