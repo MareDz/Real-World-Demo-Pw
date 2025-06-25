@@ -132,7 +132,6 @@ export class TransactionListPage extends BasePage {
 
   /**
    * Clicks on the most recent transaction listed in the transaction feed.
-   *
    */
   async clickOnLastTransaction() {
     console.log('TransactionListPage - clickOnLastTransaction()')

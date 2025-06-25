@@ -218,7 +218,7 @@ test('[36] New Transaction - Request a payment, Reject request and verify transa
   await page.waitForTimeout(4000)
   verifyBalanceNotChanged(Number(ctxB.bank.balance), await sideNavPage_B.getAccountBalance())
   await sideNavPage_B.logout()
-  
+
   // User 1
   await loginPage_A.login()
   await transactionListPage_A.goToTab('Mine')
@@ -235,7 +235,7 @@ test('[36] New Transaction - Request a payment, Reject request and verify transa
 })
 
 // @BUG
-test('[37] New Transaction - Request a payment, Accept request and verify transaction details', async ({ page }) => {  
+test('[37] New Transaction - Request a payment, Accept request and verify transaction details', async ({ page }) => {
   loginPage_B = new LoginPage(page, ctxB)
   sideNavPage_B = new SideNavPage(page, ctxB)
   transactionPage_B = new NewTransactionPage(page, ctxB)
@@ -261,7 +261,7 @@ test('[37] New Transaction - Request a payment, Accept request and verify transa
   await page.waitForTimeout(4000)
   verifyBalanceNotChanged(Number(ctxB.bank.balance), await sideNavPage_B.getAccountBalance())
   await sideNavPage_B.logout()
-  
+
   // User 1
   await loginPage_A.login()
   await transactionListPage_A.goToTab('Mine')

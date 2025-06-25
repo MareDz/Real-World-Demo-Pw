@@ -60,7 +60,7 @@ export const test = base.extend<Fixtures>({
   transactionDetailsPage: async ({ page, ctx }, use) => {
     await use(new TransactionDetailsPage(page, ctx))
   },
-  
+
   transactionListPage: async ({ page, ctx }, use) => {
     await use(new TransactionListPage(page, ctx))
   },

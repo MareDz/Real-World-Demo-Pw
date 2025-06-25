@@ -75,21 +75,20 @@ export class TransactionDetailsPage extends BasePage {
     expect(numbeOfComments).toBe(numbeOfCommentsInList)
     expect(createdTransaction).toBe(transactionType.trim())
 
-    if(createdTransaction === 'requested'){
+    if (createdTransaction === 'requested') {
       await expect(this.btn_acceptRequest).toBeVisible()
       await expect(this.btn_rejectRequest).toBeVisible()
-    }
-    else{
+    } else {
       await expect(this.btn_acceptRequest).toHaveCount(0)
       await expect(this.btn_rejectRequest).toHaveCount(0)
     }
   }
 
   /**
-   * Clicks the "Accept Request" button on the Transaction Details page and verifies that 
+   * Clicks the "Accept Request" button on the Transaction Details page and verifies that
    * both the "Accept" and "Reject" buttons are no longer visible afterward.
    */
-  async clickAcceptRequest(){
+  async clickAcceptRequest() {
     console.log('TransactionDetailsPage - clickAcceptRequest()')
     await this.btn_acceptRequest.click()
     await expect(this.btn_acceptRequest).toHaveCount(0)
@@ -97,10 +96,10 @@ export class TransactionDetailsPage extends BasePage {
   }
 
   /**
-   * Clicks the "Reject Request" button on the Transaction Details page and verifies that 
+   * Clicks the "Reject Request" button on the Transaction Details page and verifies that
    * both the "Accept" and "Reject" buttons are no longer visible afterward.
    */
-  async clickRejectRequest(){
+  async clickRejectRequest() {
     console.log('TransactionDetailsPage - clickRejectRequest()')
     await this.btn_rejectRequest.click()
     await expect(this.btn_acceptRequest).toHaveCount(0)

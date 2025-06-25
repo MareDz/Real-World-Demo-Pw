@@ -77,7 +77,7 @@ export class Base {
    * @param value is value that we're filling and asserting
    */
   async fillAndAssert(selector: Locator, value: string) {
-    // console.log('Base - fillAndAssert()')
+    console.log('fillAndAssert()')
     console.log(`LogInfo: Fillig Locator: ${selector} - Value: "${value}"`)
 
     await selector.clear()
@@ -92,7 +92,7 @@ export class Base {
    * @param value is value that we're asserting
    */
   async assertInputValue(selector: Locator, value: string) {
-    // console.log('Base - assertInputValue()')
+    console.log('Base - assertInputValue()')
     console.log(`LogInfo: Asserting value of selector: ${selector} with value: ${value}`)
 
     const innerValue = await selector.inputValue()
@@ -105,7 +105,7 @@ export class Base {
    * @param value is value that we're asserting
    */
   async assertInnerText(selector: Locator, value: string) {
-    // console.log('Base - assertInnerText()')
+    console.log('Base - assertInnerText()')
     console.log(`LogInfo: Asserting text of selector: ${selector} with value: ${value}`)
 
     const elementInnerText = await selector.innerText()
@@ -118,7 +118,7 @@ export class Base {
    * @param value is value that we're asserting
    */
   async assertInnerTextContain(selector: Locator, value: string) {
-    // console.log('Base - assertInnerTextContain()')
+    console.log('Base - assertInnerTextContain()')
     console.log(`LogInfo: Asserting text of selector: ${selector} with value: ${value}`)
 
     const elementInnerText = await selector.innerText()
@@ -130,7 +130,7 @@ export class Base {
    * @param selector is selector
    */
   async clearAndBlur(selector: Locator) {
-    // console.log('Base - clearAndBlur()')
+    console.log('Base - clearAndBlur()')
     console.log(`LogInfo: Clearing and Bluring locator ${selector}`)
 
     await selector.clear()

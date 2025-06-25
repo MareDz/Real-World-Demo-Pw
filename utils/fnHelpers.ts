@@ -172,10 +172,6 @@ export function formatCurrency(amount: number): string {
 export function verifyBalanceChangeAfterPaying(accountBalanceBeforeTransaction: number, transactionAmount: number, currentBalance: number) {
   console.log('verifyBalanceChangeAfterPaying')
 
-  console.log("Balance Before Transaction " + accountBalanceBeforeTransaction)
-  console.log("Transaction Amount " + transactionAmount)
-  console.log("Balance After Transaction " + currentBalance)
-
   expect(accountBalanceBeforeTransaction - transactionAmount).toBe(currentBalance)
 }
 
@@ -192,10 +188,6 @@ export function verifyBalanceChangeAfterPaying(accountBalanceBeforeTransaction: 
 export function verifyBalanceChangeAfterReceiving(accountBalanceBeforeReceiving: number, transactionAmount: number, currentBalance: number) {
   console.log('verifyBalanceChangeAfterReceiving')
 
-  console.log("Balance Before Transaction " + accountBalanceBeforeReceiving)
-  console.log("Transaction Amount " + transactionAmount)
-  console.log("Balance After Transaction " + currentBalance)
-
   expect(accountBalanceBeforeReceiving + transactionAmount).toBe(currentBalance)
 }
 
@@ -208,11 +200,8 @@ export function verifyBalanceChangeAfterReceiving(accountBalanceBeforeReceiving:
  * @param accountBalanceBeforeAction - The account balance recorded before the action was taken.
  * @param accountBalanceAfterAction - The account balance recorded after the action was taken.
  */
-export function verifyBalanceNotChanged(accountBalanceBeforeAction: number, accountBalanceAfterAction: number){
+export function verifyBalanceNotChanged(accountBalanceBeforeAction: number, accountBalanceAfterAction: number) {
   console.log('verifyBalanceNotChanged')
-
-  console.log("Balance Before Transaction " + accountBalanceBeforeAction)
-  console.log("Balance After Transaction " + accountBalanceAfterAction)
 
   expect(accountBalanceBeforeAction).toBe(accountBalanceAfterAction)
 }
