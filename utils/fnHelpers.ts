@@ -172,6 +172,10 @@ export function formatCurrency(amount: number): string {
 export function verifyBalanceChangeAfterPaying(accountBalanceBeforeTransaction: number, transactionAmount: number, currentBalance: number) {
   console.log('verifyBalanceChangeAfterPaying')
 
+  console.log("Balance Before Transaction " + accountBalanceBeforeTransaction)
+  console.log("Transaction Amount " + transactionAmount)
+  console.log("Balance After Transaction " + currentBalance)
+
   expect(accountBalanceBeforeTransaction - transactionAmount).toBe(currentBalance)
 }
 
@@ -182,11 +186,33 @@ export function verifyBalanceChangeAfterPaying(accountBalanceBeforeTransaction: 
  * which is calculated by adding the transaction amount to the balance before the transaction.
  *
  * @param accountBalanceBeforeReceiving - The user's account balance before the payment was received.
- * @param transactionAmmount - The amount of money that was received in the transaction.
+ * @param transactionAmount - The amount of money that was received in the transaction.
  * @param currentBalance - The user's current account balance after the transaction.
  */
-export function verifyBalanceChangeAfterReceiving(accountBalanceBeforeReceiving: number, transactionAmmount: number, currentBalance: number) {
+export function verifyBalanceChangeAfterReceiving(accountBalanceBeforeReceiving: number, transactionAmount: number, currentBalance: number) {
   console.log('verifyBalanceChangeAfterReceiving')
 
-  expect(accountBalanceBeforeReceiving + transactionAmmount).toBe(currentBalance)
+  console.log("Balance Before Transaction " + accountBalanceBeforeReceiving)
+  console.log("Transaction Amount " + transactionAmount)
+  console.log("Balance After Transaction " + currentBalance)
+
+  expect(accountBalanceBeforeReceiving + transactionAmount).toBe(currentBalance)
+}
+
+/**
+ * Verifies that the user's account balance has not changed after performing an action.
+ *
+ * This function is useful in scenarios where no financial transaction is expected
+ * to affect the user's balance — for example, when a user sends a request instead of a payment.
+ *
+ * @param accountBalanceBeforeAction - The account balance recorded before the action was taken.
+ * @param accountBalanceAfterAction - The account balance recorded after the action was taken.
+ */
+export function verifyBalanceNotChanged(accountBalanceBeforeAction: number, accountBalanceAfterAction: number){
+  console.log('verifyBalanceNotChanged')
+
+  console.log("Balance Before Transaction " + accountBalanceBeforeAction)
+  console.log("Balance After Transaction " + accountBalanceAfterAction)
+
+  expect(accountBalanceBeforeAction).toBe(accountBalanceAfterAction)
 }

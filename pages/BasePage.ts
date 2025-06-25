@@ -42,7 +42,7 @@ export class BasePage extends Base {
     this.lbl_errorPassowrd = page.locator('#password-helper-text')
     this.lbl_currentUser = page.locator("[data-test='sidenav-user-full-name']")
     this.lbl_currentUserUsername = page.locator("[data-test='sidenav-username']")
-    this.lbl_transactionAmount = page.locator('.TransactionAmount-amountNegative')
+    this.lbl_transactionAmount = page.locator("[data-test^='transaction-amount']")
     this.lbl_transactionSender = page.locator("[data-test^='transaction-sender']")
     this.lbl_transactionReceiver = page.locator("[data-test^='transaction-receiver']")
     this.lbl_transactionType = page.locator("[data-test^='transaction-action']")

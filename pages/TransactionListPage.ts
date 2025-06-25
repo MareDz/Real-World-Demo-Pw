@@ -107,7 +107,7 @@ export class TransactionListPage extends BasePage {
    *
    * @throws Will throw if any of the displayed values do not match the expected ones.
    */
-  async verifyMineLastTransaction(sender: string, receiver: string, note: string, expectedTransactionAmount: string, numberOfLikes: number, numerOfComments: number, createdTransaction: 'paid' | 'received') {
+  async verifyMineLastTransaction(sender: string, receiver: string, note: string, expectedTransactionAmount: string, numberOfLikes: number, numerOfComments: number, createdTransaction: 'paid' | 'requested') {
     console.log('TransactionListPage - verifyMineLastTransaction()')
 
     const senderFullName = await this.lbl_transactionSender.first().innerText()
