@@ -97,7 +97,7 @@ export async function POST_registerUser(request: APIRequestContext, ctx: UserDat
         bankName: bankName,
         accountNumber: accountNumber,
         routingNumber: routingNumber,
-        balance: '500000', // Note: hardcoded just to have some balance != 0
+        balance: '500000', // NOTE: hardcoded just to have some balance != 0 so that we can make transactions, etc...
       },
     })
 
