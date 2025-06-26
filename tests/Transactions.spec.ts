@@ -16,7 +16,6 @@ let sideNavPage_A: SideNavPage
 let transactionPage_A: NewTransactionPage
 let transactionListPage_A: TransactionListPage
 let transactionDetailsPage_A: TransactionDetailsPage
-
 let loginPage_B: LoginPage
 let sideNavPage_B: SideNavPage
 let transactionPage_B: NewTransactionPage
@@ -189,7 +188,21 @@ test('[35] New Transaction - Submit a payment and verify transaction details', a
   await transactionDetailsPage_A.verifyTransactionDetails(`${user2FirstName} ${user2LastName}`, `${user1FirstName} ${user1LastName}`, `${ctxB.bank.note}`, `-${ctxB.bank.transactionAmmount}`, 0, 0, 'paid')
 })
 
-// @BUG
+/**
+ * BUG REPORT:
+ * Scenario:
+ * - User 2 requests an amount of money from User 1.
+ * - User 1 rejects the transaction request.
+ *
+ * Expected Behavior:
+ * - User 2's account balance should remain unchanged.
+ *
+ * Actual Behavior:
+ * - User 2's account balance is increased after the request is rejected.
+ * 
+ * NOTE:
+ * - BUG happens on the last line of code in this test aka. last step -> verifyBalanceNotChanged(Number(ctxB.bank.balance), await sideNavPage_B.getAccountBalance())  
+ */
 test('[36] New Transaction - Request a payment, Reject request and verify transaction details', async ({ page }) => {
   loginPage_B = new LoginPage(page, ctxB)
   sideNavPage_B = new SideNavPage(page, ctxB)
@@ -228,10 +241,28 @@ test('[36] New Transaction - Request a payment, Reject request and verify transa
 
   // User 2
   await loginPage_B.login()
-  verifyBalanceNotChanged(Number(ctxB.bank.balance), await sideNavPage_B.getAccountBalance()) // BUG !
+  verifyBalanceNotChanged(Number(ctxB.bank.balance), await sideNavPage_B.getAccountBalance()) // BUG
 })
 
-// @BUG
+/**
+ * BUG REPORT:
+ * Scenario:
+ * - User 2 requests an amount of money from User 1.
+ * - User 1 accepts the transaction request.
+ *
+ * Expected Behavior:
+ * - User 1's account balance should be lowered for requested amount.
+ *
+ * Actual Behavior:
+ * - User 1's account balance is unchaged after the request is accepted.
+ * - User 1's account balance is unchaged after the request is accepted, even when re hard-refresh the page.
+ * - User 1's account balance is lowered for requested amount only if user perform logout then login.
+ * 
+ * NOTE:
+ * - To bypass this bug 'for demonstration purpose', remove comments from this 2 lines of code 
+ *   // await sideNavPage_A.logout()
+ *   // await loginPage_A.login() 
+ */
 test('[37] New Transaction - Request a payment, Accept request and verify transaction details', async ({ page }) => {
   loginPage_B = new LoginPage(page, ctxB)
   sideNavPage_B = new SideNavPage(page, ctxB)
@@ -265,10 +296,8 @@ test('[37] New Transaction - Request a payment, Accept request and verify transa
   await transactionListPage_A.clickOnLastTransaction()
   await transactionDetailsPage_A.verifyTransactionDetails(`${user2FirstName} ${user2LastName}`, `${user1FirstName} ${user1LastName}`, `${ctxB.bank.note}`, `+${ctxB.bank.transactionAmmount}`, 0, 0, 'requested')
   await transactionDetailsPage_A.clickAcceptRequest()
-
-  // NOTE: To bypass active bug, un-comment following 2 lines of code. Logout/Login is not part of the flow it's just to force happy flow in this situation
-  // await sideNavPage_A.logout()  // BUG !
-  // await loginPage_A.login()  // BUG !
+  // await sideNavPage_A.logout()
+  // await loginPage_A.login() 
 
   verifyBalanceChangeAfterPaying(Number(ctxA.bank.balance), Number(ctxB.bank.transactionAmmount), await sideNavPage_A.getAccountBalance())
   await sideNavPage_A.logout()
