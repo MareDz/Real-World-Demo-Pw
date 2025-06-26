@@ -16,19 +16,19 @@ test.afterEach(async ({ page }) => {
   await page.close()
 })
 
-test('Login User - Empty Required Fields Validation', async ({ loginPage }) => {
+test('[6] Login User - Empty Required Fields Validation', async ({ loginPage }) => {
   await loginPage.verifyLoginEmptyFieldsErrorHandling()
 })
 
-test('Login User - Invalid Credentials Handling', async ({ loginPage }) => {
+test('[7] Login User - Invalid Credentials Handling', async ({ loginPage }) => {
   await loginPage.login(false, 'randomUsername123', 'randomPassword123')
 })
 
-test('Login User - Password Field Validation', async ({ loginPage }) => {
+test('[8] Login User - Password Field Validation', async ({ loginPage }) => {
   await loginPage.verifyLoginPasswordErrorHandling()
 })
 
-test('Login User - Case Sensitivity for Mixed Case Username Validation', async ({ registrationPage, loginPage, onboardingPage }) => {
+test('[9] Login User - Case Sensitivity for Mixed Case Username Validation', async ({ registrationPage, loginPage, onboardingPage }) => {
   const mockUserMixedCaseData = getRandomString(8, 'mixed')
   const mockUserLowerCaseData = getRandomString(8, 'lower')
   const mockUserUpperCaseData = getRandomString(8, 'upper')
@@ -41,7 +41,7 @@ test('Login User - Case Sensitivity for Mixed Case Username Validation', async (
   await onboardingPage.verifyGetStartedIsDisplayed()
 })
 
-test('Login User - Case Sensitivity for Upper Case Username Validation', async ({ registrationPage, loginPage, onboardingPage }) => {
+test('[10] Login User - Case Sensitivity for Upper Case Username Validation', async ({ registrationPage, loginPage, onboardingPage }) => {
   const mockUserMixedCaseData = getRandomString(8, 'mixed')
   const mockUserLowerCaseData = getRandomString(8, 'lower')
   const mockUserUpperCaseData = getRandomString(8, 'upper')
@@ -54,7 +54,7 @@ test('Login User - Case Sensitivity for Upper Case Username Validation', async (
   await onboardingPage.verifyGetStartedIsDisplayed()
 })
 
-test('Login User - Case Sensitivity for Lower Case Username Validation', async ({ registrationPage, loginPage, onboardingPage }) => {
+test('[11] Login User - Case Sensitivity for Lower Case Username Validation', async ({ registrationPage, loginPage, onboardingPage }) => {
   const mockUserMixedCaseData = getRandomString(8, 'mixed')
   const mockUserLowerCaseData = getRandomString(8, 'lower')
   const mockUserUpperCaseData = getRandomString(8, 'upper')

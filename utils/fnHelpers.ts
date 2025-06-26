@@ -1,4 +1,4 @@
-import { UserData } from '../state/UserModel'
+import { expect } from '@playwright/test'
 
 /**
  * Generates a random string of alphabetic characters.
@@ -125,8 +125,8 @@ export function generateRandomPhoneNumber(): string {
 }
 
 /*
-Generate current date in format as YYYYMMDDHHmmssSSS
-*/
+ * Generate current date in format as YYYYMMDDHHmmssSSS
+ */
 export const getCurrentDateTimeAsNumbers = (): string => {
   console.log('getCurrentDateTimeAsNumbers()')
   const now = new Date()
@@ -143,4 +143,76 @@ export const getCurrentDateTimeAsNumbers = (): string => {
   console.log('Current Date and Time: ' + formattedDateTime)
 
   return formattedDateTime
+}
+
+/**
+ * Formats a number into a currency string with dollar sign, commas and 2 decimals.
+ *
+ * @param amount - The numeric amount to format.
+ * @returns The formatted currency string, e.g. "$55,341,124.00".
+ */
+export function formatCurrency(amount: number): string {
+  console.log('formatCurrency')
+
+  const formatedAmount = `$${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+  return formatedAmount
+}
+
+/**
+ * Verifies that the user's account balance has been correctly updated after making a payment.
+ *
+ * - Subtracts the transaction amount from the account balance before the payment.
+ * - Compares the calculated expected balance with the actual current balance.
+ * - Fails the test if the values do not match.
+ *
+ * @param accountBalanceBeforeTransaction - The user's account balance before making the payment.
+ * @param transactionAmount - The amount that was paid in the transaction.
+ * @param currentBalance - The current balance fetched after the payment.
+ */
+export function verifyBalanceChangeAfterPaying(accountBalanceBeforeTransaction: number, transactionAmount: number, currentBalance: number) {
+  console.log('verifyBalanceChangeAfterPaying')
+
+  console.log(`Account Balance Before Making Payment: ${accountBalanceBeforeTransaction}`)
+  console.log(`Transaction Amount: ${transactionAmount}`)
+  console.log(`Account Balance After Making Payment: ${currentBalance}`)
+
+  expect(accountBalanceBeforeTransaction - transactionAmount).toBe(currentBalance)
+}
+
+/**
+ * Verifies that the user's account balance has increased correctly after receiving a payment.
+ *
+ * This function checks whether the current account balance is equal to the expected balance,
+ * which is calculated by adding the transaction amount to the balance before the transaction.
+ *
+ * @param accountBalanceBeforeReceiving - The user's account balance before the payment was received.
+ * @param transactionAmount - The amount of money that was received in the transaction.
+ * @param currentBalance - The user's current account balance after the transaction.
+ */
+export function verifyBalanceChangeAfterReceiving(accountBalanceBeforeReceiving: number, transactionAmount: number, currentBalance: number) {
+  console.log('verifyBalanceChangeAfterReceiving')
+
+  console.log(`Account Balance Before Receiving Payment: ${accountBalanceBeforeReceiving}`)
+  console.log(`Transaction Amount: ${transactionAmount}`)
+  console.log(`Account Balance After Receiving Payment: ${currentBalance}`)
+
+  expect(accountBalanceBeforeReceiving + transactionAmount).toBe(currentBalance)
+}
+
+/**
+ * Verifies that the user's account balance has not changed after performing an action.
+ *
+ * This function is useful in scenarios where no financial transaction is expected
+ * to affect the user's balance — for example, when a user sends a request instead of a payment.
+ *
+ * @param accountBalanceBeforeAction - The account balance recorded before the action was taken.
+ * @param accountBalanceAfterAction - The account balance recorded after the action was taken.
+ */
+export function verifyBalanceNotChanged(accountBalanceBeforeAction: number, accountBalanceAfterAction: number) {
+  console.log('verifyBalanceNotChanged')
+
+  console.log(`Account Balance Before Action: ${accountBalanceBeforeAction}`)
+  console.log(`Account Balance After Action: ${accountBalanceAfterAction}`)
+
+  expect(accountBalanceBeforeAction).toBe(accountBalanceAfterAction)
 }

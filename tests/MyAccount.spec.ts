@@ -29,14 +29,14 @@ test.afterEach(async ({ page }) => {
    - Pros of this abstraction: Cleaner, more maintainable test code when onboarding is not the subject under test.
    - Cons of this abstraction: Slightly harder to debug issues within the onboarding flow, but that risk is mitigated by having separate tests focused on it.
 */
-test('My Account - Verify Data for Partially-Configured/New User', async ({ loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
+test('[16] My Account - Verify Data for Partially-Configured/New User', async ({ loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
   await loginPage.login()
   await onboardingPage.completeOnboardingProcessWithRandomBankData()
   await sideNavPage.goToMyAccount()
   await myAccountPage.verifyDisplayedAccountDetails('', '')
 })
 
-test('My Account - Verify Data for Fully Configured User', async ({ ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
+test('[17] My Account - Verify Data for Fully Configured User', async ({ ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
   await POST_loginUser(request, ctx)
   await PATCH_completeAccountDetails(request, ctx)
   await loginPage.login()
@@ -45,7 +45,7 @@ test('My Account - Verify Data for Fully Configured User', async ({ ctx, request
   await myAccountPage.verifyDisplayedAccountDetails()
 })
 
-test('My Account - Empty Fields Validation', async ({ ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
+test('[18] My Account - Empty Fields Validation', async ({ ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
   await POST_loginUser(request, ctx)
   await PATCH_completeAccountDetails(request, ctx)
   await loginPage.login()
@@ -54,7 +54,7 @@ test('My Account - Empty Fields Validation', async ({ ctx, request, loginPage, o
   await myAccountPage.verifyAccountDetailsEmptyFieldsErrorHandling()
 })
 
-test('My Account -  Invalid Data Fields Validation', async ({ ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
+test('[19] My Account -  Invalid Data Fields Validation', async ({ ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
   await POST_loginUser(request, ctx)
   await PATCH_completeAccountDetails(request, ctx)
   await loginPage.login()
@@ -63,7 +63,7 @@ test('My Account -  Invalid Data Fields Validation', async ({ ctx, request, logi
   await myAccountPage.verifyAccountDetailsFieldsErrorHandling()
 })
 
-test('My Account - Edit User Details', async ({ page, ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
+test('[20] My Account - Edit User Details', async ({ page, ctx, request, loginPage, onboardingPage, myAccountPage, sideNavPage }) => {
   await POST_loginUser(request, ctx)
   await PATCH_completeAccountDetails(request, ctx)
   await loginPage.login()

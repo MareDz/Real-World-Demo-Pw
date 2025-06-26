@@ -3,7 +3,6 @@ import { Base } from './Base'
 import { UserData } from '../state/UserModel'
 
 export class BasePage extends Base {
-  readonly page: Page
   readonly btn_saveBankAccount: Locator
   readonly inp_username: Locator
   readonly inp_password: Locator
@@ -19,11 +18,15 @@ export class BasePage extends Base {
   readonly lbl_errorPassowrd: Locator
   readonly lbl_currentUser: Locator
   readonly lbl_currentUserUsername: Locator
+  readonly lbl_transactionAmount: Locator
+  readonly lbl_transactionSender: Locator
+  readonly lbl_transactionReceiver: Locator
+  readonly lbl_transactionType: Locator
+  readonly lbl_likeCount: Locator
+  readonly lbl_transactionNavigationTabs: Locator
 
   constructor(page: Page, ctx: UserData) {
     super(page, ctx)
-    this.page = page
-    this.ctx = ctx
     this.btn_saveBankAccount = page.locator("[data-test='bankaccount-submit']")
     this.lbl_erroBankName = page.locator('#bankaccount-bankName-input-helper-text')
     this.inp_bankName = page.locator('#bankaccount-bankName-input')
@@ -39,11 +42,21 @@ export class BasePage extends Base {
     this.lbl_errorPassowrd = page.locator('#password-helper-text')
     this.lbl_currentUser = page.locator("[data-test='sidenav-user-full-name']")
     this.lbl_currentUserUsername = page.locator("[data-test='sidenav-username']")
+    this.lbl_transactionAmount = page.locator("[data-test^='transaction-amount']")
+    this.lbl_transactionSender = page.locator("[data-test^='transaction-sender']")
+    this.lbl_transactionReceiver = page.locator("[data-test^='transaction-receiver']")
+    this.lbl_transactionType = page.locator("[data-test^='transaction-action']")
+    this.lbl_likeCount = page.locator("[data-test^='transaction-like-count']")
+    this.lbl_transactionNavigationTabs = page.locator("[data-test='nav-transaction-tabs']")
   }
 
   /**
-   * Verifies that appropriate error messages are displayed when the bank account fields are empty.
-   * Verifies that the Save button is disabled when fields are empty and enabled only when all fields have valid data.
+   * Verifies validation and button state behavior on the "Create Bank Account" form when fields are empty or invalid.
+   *
+   * - Checks that error messages are displayed for empty or incorrectly filled fields (bank name, routing number, account number).
+   * - Ensures the "Save" button remains disabled until all fields are filled with valid input.
+   * - Validates that error messages disappear once valid data is entered.
+   * - Confirms the "Save" button is enabled only after all inputs are correctly filled.
    */
   async verifyBankAccountEmptyFieldErrorHandling() {
     console.log('BasePage - verifyBankAccountEmptyFieldErrorHandling()')
@@ -75,12 +88,20 @@ export class BasePage extends Base {
   }
 
   /**
+   * Verifies error validation messages and "Save" button state for invalid inputs
+   * on the "Create Bank Account" form.
+   *
+   * - Ensures that appropriate validation errors are shown when:
+   *   - Bank name is too short
+   *   - Routing number is not exactly 9 digits
+   *   - Account number is too short or too long
+   * - Verifies that the "Save" button remains disabled while inputs are invalid.
+   * - Confirms that valid inputs remove error messages and enable the "Save" button.
+   *
    * BUG - number of maximum characters is not set for 'Bank Name' input
    * BUG - fields accepts empty string
-   *
-   * Verifies that every field accepts only the defined number of characters, and checks error messages for each field.
-   * Verifies that the Save button is disabled if any field has an error and enabled only when all fields have valid data.
    */
+
   async verifyBankAccountInvalidInputErrors() {
     console.log('BasePage - verifyBankAccountInvalidInputErrors()')
 

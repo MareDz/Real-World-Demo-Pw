@@ -4,7 +4,6 @@ import { UserData } from '../state/UserModel'
 import { getBankName, getAccountNumber, getRoutingNumber, getCurrentDateTimeAsNumbers } from '../utils/fnHelpers'
 
 export class BankAccountPage extends BasePage {
-  readonly page: Page
   readonly btn_createNewBankAccount: Locator
   readonly btn_deleteBankAccount: Locator
   readonly lbl_createBankAccount: Locator
@@ -13,11 +12,9 @@ export class BankAccountPage extends BasePage {
 
   constructor(page: Page, ctx: UserData) {
     super(page, ctx)
-    this.page = page
-    this.ctx = ctx
     this.btn_createNewBankAccount = page.locator("[data-test='bankaccount-new']")
     this.btn_deleteBankAccount = page.locator("//button[@data-test='bankaccount-delete']")
-    this.lbl_createBankAccount = page.locator("//h2[text()='Create Bank Account']") // TODO: ID
+    this.lbl_createBankAccount = page.locator("//h2[text()='Create Bank Account']")
     this.lbl_bankAccounts = page.locator("//h2[text()='Create Bank Accounts']")
     this.li_bankAccounts = page.locator("//ul[@data-test='bankaccount-list']")
   }
@@ -39,11 +36,13 @@ export class BankAccountPage extends BasePage {
   }
 
   /**
-   * Clicks on the "Create New Bank Account" button.
-   * Waits for the bank account creation page to load.
-   * Verifies that the page contains the expected label or heading ("Create Bank Account").
+   * Navigates to the "Create New Bank Account" page in the application.
+   *
+   * - Clicks on the "Create New Bank Account" button.
+   * - Asserts that the page title is correct.
+   * - Asserts that the current URL includes `'bankaccounts/new'`.
+   * - Verifies that the "Create Bank Account" label is visible on the page.
    */
-  // TODO: Explain better
   async clickCreateNewBankAccount() {
     console.log('BankAccountPage - clickCreateNewBankAccount()')
     await this.btn_createNewBankAccount.click()
