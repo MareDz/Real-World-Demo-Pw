@@ -70,11 +70,20 @@ export class Base {
     }
   }
 
-  /***
-   * TODO: Explain
-   * Fill input field, textbox, textarea....
-   * @param selector is selector
-   * @param value is value that we're filling and asserting
+  /**
+   * Fills the given input field with a specified value and verifies the input was successful.
+   *
+   * - Clears any existing value from the input field.
+   * - Fills the input field with the provided value.
+   * - Blurs the input to trigger any client-side validation or formatting.
+   * - Asserts that the input field contains the expected value after the fill.
+   *
+   * Useful for:
+   * - Ensuring reliable and consistent input field interaction.
+   * - Preventing flaky tests caused by incomplete or delayed input rendering.
+   *
+   * @param selector - The Playwright `Locator` targeting the input field.
+   * @param value - The string value to fill into the input field.
    */
   async fillAndAssert(selector: Locator, value: string) {
     console.log('fillAndAssert()')
@@ -87,9 +96,18 @@ export class Base {
   }
 
   /**
-   * Assert data from input value
-   * @param selector is selector
-   * @param value is value that we're asserting
+   * Asserts that the given input field contains the expected value.
+   *
+   * This method is used to verify that the current value of an input field
+   * matches the expected string value. It retrieves the field's input value
+   * and compares it using a strict equality check.
+   *
+   * Useful for:
+   * - Validating that a field was correctly filled in a previous step.
+   * - Ensuring data consistency during form interactions in tests.
+   *
+   * @param selector - The Playwright `Locator` pointing to the input field.
+   * @param value - The expected string value that should be present in the input.
    */
   async assertInputValue(selector: Locator, value: string) {
     console.log('Base - assertInputValue()')
@@ -100,50 +118,62 @@ export class Base {
   }
 
   /**
-   * Assert data from inner text
-   * @param selector is selector
-   * @param value is value that we're asserting
+   * Asserts that the inner text content of the given element matches the expected value.
+   *
+   * This method retrieves the inner text of a DOM element using the provided locator
+   * and performs a strict comparison against the expected string value.
+   *
+   * Useful for:
+   * - Verifying labels, error messages, button text, or any static/dynamic text elements.
+   * - Ensuring UI elements display the correct content during test execution.
+   *
+   * @param selector - The Playwright `Locator` targeting the element whose text should be validated.
+   * @param value - The exact expected text content to assert against.
    */
   async assertInnerText(selector: Locator, value: string) {
     console.log(`assertInnerText() | Asserting text of selector: ${selector} with value: ${value}`)
-
 
     const elementInnerText = await selector.innerText()
     expect(elementInnerText).toBe(value)
   }
 
   /**
-   * Assert that data
-   * @param selector is selector
-   * @param value is value that we're asserting
+   * Asserts that the inner text of a given element contains the expected substring.
+   *
+   * This method retrieves the inner text from the provided locator and checks if it includes
+   * the specified string value. Useful for validating partial matches within dynamic or
+   * templated UI text (e.g., success messages, transaction summaries).
+   *
+   * Example:
+   *   - Verifying "Paid $100 for dinner" contains "$100"
+   *
+   * @param selector - The Playwright `Locator` targeting the element to inspect.
+   * @param value - The substring expected to be found within the element's inner text.
    */
   async assertInnerTextContain(selector: Locator, value: string) {
     console.log(`assertInnerTextContain() | Asserting selector: ${selector} contains value: "${value}"`)
-
 
     const elementInnerText = await selector.innerText()
     expect(elementInnerText).toContain(value)
   }
 
   /**
-   * Clear up the field and blur it to lose focus
-   * @param selector is selector
+   * Clears the input field and triggers the `blur` event on the specified locator.
+   *
+   * This is typically used to simulate a user clearing a field and clicking away from it (switch focus),
+   * which can trigger client-side validation or error messages in UI forms.
+   *
+   * Useful for:
+   * - Validating required field errors
+   * - Ensuring blur-based validations are fired
+   *
+   * @param selector - The Playwright `Locator` representing the input element to clear and blur.
    */
   async clearAndBlur(selector: Locator) {
     console.log(`clearAndBlur() | Clearing and blurring locator: ${selector}`)
 
     await selector.clear()
     await selector.blur()
-  }
-
-  /**
-   * Absolute page scrolling
-   * @param up - absolute number of pixels for scrolling up
-   * @param down - absolute number of pixels for scrolling down
-   */
-  async pageScrollMouse(up: number, down: number) {
-    console.log(`pageScrollMouse() - Scrolling Up: ${up} Scrolling Down: ${down}`)
-    await this.page.mouse.wheel(up, down)
   }
 
   /**
