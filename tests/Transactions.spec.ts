@@ -199,9 +199,9 @@ test('[35] New Transaction - Submit a payment and verify transaction details', a
  *
  * Actual Behavior:
  * - User 2's account balance is increased after the request is rejected.
- * 
+ *
  * NOTE:
- * - BUG happens on the last line of code in this test aka. last step -> verifyBalanceNotChanged(Number(ctxB.bank.balance), await sideNavPage_B.getAccountBalance())  
+ * - BUG happens on the last line of code in this test aka. last step -> verifyBalanceNotChanged(Number(ctxB.bank.balance), await sideNavPage_B.getAccountBalance())
  */
 test('[36] New Transaction - Request a payment, Reject request and verify transaction details', async ({ page }) => {
   loginPage_B = new LoginPage(page, ctxB)
@@ -257,11 +257,11 @@ test('[36] New Transaction - Request a payment, Reject request and verify transa
  * - User 1's account balance is unchaged after the request is accepted.
  * - User 1's account balance is unchaged after the request is accepted, even when re hard-refresh the page.
  * - User 1's account balance is lowered for requested amount only if user perform logout then login.
- * 
+ *
  * NOTE:
- * - To bypass this bug 'for demonstration purpose', remove comments from this 2 lines of code 
+ * - To bypass this bug 'for demonstration purpose', remove comments from this 2 lines of code
  *   // await sideNavPage_A.logout()
- *   // await loginPage_A.login() 
+ *   // await loginPage_A.login()
  */
 test('[37] New Transaction - Request a payment, Accept request and verify transaction details', async ({ page }) => {
   loginPage_B = new LoginPage(page, ctxB)
@@ -297,7 +297,7 @@ test('[37] New Transaction - Request a payment, Accept request and verify transa
   await transactionDetailsPage_A.verifyTransactionDetails(`${user2FirstName} ${user2LastName}`, `${user1FirstName} ${user1LastName}`, `${ctxB.bank.note}`, `+${ctxB.bank.transactionAmmount}`, 0, 0, 'requested')
   await transactionDetailsPage_A.clickAcceptRequest()
   // await sideNavPage_A.logout()
-  // await loginPage_A.login() 
+  // await loginPage_A.login()
 
   verifyBalanceChangeAfterPaying(Number(ctxA.bank.balance), Number(ctxB.bank.transactionAmmount), await sideNavPage_A.getAccountBalance())
   await sideNavPage_A.logout()

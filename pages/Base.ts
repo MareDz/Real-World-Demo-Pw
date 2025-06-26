@@ -189,22 +189,22 @@ export class Base {
   }
 
   /**
- * Asserts that the current page has the expected title and optionally includes the expected URL path.
- *
- * - Verifies that the page title matches the provided `title`.
- * - If a `url` is provided, verifies that the current page URL contains the specified path using a RegExp.
- *
- * @param title - The expected page title.
- * @param url - (Optional) A substring or pattern expected to be found in the page URL.
- */
-async assertTitleAndUrl(title: string, url?: string) {
-  console.log(`assertTitleAndUrl() | Asserting page title is "${title}"${url ? ` and URL contains "${url}"` : ''}`)
+   * Asserts that the current page has the expected title and optionally includes the expected URL path.
+   *
+   * - Verifies that the page title matches the provided `title`.
+   * - If a `url` is provided, verifies that the current page URL contains the specified path using a RegExp.
+   *
+   * @param title - The expected page title.
+   * @param url - (Optional) A substring or pattern expected to be found in the page URL.
+   */
+  async assertTitleAndUrl(title: string, url?: string) {
+    console.log(`assertTitleAndUrl() | Asserting page title is "${title}"${url ? ` and URL contains "${url}"` : ''}`)
 
-  await expect(this.page).toHaveTitle(title)
+    await expect(this.page).toHaveTitle(title)
 
-  if (url) {
-    const urlPattern = new RegExp(`.*${url}.*`)
-    await expect(this.page).toHaveURL(urlPattern)
+    if (url) {
+      const urlPattern = new RegExp(`.*${url}.*`)
+      await expect(this.page).toHaveURL(urlPattern)
+    }
   }
-}
 }

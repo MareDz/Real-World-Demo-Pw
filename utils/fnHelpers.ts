@@ -125,8 +125,8 @@ export function generateRandomPhoneNumber(): string {
 }
 
 /*
-* Generate current date in format as YYYYMMDDHHmmssSSS
-*/
+ * Generate current date in format as YYYYMMDDHHmmssSSS
+ */
 export const getCurrentDateTimeAsNumbers = (): string => {
   console.log('getCurrentDateTimeAsNumbers()')
   const now = new Date()
@@ -193,7 +193,7 @@ export function verifyBalanceChangeAfterReceiving(accountBalanceBeforeReceiving:
   console.log('verifyBalanceChangeAfterReceiving')
 
   console.log(`Account Balance Before Receiving Payment: ${accountBalanceBeforeReceiving}`)
-  console.log(`Transaction Amount: ${transactionAmount}`) 
+  console.log(`Transaction Amount: ${transactionAmount}`)
   console.log(`Account Balance After Receiving Payment: ${currentBalance}`)
 
   expect(accountBalanceBeforeReceiving + transactionAmount).toBe(currentBalance)
