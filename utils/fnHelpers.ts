@@ -125,7 +125,7 @@ export function generateRandomPhoneNumber(): string {
 }
 
 /*
-Generate current date in format as YYYYMMDDHHmmssSSS
+* Generate current date in format as YYYYMMDDHHmmssSSS
 */
 export const getCurrentDateTimeAsNumbers = (): string => {
   console.log('getCurrentDateTimeAsNumbers()')

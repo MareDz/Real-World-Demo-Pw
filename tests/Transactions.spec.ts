@@ -20,7 +20,6 @@ let transactionDetailsPage_A: TransactionDetailsPage
 let loginPage_B: LoginPage
 let sideNavPage_B: SideNavPage
 let transactionPage_B: NewTransactionPage
-let transactionListPage_B: TransactionListPage
 
 test.describe.configure({ mode: 'parallel' })
 
@@ -159,7 +158,6 @@ test('[35] New Transaction - Submit a payment and verify transaction details', a
   loginPage_B = new LoginPage(page, ctxB)
   sideNavPage_B = new SideNavPage(page, ctxB)
   transactionPage_B = new NewTransactionPage(page, ctxB)
-  transactionListPage_B = new TransactionListPage(page, ctxB)
 
   const { username: user1Username, firstName: user1FirstName, lastName: user1LastName } = ctxA.user
   const { firstName: user2FirstName, lastName: user2LastName } = ctxB.user
@@ -196,7 +194,6 @@ test('[36] New Transaction - Request a payment, Reject request and verify transa
   loginPage_B = new LoginPage(page, ctxB)
   sideNavPage_B = new SideNavPage(page, ctxB)
   transactionPage_B = new NewTransactionPage(page, ctxB)
-  transactionListPage_B = new TransactionListPage(page, ctxB)
 
   const { username: user1Username, firstName: user1FirstName, lastName: user1LastName } = ctxA.user
   const { firstName: user2FirstName, lastName: user2LastName } = ctxB.user
@@ -231,7 +228,7 @@ test('[36] New Transaction - Request a payment, Reject request and verify transa
 
   // User 2
   await loginPage_B.login()
-  // verifyBalanceNotChanged(Number(ctxB.bank.balance), await sideNavPage_B.getAccountBalance()) // BUG !
+  verifyBalanceNotChanged(Number(ctxB.bank.balance), await sideNavPage_B.getAccountBalance()) // BUG !
 })
 
 // @BUG
@@ -239,7 +236,6 @@ test('[37] New Transaction - Request a payment, Accept request and verify transa
   loginPage_B = new LoginPage(page, ctxB)
   sideNavPage_B = new SideNavPage(page, ctxB)
   transactionPage_B = new NewTransactionPage(page, ctxB)
-  transactionListPage_B = new TransactionListPage(page, ctxB)
 
   const { username: user1Username, firstName: user1FirstName, lastName: user1LastName } = ctxA.user
   const { firstName: user2FirstName, lastName: user2LastName } = ctxB.user
