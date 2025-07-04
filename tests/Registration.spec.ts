@@ -1,6 +1,6 @@
 import { Base } from '../pages/Base'
 import { GET_getNewUserData } from '../utils/apiHelpers'
-import { test } from '../utils/fixturesModel'
+import { test } from '../utils/playwrightFixtures'
 
 test.describe.configure({ mode: 'parallel' })
 

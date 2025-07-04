@@ -14,16 +14,16 @@ export class Base {
   }
 
   /**
-   * Retrieves the appropriate environment configuration file based on the `NODE_ENV` variable.
+   * Retrieves the appropriate environment configuration file based on the `ENV` variable.
    *
    * Determines which `.env` file to use (e.g., `.env.mix`, `.env.dev`, `.env.test`) based on the
-   * current value of `process.env.NODE_ENV`. Throws an error if the environment variable is invalid
+   * current value of `process.env.ENV`. Throws an error if the environment variable is invalid
    * or not recognized.
    *
    * @returns {string} The name of the environment file.
    */
   private static getEnvFile(): string {
-    switch (process.env.NODE_ENV) {
+    switch (process.env.ENV) {
       case 'mix':
         return '.env.mix'
       case 'dev':
@@ -31,7 +31,7 @@ export class Base {
       case 'test':
         return '.env.test'
       default:
-        throw new Error('Invalid NODE_ENV')
+        throw new Error(`Invalid ENV - ${process.env.ENV}`)
     }
   }
 

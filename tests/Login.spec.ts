@@ -1,5 +1,5 @@
 import { Base } from '../pages/Base'
-import { test } from '../utils/fixturesModel'
+import { test } from '../utils/playwrightFixtures'
 import { getRandomString } from '../utils/fnHelpers'
 
 test.describe.configure({ mode: 'parallel' })
