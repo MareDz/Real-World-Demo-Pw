@@ -1,6 +1,6 @@
 import { Base } from '../pages/Base'
 import { GET_getNewUserData, POST_createBankAccount, POST_loginUser, POST_registerUser } from '../utils/apiHelpers'
-import { test } from '../utils/fixturesModel'
+import { test } from '../utils/playwrightFixtures'
 import { getAccountNumber, getBankName, getRoutingNumber } from '../utils/fnHelpers'
 
 test.describe.configure({ mode: 'parallel' })
