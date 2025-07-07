@@ -1,4 +1,4 @@
-name: Bank Account Tests
+name: Login Tests
 
 on:
   workflow_dispatch: 
@@ -34,5 +34,5 @@ jobs:
       - name: Install Chromium only
         run: npx playwright install chromium
 
-      - name: Run Bank Account Tests
-        run: npm run bank:test
+      - name: Run Login Tests
+        run: npm run login:test
