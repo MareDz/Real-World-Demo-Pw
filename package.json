@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "regression:test": "ENV=test npx playwright test tests/ --config=playwright.config.ts --project=Chromium",
+    "regression:test": "ENV=test npx playwright test rwa-qaa/tests/ --config=playwright.config.ts --project=Chromium",
     "registration:test": "ENV=test npx playwright test tests/Registration.spec.ts --config=playwright.config.ts --project=Chromium",
     "login:test": "ENV=test npx playwright test tests/Login.spec.ts --config=playwright.config.ts --project=Chromium",
     "onboarding:test": "ENV=test npx playwright test tests/Onboarding.spec.ts --config=playwright.config.ts --project=Chromium",
