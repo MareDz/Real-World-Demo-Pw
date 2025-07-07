@@ -1,0 +1,40 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Clone CRWA app
+        run: git clone https://github.com/cypress-io/cypress-realworld-app.git crwa
+
+      - name: Install CRWA dependencies
+        run: |
+          cd crwa
+          yarn install
+
+      - name: Start CRWA in background
+        run: |
+          cd crwa
+          yarn dev &
+        shell: bash
+
+      - name: Wait for CRWA to be ready
+        run: npx wait-on http://localhost:3000
+
+      - name: Install Chromium only
+        run: npx playwright install chromium
+
+      - name: Run Playwright Bank Account Tests
+        run: npm run bank:test
