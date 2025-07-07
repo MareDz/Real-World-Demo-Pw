@@ -31,9 +31,6 @@ jobs:
           yarn dev &
         shell: bash
 
-      - name: Wait for CRWA to be ready
-        run: npx wait-on http://localhost:3000
-
       - name: Install Chromium only
         run: npx playwright install chromium
 
