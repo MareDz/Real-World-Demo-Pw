@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "regression:test": "ENV=test npx playwright test rwa-qaa/tests/ --config=playwright.config.ts --project=Chromium",
-    "registration:test": "ENV=test npx playwright test tests/Registration.spec.ts --config=playwright.config.ts --project=Chromium",
-    "login:test": "ENV=test npx playwright test tests/Login.spec.ts --config=playwright.config.ts --project=Chromium",
-    "onboarding:test": "ENV=test npx playwright test tests/Onboarding.spec.ts --config=playwright.config.ts --project=Chromium",
-    "myAccount:test": "ENV=test npx playwright test tests/MyAccount.spec.ts --config=playwright.config.ts --project=Chromium",
-    "bank:test": "ENV=test npx playwright test tests/BankAccount.spec.ts --config=playwright.config.ts --project=Chromium",
-    "transactions:test": "ENV=test npx playwright test tests/Transactions.spec.ts --config=playwright.config.ts --project=Chromium"
+    "registration:test": "ENV=test npx playwright test rwa-qaa/tests/Registration.spec.ts --config=playwright.config.ts --project=Chromium",
+    "login:test": "ENV=test npx playwright test rwa-qaa/tests/Login.spec.ts --config=playwright.config.ts --project=Chromium",
+    "onboarding:test": "ENV=test npx playwright test rwa-qaa/tests/Onboarding.spec.ts --config=playwright.config.ts --project=Chromium",
+    "myAccount:test": "ENV=test npx playwright test rwa-qaa/tests/MyAccount.spec.ts --config=playwright.config.ts --project=Chromium",
+    "bank:test": "ENV=test npx playwright test rwa-qaa/tests/BankAccount.spec.ts --config=playwright.config.ts --project=Chromium",
+    "transactions:test": "ENV=test npx playwright test rwa-qaa/tests/Transactions.spec.ts --config=playwright.config.ts --project=Chromium"
   },
   "author": "",
   "license": "ISC",
