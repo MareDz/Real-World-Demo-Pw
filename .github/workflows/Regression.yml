@@ -32,7 +32,9 @@ jobs:
         shell: bash
 
       - name: Install Chromium only
+        working-directory: .
         run: npx playwright install chromium
 
       - name: Run Full Regression Tests
+        working-directory: .
         run: npm run regression:test
