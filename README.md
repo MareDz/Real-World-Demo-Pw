@@ -224,4 +224,4 @@ This project integrates **GitHub Actions** to automate test execution.
 
 📦 After each run, a Slack notification is sent containing a summary of test results — including the number of passed, failed, and flaky tests. The message also includes the name of the pipeline and a direct link to the Playwright test report artifact for quick access and debugging.
 
-![Slack Report Screenshot](../../../static/img/slackReport.png)
+![Slack Report Screenshot](slackReport.png)
