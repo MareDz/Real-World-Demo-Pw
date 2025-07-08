@@ -1,7 +1,7 @@
 name: Login Tests
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
 
 jobs:
   e2e:
