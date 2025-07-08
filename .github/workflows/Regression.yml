@@ -75,4 +75,4 @@ jobs:
             :arrows_counterclockwise: Flaky tests: ${{ env.FLAKY_TESTS }}
             :x: Failed tests: ${{ env.FAILED_TESTS }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_PRIVATE }}
-          SLACK_FOOTER: 'Powered by MarkoDz'
+          SLACK_FOOTER: 'Marko - QAA'
