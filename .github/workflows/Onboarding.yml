@@ -36,3 +36,41 @@ jobs:
 
       - name: Run Onboarding Tests
         run: npm run onboarding:test
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Count test results
+        if: always()
+        run: |
+          passed_tests=$(jq '[.suites[].specs[].ok | select(. == true)] | length' playwright-report/results.json)
+          failed_tests=$(jq '[.suites[].specs[].ok | select(. == false)] | length' playwright-report/results.json)
+          flaky_tests=$(jq '[.suites[].specs[].ok | select(. == "flaky")] | length' playwright-report/results.json)
+          passed_tests=${passed_tests:-0}
+          failed_tests=${failed_tests:-0}
+          flaky_tests=${flaky_tests:-0}
+          echo "PASSED_TESTS=$passed_tests" >> $GITHUB_ENV
+          echo "FAILED_TESTS=$failed_tests" >> $GITHUB_ENV
+          echo "FLAKY_TESTS=$flaky_tests" >> $GITHUB_ENV
+
+      - name: Send report to Slack
+        uses: rtCamp/action-slack-notify@v2.3.3
+        if: always()
+        env:
+          SLACK_CHANNEL: playwright-crwa-demo
+          SLACK_USERNAME: Test Report
+          SLACK_MSG_AUTHOR: ''
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_ICON: https://gravatar.com/avatar/b54db7f5b19638ecb798ca45da3ce4c0?s=400&d=robohash&r=x
+          SLACK_TITLE: Workflow Trigger
+          SLACK_MESSAGE: |
+            :white_check_mark: Passed tests: ${{ env.PASSED_TESTS }}
+            :arrows_counterclockwise: Flaky tests: ${{ env.FLAKY_TESTS }}
+            :x: Failed tests: ${{ env.FAILED_TESTS }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_PRIVATE }}
+          SLACK_FOOTER: 'Powered by MarkoDz'
