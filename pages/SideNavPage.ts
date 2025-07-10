@@ -21,7 +21,7 @@ export class SideNavPage extends BasePage {
     this.btn_bankAccount = page.locator("[data-test='sidenav-bankaccounts']")
     this.btn_notifications = page.locator("[data-test='sidenav-notifications']")
     this.btn_logout = page.locator("[data-test='sidenav-signout']")
-    this.lbl_moduleName = page.locator('//div/h2').first()
+    this.lbl_moduleName = page.locator('//div/h2')
     this.lbl_accountBalance = page.locator("[data-test='sidenav-user-balance']")
     this.dom_sideNavVisibility = page.locator("//div[@data-test='sidenav']//div[1]")
   }
@@ -59,14 +59,15 @@ export class SideNavPage extends BasePage {
     console.log('SideNavPage - openMyAccount()')
     await this.btn_myAccount.click()
     await this.assertTitleAndUrl('Cypress Real World App', 'settings')
-    await this.assertInnerText(this.lbl_moduleName, 'User Settings')
+    await this.assertInnerText(this.lbl_moduleName.first(), 'User Settings')
+    // await expect(this.lbl_moduleName.getByText('User Settings')).toBeVisible() // This can be done in different ways, but one above is more stable for me
   }
 
   async goToBankAccounts() {
     console.log('SideNavPage - openBankAccounts()')
     await this.btn_bankAccount.click()
     await this.assertTitleAndUrl('Cypress Real World App', 'bankaccounts')
-    await this.assertInnerText(this.lbl_moduleName, 'Bank Accounts')
+    await this.assertInnerText(this.lbl_moduleName.first(), 'Bank Accounts')
   }
 
   async goToNotifications() {

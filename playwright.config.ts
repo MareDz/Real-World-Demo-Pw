@@ -5,7 +5,7 @@ export default defineConfig({
   testMatch: ['**.spec.ts'],
   fullyParallel: process.env.CI ? !true : !true,
   retries: process.env.CI ? 0 : 0,
-  workers: process.env.CI ? 3 : 4,
+  workers: process.env.CI ? 3 : 2,
 
   reporter: process.env.CI
     ? [
@@ -18,7 +18,7 @@ export default defineConfig({
   reportSlowTests: null,
   use: {
     headless: process.env.CI ? true : true,
-    actionTimeout: 20000,
+    actionTimeout: 30000,
     video: 'off',
     screenshot: process.env.CI ? 'only-on-failure' : 'only-on-failure',
     viewport: { width: 1600, height: 1000 },
