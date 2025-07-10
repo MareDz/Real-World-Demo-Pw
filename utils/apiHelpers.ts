@@ -10,7 +10,7 @@ import { generateRandomPhoneNumber } from './fnHelpers'
  * @param ctx - The UserData object to populate with user data.
  * @throws {Error} If valid user data is not retrieved within the retry limit.
  *
- * NOTE: If this free to use api endpoint goes down, use some custom method to create custom user
+ * NOTE: If this free api endpoint goes down, use some custom method to create custom user data
  * e.g. Name + getCurrentDateAndTime() in format YYYYMMDDHHmmssSSS
  */
 export async function GET_getNewUserData(ctx: UserData): Promise<void> {
