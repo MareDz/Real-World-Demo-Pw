@@ -20,18 +20,22 @@ export class BankAccountPage extends BasePage {
   }
 
   /**
-   * Verifies that the most recently added bank account is correctly displayed in the list.
+   * Verifies that the newly added bank account is visible in the list.
    *
-   * Since new bank accounts are appended to the end of the list, this method targets the last
-   * element and checks if its text matches the expected bank name from the test context.
+   * This method searches for a list item containing the expected bank name from the test context
+   * using `getByText()`, ensuring that the UI correctly reflects the created bank account.
    *
-   * Useful in cases where we want to confirm that a newly created account has been successfully added
-   * without relying on the full list structure or order of existing accounts.
+   * - Waits for the element with matching text to appear in the DOM.
+   * - Asserts that the inner text matches the expected bank name.
+   *
+   * This approach avoids relying on element position (e.g. first item, last item, etc) and instead directly verifies
+   * presence based on content, making the check more robust and readable.
    */
   async verifyBankAccountDisplayed() {
     console.log('BankAccountPage - verifyBankAccountDisplayed()')
 
-    const lbl_recendAddedBankAccount = this.li_bankAccounts.locator('//li//p').last()
+    const lbl_recendAddedBankAccount = this.li_bankAccounts.locator('//li//p').getByText(String(this.ctx.bank.bankName))
+    await lbl_recendAddedBankAccount.waitFor()
     await this.assertInnerText(lbl_recendAddedBankAccount, String(this.ctx.bank.bankName))
   }
 
@@ -78,7 +82,6 @@ export class BankAccountPage extends BasePage {
     await this.fillAndAssert(this.inp_accountNumber, accountNumber)
 
     await this.btn_saveBankAccount.click()
-    await this.page.waitForTimeout(3000)
   }
 
   /**

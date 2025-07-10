@@ -57,31 +57,15 @@ export async function GET_getNewUserData(ctx: UserData): Promise<void> {
 
 /**
  * Registers a new user by sending a POST request to the /users endpoint.
- * It uses the provided parameters or the values from the test context to create the new user.
- * The function also updates the test context with the user ID received from the server.
+ * It uses values from the test context to create the new user.
+ * The function also updates the test context with the user ID received from the server (userID).
  *
  * @param request The Playwright APIRequestContext used to send the POST request.
- * @param testContext The context that stores user and bank data, which will be updated during the registration.
- * @param param_firstName Optional parameter for the user's first name. If not provided, the value from the test context is used.
- * @param param_lastName Optional parameter for the user's last name. If not provided, the value from the test context is used.
- * @param param_username Optional parameter for the user's username. If not provided, the value from the test context is used.
- * @param param_password Optional parameter for the user's password. If not provided, the value from the test context is used.
- * @param param_bankName Optional parameter for the user's bank name. If not provided, the value from the test context is used.
- * @param param_accountNumber Optional parameter for the user's bank account number. If not provided, the value from the test context is used.
- * @param param_routingNumber Optional parameter for the user's bank routing number. If not provided, the value from the test context is used.
- *
+ * @param testContext The context that stores user and bank data, which will be used in registration.
  * @throws Will throw an error if the API request fails or returns a status other than 201.
  */
-export async function POST_registerUser(request: APIRequestContext, ctx: UserData, param_firstName?: string, param_lastName?: string, param_username?: string, param_password?: string, param_bankName?: string, param_accountNumber?: string, param_routingNumber?: string, param_accountBalance?: string) {
+export async function POST_registerUser(request: APIRequestContext, ctx: UserData) {
   console.log('API Helper - POST_registerUser()')
-
-  if (param_firstName) ctx.user.firstName = param_firstName
-  if (param_lastName) ctx.user.lastName = param_lastName
-  if (param_username) ctx.user.username = param_username
-  if (param_password) ctx.user.password = param_password
-  if (param_bankName) ctx.bank.bankName = param_bankName
-  if (param_accountNumber) ctx.bank.accountNumber = param_accountNumber
-  if (param_routingNumber) ctx.bank.routingNumber = param_routingNumber
 
   // Use the updated values
   const { firstName, lastName, username, password } = ctx.user
@@ -122,18 +106,10 @@ export async function POST_registerUser(request: APIRequestContext, ctx: UserDat
  *
  * @param request The Playwright APIRequestContext used to send the POST request.
  * @param testContext The context that stores user data, which will be used to login the user.
- * @param param_username Optional parameter for the user's username. If not provided, the value from the test context is used.
- * @param param_password Optional parameter for the user's password. If not provided, the value from the test context is used.
- * @param param_userID Optional parameter for the user's ID. If not provided, the value from the test context is used.
- *
  * @throws Will throw an error if the API request fails or if the user ID in the response does not match the expected user ID.
  */
-export async function POST_loginUser(request: APIRequestContext, ctx: UserData, param_username?: string, param_password?: string, param_userID?: string) {
+export async function POST_loginUser(request: APIRequestContext, ctx: UserData) {
   console.log('API Helper - POST_loginUser()')
-
-  if (param_username) ctx.user.username = param_username
-  if (param_password) ctx.user.password = param_password
-  if (param_userID) ctx.user.userID = param_userID
 
   const { username, password, userID } = ctx.user
 
@@ -232,22 +208,10 @@ export async function POST_createBankAccount(request: APIRequestContext, ctx: Us
  *
  * @param request The Playwright APIRequestContext used to send the PATCH request.
  * @param testContext The context that holds the user's current data.
- * @param param_email Optional parameter for the user's email. If not provided, the value from the test context is used.
- * @param param_firstName Optional parameter for the user's first name. If not provided, the value from the test context is used.
- * @param param_lastName Optional parameter for the user's last name. If not provided, the value from the test context is used.
- * @param param_phone Optional parameter for the user's phone number. If not provided, the value from the test context is used.
- * @param param_userID Optional parameter for the user's ID. If not provided, the value from the test context is used.
- *
  * @throws Will throw an error if the API request fails or if the update request doesn't return the expected status.
  */
-export async function PATCH_completeAccountDetails(request: APIRequestContext, ctx: UserData, param_email?: string, param_phone?: string, param_firstName?: string, param_lastName?: string, param_userID?: string) {
+export async function PATCH_completeAccountDetails(request: APIRequestContext, ctx: UserData) {
   console.log('API Helper - PATCH_completeAccountDetails()')
-
-  if (param_firstName) ctx.user.firstName = param_firstName
-  if (param_lastName) ctx.user.lastName = param_lastName
-  if (param_email) ctx.user.email = param_email
-  if (param_phone) ctx.user.phone = param_phone
-  if (param_userID) ctx.user.userID = param_userID
 
   const { firstName, lastName, email, phone, userID } = ctx.user
 

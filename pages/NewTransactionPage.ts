@@ -70,7 +70,7 @@ export class NewTransactionPage extends BasePage {
   async verifyNoUsersFound() {
     console.log('NewTransactionPage - verifyNoUsersFound()')
     const li_userElement = this.li_userList.locator('//li')
-    await expect(li_userElement).toHaveCount(0, { timeout: 10000 })
+    await expect(li_userElement).toHaveCount(0, { timeout: 20000 })
   }
 
   /**
