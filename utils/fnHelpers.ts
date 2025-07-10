@@ -16,7 +16,10 @@ import { expect } from '@playwright/test'
  *    getRandomString(5, 'lower'); // e.g., "xqyzt"
  *    getRandomString(8, 'upper'); // e.g., "WERTYUOP"
  */
-export function getRandomString(length: number = 10, caseType: 'lower' | 'upper' | 'mixed' = 'mixed'): string {
+export const getRandomString = (
+  length: number = 10,
+  caseType: 'lower' | 'upper' | 'mixed' = 'mixed'
+): string => {
   console.log('getRandomString()')
   const lowerChars = 'abcdefghijklmnopqrstuvwxyz'
   const upperChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -117,7 +120,7 @@ export const getAccountNumber = (minLength: number = 9, maxLength: number = 12):
  *
  * Example output: "6283417720"
  */
-export function generateRandomPhoneNumber(): string {
+export const generateRandomPhoneNumber = (): string => {
   console.log('generateRandomPhoneNumber()')
 
   const digits = Array.from({ length: 10 }, () => Math.floor(Math.random() * 10))
@@ -151,7 +154,7 @@ export const getCurrentDateTimeAsNumbers = (): string => {
  * @param amount - The numeric amount to format.
  * @returns The formatted currency string, e.g. "$55,341,124.00".
  */
-export function formatCurrency(amount: number): string {
+export const formatCurrency = (amount: number): string => {
   console.log('formatCurrency')
 
   const formatedAmount = `$${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
@@ -169,7 +172,11 @@ export function formatCurrency(amount: number): string {
  * @param transactionAmount - The amount that was paid in the transaction.
  * @param currentBalance - The current balance fetched after the payment.
  */
-export function verifyBalanceChangeAfterPaying(accountBalanceBeforeTransaction: number, transactionAmount: number, currentBalance: number) {
+export const verifyBalanceChangeAfterPaying = (
+  accountBalanceBeforeTransaction: number,
+  transactionAmount: number,
+  currentBalance: number
+): void => {
   console.log('verifyBalanceChangeAfterPaying')
 
   console.log(`Account Balance Before Making Payment: ${accountBalanceBeforeTransaction}`)
@@ -208,7 +215,10 @@ export function verifyBalanceChangeAfterReceiving(accountBalanceBeforeReceiving:
  * @param accountBalanceBeforeAction - The account balance recorded before the action was taken.
  * @param accountBalanceAfterAction - The account balance recorded after the action was taken.
  */
-export function verifyBalanceNotChanged(accountBalanceBeforeAction: number, accountBalanceAfterAction: number) {
+export const verifyBalanceNotChanged = (
+  accountBalanceBeforeAction: number,
+  accountBalanceAfterAction: number
+): void => {
   console.log('verifyBalanceNotChanged')
 
   console.log(`Account Balance Before Action: ${accountBalanceBeforeAction}`)
