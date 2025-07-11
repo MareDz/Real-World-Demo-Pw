@@ -10,10 +10,10 @@ This project is a **Playwright end-to-end (E2E) automation demo** created using 
 
 The goal of this demo is to demonstrate:
 
-- Mastery of Playwright for UI and API automation
+- Playwright for UI and API automation
 - Ability to test real-world features like transactions, bank accounts, login/logout, validation, etc.
 - Proper use of Page Object Model (POM) for clean and maintainable code
-- API integration for test data setup (using REST endpoints)
+- API integration for test data setup (using REST and GraphQL endpoints)
 - Parallel test execution and session isolation
 
 ## 🎯 Purpose of the Project
@@ -26,9 +26,10 @@ The project serves as a **QA Automation portfolio piece** that highlights your s
 
 It's intended to be used for:
 
-- Sharing with potential employers, clients and colleagues
-- Referencing in interviews to showcase hands-on Playwright experience
-- Continuing development as you improve your automation skillset
+- QA engineers and developers who already have basic familiarity with Playwright
+- Team members interested in reviewing a full end-to-end automation framework structure
+- Those looking to explore different implementation patterns, including Page Object Model, reusable utilities, API integration, and CI integration
+- Anyone aiming to compare or adopt practical testing strategies in real-world scenarios
 
 ## 💡 Why CRWA?
 
