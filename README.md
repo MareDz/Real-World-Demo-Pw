@@ -218,7 +218,7 @@ This section outlines the testing approach used for the Playwright-based automat
 ## 🧾 4.0 Test Cases
 
 - All manual test cases used to design and guide automation are documented in a shared spreadsheet.
-- You can download them `root/support-recources/RWA Test Cases.xlsx` or just click here: 📥 [Test Cases (Excel)]()
+- You can download them `root/support-recources/RWA Test Cases.xlsx` or just click here: 📥 [Test Cases (Excel)](https://github.com/MareDz/rwa-qaa/blob/main/support-recources/RWA%20Test%20Cases.xlsx)
 
 ⚠️ Note: These test cases do not represent all possible scenarios for the CRWA application.
 This is a demo project, and the test cases are intentionally limited in scope to demonstrate: (Overall test desi, Page Object Model usage, Code organization and naming conventions, Basic CI setup and execution)
@@ -230,7 +230,7 @@ This is a demo project, and the test cases are intentionally limited in scope to
 All discovered bugs are documented in a shared spreadsheet alongside the manual test cases.
 
 - Found bugs are documented in a shared spreadsheet allong with manual test cases
-- You can download them `root/support-recources/RWA Test Cases.xlsx` or just click here: 📥 [Bug Reports (Excel)]()
+- You can download them `root/support-recources/RWA Test Cases.xlsx` or just click here: 📥 [Bug Reports (Excel)](https://github.com/MareDz/rwa-qaa/blob/main/support-recources/RWA%20Test%20Cases.xlsx)
 
 ## 🚀 6.0 CI/CD Integration
 
