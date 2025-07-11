@@ -241,7 +241,7 @@ test('[36] New Transaction - Request a payment, Reject request and verify transa
 
   // User 2
   await loginPage_B.login()
-  verifyBalanceNotChanged(Number(ctxB.bank.balance), await sideNavPage_B.getAccountBalance()) // BUG
+  verifyBalanceNotChanged(Number(ctxB.bank.balance), await sideNavPage_B.getAccountBalance()) 
 })
 
 /**
