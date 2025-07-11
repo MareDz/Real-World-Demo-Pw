@@ -29,20 +29,3 @@ export function createUserData(): UserData {
     bank: {},
   }
 }
-
-// Cy-RWA Official User Interface
-// export interface User {
-//     id: string;
-//     uuid: string;
-//     firstName: string;
-//     lastName: string;
-//     username: string;
-//     password: string;
-//     email: string;
-//     phoneNumber: string;
-//     balance: number;
-//     avatar: string;
-//     defaultPrivacyLevel: DefaultPrivacyLevel;
-//     createdAt: Date;
-//     modifiedAt: Date;
-//   }
