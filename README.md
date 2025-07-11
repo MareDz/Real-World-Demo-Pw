@@ -218,7 +218,7 @@ This section outlines the testing approach used for the Playwright-based automat
 ## 🧾 4.0 Test Cases
 
 - All manual test cases used to design and guide automation are documented in a shared spreadsheet.
-- You can download them here: 📥 [Test Cases (Excel)](https://docs.google.com/spreadsheets/d/1woUPvRUsu5PdK2UeeJzx1pMZuOFxPx5CoCIv-fhCPNg/edit?gid=0#gid=0)
+- You can download them `root/support-recources/RWA Test Cases.xlsx` or just click here: 📥 [Test Cases (Excel)]()
 
 ⚠️ Note: These test cases do not represent all possible scenarios for the CRWA application.
 This is a demo project, and the test cases are intentionally limited in scope to demonstrate: (Overall test desi, Page Object Model usage, Code organization and naming conventions, Basic CI setup and execution)
@@ -230,7 +230,7 @@ This is a demo project, and the test cases are intentionally limited in scope to
 All discovered bugs are documented in a shared spreadsheet alongside the manual test cases.
 
 - Found bugs are documented in a shared spreadsheet allong with manual test cases
-- You can download them here: 📥 [Bug Reports (Excel)](https://docs.google.com/spreadsheets/d/1woUPvRUsu5PdK2UeeJzx1pMZuOFxPx5CoCIv-fhCPNg/edit?gid=0#gid=0)
+- You can download them `root/support-recources/RWA Test Cases.xlsx` or just click here: 📥 [Bug Reports (Excel)]()
 
 ## 🚀 6.0 CI/CD Integration
 
@@ -245,4 +245,4 @@ This project integrates **GitHub Actions** to automate test execution.
 
 📦 After each run, a Slack notification is sent containing a summary of test results — including the number of passed, failed, and flaky tests. The message also includes the name of the pipeline and a direct link to the Playwright test report artifact for quick access and debugging.
 
-![Slack Report Screenshot](slackReport.png)
+![Slack Report Screenshot](support-recources/slackReport.png)
