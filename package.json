@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "format": "npx prettier . --write",
     "regression:test": "ENV=test npx playwright test rwa-qaa/tests/ --config=playwright.config.ts --project=Chromium",
     "registration:test": "ENV=test npx playwright test rwa-qaa/tests/Registration.spec.ts --config=playwright.config.ts --project=Chromium",
     "login:test": "ENV=test npx playwright test rwa-qaa/tests/Login.spec.ts --config=playwright.config.ts --project=Chromium",
