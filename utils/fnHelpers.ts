@@ -16,10 +16,7 @@ import { expect } from '@playwright/test'
  *    getRandomString(5, 'lower'); // e.g., "xqyzt"
  *    getRandomString(8, 'upper'); // e.g., "WERTYUOP"
  */
-export const getRandomString = (
-  length: number = 10,
-  caseType: 'lower' | 'upper' | 'mixed' = 'mixed'
-): string => {
+export const getRandomString = (length: number = 10, caseType: 'lower' | 'upper' | 'mixed' = 'mixed'): string => {
   console.log('getRandomString()')
   const lowerChars = 'abcdefghijklmnopqrstuvwxyz'
   const upperChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -172,11 +169,7 @@ export const formatCurrency = (amount: number): string => {
  * @param transactionAmount - The amount that was paid in the transaction.
  * @param currentBalance - The current balance fetched after the payment.
  */
-export const verifyBalanceChangeAfterPaying = (
-  accountBalanceBeforeTransaction: number,
-  transactionAmount: number,
-  currentBalance: number
-): void => {
+export const verifyBalanceChangeAfterPaying = (accountBalanceBeforeTransaction: number, transactionAmount: number, currentBalance: number): void => {
   console.log('verifyBalanceChangeAfterPaying')
 
   console.log(`Account Balance Before Making Payment: ${accountBalanceBeforeTransaction}`)
@@ -215,10 +208,7 @@ export function verifyBalanceChangeAfterReceiving(accountBalanceBeforeReceiving:
  * @param accountBalanceBeforeAction - The account balance recorded before the action was taken.
  * @param accountBalanceAfterAction - The account balance recorded after the action was taken.
  */
-export const verifyBalanceNotChanged = (
-  accountBalanceBeforeAction: number,
-  accountBalanceAfterAction: number
-): void => {
+export const verifyBalanceNotChanged = (accountBalanceBeforeAction: number, accountBalanceAfterAction: number): void => {
   console.log('verifyBalanceNotChanged')
 
   console.log(`Account Balance Before Action: ${accountBalanceBeforeAction}`)

@@ -120,7 +120,7 @@ export class LoginPage extends BasePage {
   async goToRegistrationPage() {
     console.log('LoginPage - goToRegistrationPage()')
     await this.link_signUp.click()
-    await this.link_signUp.click() 
+    await this.link_signUp.click()
     await this.assertTitleAndUrl('Cypress Real World App', 'signup')
     await expect(this.lbl_signUpHeader).toBeVisible()
   }
