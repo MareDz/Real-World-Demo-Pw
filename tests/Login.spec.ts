@@ -16,6 +16,11 @@ test.afterEach(async ({ page }) => {
   await page.close()
 })
 
+test('[5] Login Screen Redirections', async ({ loginPage, registrationPage }) => {
+  await loginPage.goToRegistrationPage()
+  await registrationPage.goToLoginPage()
+})
+
 test('[6] Login User - Empty Required Fields Validation', async ({ loginPage }) => {
   await loginPage.verifyLoginEmptyFieldsErrorHandling()
 })

@@ -156,7 +156,7 @@ export class RegistrationPage extends BasePage {
   async goToLoginPage() {
     console.log('RegistrationPage - goToLoginPage()')
     await this.link_signIn.click()
-    await this.link_signIn.click() // Bug
+    await this.link_signIn.click()
     await this.assertTitleAndUrl('Cypress Real World App', 'signin')
     await expect(this.lbl_signInHeader).toBeVisible()
   }
