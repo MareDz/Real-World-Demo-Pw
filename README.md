@@ -226,7 +226,7 @@ This is a demo project, and the test cases are intentionally limited in scope to
 
 ## 🐞 5.0 Known Issues
 
-🟥 Two test cases consistently fail due to bugs in the CRWA application itself. These are highlighted in the manual test case spreadsheet.
+🟥 Two test cases consistently fail due to bugs in the CRWA application itself. These are highlighted in spec file with short comments for better understanding.
 
 All discovered bugs are documented in a shared spreadsheet alongside the manual test cases.
 
