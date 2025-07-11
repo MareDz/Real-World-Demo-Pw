@@ -29,21 +29,8 @@ export default defineConfig({
   },
   projects: [
     {
-      name: 'Setup Admin',
-      testMatch: 'setupAdmin.ts',
-    },
-    {
       name: 'Chromium',
       use: { browserName: 'chromium' },
-      // dependencies: ['Setup Admin'],
-    },
-    {
-      name: 'Firefox',
-      use: { browserName: 'firefox' },
-    },
-    {
-      name: 'Webkit',
-      use: { browserName: 'webkit' },
     },
   ],
 })
