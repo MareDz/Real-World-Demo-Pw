@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "format": "npx prettier . --write",
-    "regression:test": "ENV=test npx playwright test rwa-qaa/tests/ --config=playwright.config.ts --project=Chromium",
-    "registration:test": "ENV=test npx playwright test rwa-qaa/tests/Registration.spec.ts --config=playwright.config.ts --project=Chromium",
-    "login:test": "ENV=test npx playwright test rwa-qaa/tests/Login.spec.ts --config=playwright.config.ts --project=Chromium",
-    "onboarding:test": "ENV=test npx playwright test rwa-qaa/tests/Onboarding.spec.ts --config=playwright.config.ts --project=Chromium",
-    "myAccount:test": "ENV=test npx playwright test rwa-qaa/tests/MyAccount.spec.ts --config=playwright.config.ts --project=Chromium",
-    "bank:test": "ENV=test npx playwright test rwa-qaa/tests/BankAccount.spec.ts --config=playwright.config.ts --project=Chromium",
-    "transactions:test": "ENV=test npx playwright test rwa-qaa/tests/Transactions.spec.ts --config=playwright.config.ts --project=Chromium"
+    "regression:test": "ENV=test npx playwright test Real-World-Demo-Pw/tests/ --config=playwright.config.ts --project=Chromium",
+    "registration:test": "ENV=test npx playwright test Real-World-Demo-Pw/tests/Registration.spec.ts --config=playwright.config.ts --project=Chromium",
+    "login:test": "ENV=test npx playwright test Real-World-Demo-Pw/tests/Login.spec.ts --config=playwright.config.ts --project=Chromium",
+    "onboarding:test": "ENV=test npx playwright test Real-World-Demo-Pw/tests/Onboarding.spec.ts --config=playwright.config.ts --project=Chromium",
+    "myAccount:test": "ENV=test npx playwright test Real-World-Demo-Pw/tests/MyAccount.spec.ts --config=playwright.config.ts --project=Chromium",
+    "bank:test": "ENV=test npx playwright test Real-World-Demo-Pw/tests/BankAccount.spec.ts --config=playwright.config.ts --project=Chromium",
+    "transactions:test": "ENV=test npx playwright test Real-World-Demo-Pw/tests/Transactions.spec.ts --config=playwright.config.ts --project=Chromium"
   },
   "author": "",
   "license": "ISC",
