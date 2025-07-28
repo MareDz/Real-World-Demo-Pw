@@ -11,7 +11,6 @@ export type User = {
   email?: string
   phone?: string
   userID?: string
-  cookie?: string
 }
 
 export type Bank = {
