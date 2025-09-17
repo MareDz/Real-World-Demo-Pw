@@ -90,11 +90,7 @@ If you've cloned the CRWA repository separately, follow these steps:
 ```bash
 cd path/to/crwa-repo
 ```
-3. Install Cypress RWA
-```bash
-yarn 
-```
-4. Start the application using:
+3. Start the application using:
 ```bash
 yarn dev
 ```
