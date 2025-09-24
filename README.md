@@ -90,7 +90,7 @@ If you've cloned the CRWA repository separately, follow these steps:
 ```bash
 cd path/to/crwa-repo
 ```
-3. Install yadn
+3. Install yarn
 ```bash
 yarn
 ```
