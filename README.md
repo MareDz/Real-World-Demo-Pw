@@ -169,7 +169,7 @@ rwa-qaa
 
 **pages/** – Contains Page Object Model (POM) files. Each file represents a specific page/component and encapsulates locators and actions.
 
-📌 For a full explanation of the POM architecture, naming conventions, and examples refer to the [Page Object Model Guide](https://github.com/MareDz/POM-PW-Guide)
+📌 For a full explanation of the POM architecture, naming conventions, and examples refer to the [Page Object Model Guide](https://github.com/MareDz/playwright-topics-hub/blob/main/pom/pomReadme.md)
 
 **tests/** – Contains Playwright spec files grouped by feature (e.g., registration, bank account).
 
